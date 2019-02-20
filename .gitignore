@@ -1,0 +1,3 @@
+terraform/ecs/vars/nonprod.tfvars
+terraform/jenkins-slave/vars/nonprod.tfvars
+terraform/vars/nonprod.tfvars

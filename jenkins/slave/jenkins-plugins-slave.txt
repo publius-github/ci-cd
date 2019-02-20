@@ -1,0 +1,21 @@
+	
+Ant Plugin
+	
+Build Timeout
+	
+Build With Parameters
+	
+CloudBees Docker Build and Publish plugin
+	
+GitHub Authentication plugin
+GitHub Integration Plugin
+Gradle Plugin
+Pipeline
+Pipeline: GitHub Groovy Libraries
+
+SonarQube Scanner for Jenkins
+Timestamper
+
+Subversion Plug-in
+Workspace Cleanup Plugin
+xUnit plugin
