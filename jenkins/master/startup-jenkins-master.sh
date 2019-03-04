@@ -30,11 +30,11 @@ curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | 
 rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 yum install -y jenkins
 # sudo cp -rf /opt/jenkins/jenkins_home/* /var/lib/jenkins/
-# sed -i 's/JENKINS_ARGS=""/JENKINS_ARGS="-Djenkins.install.runSetupWizard=false"/' /etc/sysconfig/jenkins
+sed -i 's/JENKINS_ARGS=""/JENKINS_ARGS="-Djenkins.install.runSetupWizard=false"/' /etc/sysconfig/jenkins
 # usermod -a -G docker jenkins
 systemctl enable jenkins
-
 systemctl start jenkins
+
 
 ## MYSQL
 

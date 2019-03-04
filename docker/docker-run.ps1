@@ -5,11 +5,11 @@ New-NetFirewallRule -DisplayName "_sonarqube 9000" -Direction Inbound -Action Al
 #  https://updates.jenkins.io/2.150/latest/
 docker build -f .\jenkins.dockerfile -t jenkins_test .
 
-docker run -d --name jenkins_test `
-    -v c:\_devops\docker\jenkins\jenkins_home:/var/jenkins_home `
+docker run -d --name jenkins `
+    -v w:\docker\jenkins\jenkins_home:/var/jenkins_home `
     -p 8080:8080 `
     -p 50000:50000 `
-    jenkins_test
+    jenkins
 
 
 $container = docker ps | select-string jenkins; $con="$container".split(' ')[0]; Write-host $con

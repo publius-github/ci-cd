@@ -1,0 +1,7 @@
+---
+classes:
+  - profiles::packages
+  - profiles::selinux
+  
+
+

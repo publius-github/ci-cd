@@ -1,12 +1,16 @@
-# terraform
+# vagrant
+.vagrant
 
-terraform/ecs/vars/nonprod.tfvars
-terraform/jenkins-slave/vars/nonprod.tfvars
+# terraform
+terraform/.*
 terraform/vars/nonprod.tfvars
 terraform/*.tfstate*
 terraform/terraform.tfstate
-terraform/.*
 
-# vagrant
-
-.vagrant
+# puppet
+puppet/.librarian
+puppet/.tmp
+puppet/manifests-*
+puppet/modules/*
+puppet/modules-*
+puppet/Puppetfile.lock

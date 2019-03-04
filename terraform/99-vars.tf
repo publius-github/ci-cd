@@ -1,10 +1,8 @@
 variable "aws_access_key" {
   type = "string"
-  default = "AKIAIUFNP45USSEHR32A"
 }
 variable "aws_secret_key" {
   type = "string"
-  default = "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"
 }
 
 variable "aws_region" {
@@ -12,36 +10,23 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-# variable "aws_account_id" {
-#   description = "AWS account ID"
-# }
-
-variable "az_count" {
-  description = "Number of AZs to cover in a given AWS region"
-  default     = "2"
+variable "public_key_path" {
+  default = "/home/szverau/.ssh/id_rsa.pub"
+  description = <<DESCRIPTION
+Path to the SSH public key to be used for authentication.
+Ensure this keypair is added to your local SSH agent so provisioners can
+connect.
+Example: ~/.ssh/terraform.pub
+DESCRIPTION
 }
-
-variable "app_image" {
-  description = "Docker image to run in the ECS cluster"
-  default     = "adongy/hostname-docker:latest"
+variable "private_key_path" {
+  default = "/home/szverau/.ssh/id_rsa"
 }
-
-variable "app_port" {
-  description = "Port exposed by the docker image to redirect traffic to"
-  default     = 3000
+variable "key_name" {
+  description = "Desired name of AWS key pair"
+  default = "tf_key"
 }
-
-variable "app_count" {
-  description = "Number of docker containers to run"
-  default     = 2
-}
-
-variable "fargate_cpu" {
-  description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default     = "256"
-}
-
-variable "fargate_memory" {
-  description = "Fargate instance memory to provision (in MiB)"
-  default     = "512"
+variable "ip_white_list" {
+  type = "list"
+  default = ["93.125.8.133/32", "10.0.0.0/16", "93.85.92.82/32", "213.184.244.188/32", "82.209.241.194/32"]
 }
