@@ -1,4 +1,3 @@
-#!groovy
 import com.amazonaws.services.ec2.model.InstanceType
 import com.cloudbees.jenkins.plugins.awscredentials.AWSCredentialsImpl
 import com.cloudbees.plugins.credentials.*

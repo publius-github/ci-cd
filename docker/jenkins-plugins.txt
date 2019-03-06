@@ -18,6 +18,3 @@ github-branch-source
 gradle
 publish-over-ssh
 maven
-
-
-DEFAULT_PLUGINS="ec2 ant build-timeout credentials-binding email-ext github-organization-folder gradle workflow-aggregator ssh-slaves subversion timestamper ws-cleanup greenballs terraform ansible codesonar s3 git junit sonar git-parameter build-pipeline"

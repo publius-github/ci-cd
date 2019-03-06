@@ -3,8 +3,7 @@
 
 # terraform
 terraform/.*
-terraform/vars/nonprod.tfvars
-terraform/*.tfstate*
+terraform/vars/jenkins-ci-cd.tfvars
 terraform/terraform.tfstate
 
 # puppet

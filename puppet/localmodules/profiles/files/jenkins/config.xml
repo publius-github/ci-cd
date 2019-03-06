@@ -1,0 +1,101 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson>
+  <disabledAdministrativeMonitors/>
+  <version>2.150.3</version>
+  <installStateName>RUNNING</installStateName>
+  <numExecutors>2</numExecutors>
+  <mode>NORMAL</mode>
+  <useSecurity>true</useSecurity>
+  <authorizationStrategy class="hudson.security.AuthorizationStrategy$Unsecured"/>
+  <securityRealm class="hudson.security.SecurityRealm$None"/>
+  <disableRememberMe>false</disableRememberMe>
+  <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+  <workspaceDir>${ITEM_ROOTDIR}/workspace</workspaceDir>
+  <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+  <jdks/>
+  <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+  <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+  <clouds>
+    <hudson.plugins.ec2.EC2Cloud plugin="ec2@1.42">
+      <name>ec2-aws-ec2-cloud</name>
+      <useInstanceProfileForCredentials>false</useInstanceProfileForCredentials>
+      <roleArn></roleArn>
+      <roleSessionName></roleSessionName>
+      <credentialsId>aws-ec2-credentials</credentialsId>
+      <privateKey>
+        <privateKey>{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}</privateKey>
+      </privateKey>
+      <instanceCap>2147483647</instanceCap>
+      <templates>
+        <hudson.plugins.ec2.SlaveTemplate>
+          <ami>ami-035be7bafff33b6b6</ami>
+          <description>aws-ec2-cloud</description>
+          <zone>us-east-1a</zone>
+          <securityGroups>jenkins</securityGroups>
+          <remoteFS></remoteFS>
+          <type>T1Micro</type>
+          <ebsOptimized>false</ebsOptimized>
+          <monitoring>false</monitoring>
+          <t2Unlimited>false</t2Unlimited>
+          <labels>aws-ec2-cloud</labels>
+          <mode>NORMAL</mode>
+          <initScript>sudo yum -y install git maven expect
+sudo yum install -y java-1.8.0-openjdk-devel
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install -y http://ftp.riken.jp/Linux/cern/centos/7/extras/x86_64/Packages/container-selinux-2.9-4.el7.noarch.rpm
+sudo yum install -y docker-ce docker-ce-cli containerd.io
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo usermod -aG docker ec2-user
+sudo chmod 777 /var/run/docker.sock
+</initScript>
+          <tmpDir></tmpDir>
+          <userData></userData>
+          <numExecutors>1</numExecutors>
+          <remoteAdmin>ec2-user</remoteAdmin>
+          <jvmopts></jvmopts>
+          <subnetId></subnetId>
+          <idleTerminationMinutes>5</idleTerminationMinutes>
+          <iamInstanceProfile></iamInstanceProfile>
+          <deleteRootOnTermination>false</deleteRootOnTermination>
+          <useEphemeralDevices>false</useEphemeralDevices>
+          <customDeviceMapping></customDeviceMapping>
+          <instanceCap>2147483647</instanceCap>
+          <stopOnTerminate>false</stopOnTerminate>
+          <usePrivateDnsName>false</usePrivateDnsName>
+          <associatePublicIp>false</associatePublicIp>
+          <useDedicatedTenancy>false</useDedicatedTenancy>
+          <amiType class="hudson.plugins.ec2.UnixData">
+            <rootCommandPrefix></rootCommandPrefix>
+            <slaveCommandPrefix></slaveCommandPrefix>
+            <slaveCommandSuffix></slaveCommandSuffix>
+            <sshPort>22</sshPort>
+          </amiType>
+          <launchTimeout>2147483647</launchTimeout>
+          <connectBySSHProcess>false</connectBySSHProcess>
+          <connectUsingPublicIp>false</connectUsingPublicIp>
+          <nextSubnet>0</nextSubnet>
+        </hudson.plugins.ec2.SlaveTemplate>
+      </templates>
+      <region>us-east-1</region>
+      <noDelayProvisioning>false</noDelayProvisioning>
+    </hudson.plugins.ec2.EC2Cloud>
+  </clouds>
+  <quietPeriod>5</quietPeriod>
+  <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
+  <views>
+    <hudson.model.AllView>
+      <owner class="hudson" reference="../../.."/>
+      <name>all</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+    </hudson.model.AllView>
+  </views>
+  <primaryView>all</primaryView>
+  <slaveAgentPort>0</slaveAgentPort>
+  <label></label>
+  <nodeProperties/>
+  <globalNodeProperties/>
+</hudson>
