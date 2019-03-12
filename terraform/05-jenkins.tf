@@ -1,7 +1,7 @@
 
 resource "aws_instance" "jenkins" {
   ami = "ami-04bfee437f38a691e"
-  instance_type = "t2.micro"
+  instance_type = "t2.medium"
 
   tags = {
     Name = "cicd"

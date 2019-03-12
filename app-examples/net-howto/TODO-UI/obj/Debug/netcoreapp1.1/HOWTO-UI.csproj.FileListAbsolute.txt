@@ -1,0 +1,10 @@
+C:\Users\a.bakunovich\source\repos\TODO\TODO-UI\bin\Debug\netcoreapp1.1\HOWTO-UI.deps.json
+C:\Users\a.bakunovich\source\repos\TODO\TODO-UI\bin\Debug\netcoreapp1.1\HOWTO-UI.runtimeconfig.json
+C:\Users\a.bakunovich\source\repos\TODO\TODO-UI\bin\Debug\netcoreapp1.1\HOWTO-UI.runtimeconfig.dev.json
+C:\Users\a.bakunovich\source\repos\TODO\TODO-UI\bin\Debug\netcoreapp1.1\HOWTO-UI.dll
+C:\Users\a.bakunovich\source\repos\TODO\TODO-UI\bin\Debug\netcoreapp1.1\HOWTO-UI.pdb
+C:\Users\a.bakunovich\source\repos\TODO\TODO-UI\obj\Debug\netcoreapp1.1\HOWTO-UI.csprojResolveAssemblyReference.cache
+C:\Users\a.bakunovich\source\repos\TODO\TODO-UI\obj\Debug\netcoreapp1.1\HOWTO-UI.csproj.CoreCompileInputs.cache
+C:\Users\a.bakunovich\source\repos\TODO\TODO-UI\obj\Debug\netcoreapp1.1\HOWTO-UI.AssemblyInfo.cs
+C:\Users\a.bakunovich\source\repos\TODO\TODO-UI\obj\Debug\netcoreapp1.1\HOWTO-UI.dll
+C:\Users\a.bakunovich\source\repos\TODO\TODO-UI\obj\Debug\netcoreapp1.1\HOWTO-UI.pdb

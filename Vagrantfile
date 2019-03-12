@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config|
   #Jenkins 
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.network "forwarded_port", guest: 50000, host: 50000
+  config.vm.network "forwarded_port", guest: 9000, host: 9000
   config.vm.hostname = "jenkins"
   config.puppet_install.puppet_version = "5.5.10"
 
@@ -24,7 +25,7 @@ Vagrant.configure("2") do |config|
     cd /tmp/vagrant-puppet/
     yum install gem -y
     gem install librarian-puppet
-    сd /tmp/vagrant-puppet/
+    cd /tmp/vagrant-puppet/
     /usr/local/bin/librarian-puppet install
     puppet apply -d --hiera_config=/tmp/vagrant-puppet/hiera.yaml --modulepath=/tmp/vagrant-puppet/localmodules/:/tmp/vagrant-puppet/modules/  /tmp/vagrant-puppet/manifests/site.pp
   SHELL
@@ -39,4 +40,6 @@ Vagrant.configure("2") do |config|
       "role" => 'jenkins'
     }
   end
+  config.vm.provision "shell", path: "./jenkins/sonar.sh"
+
 end

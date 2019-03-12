@@ -5,6 +5,7 @@
 terraform/.*
 terraform/vars/jenkins-ci-cd.tfvars
 terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
 
 # puppet
 puppet/.librarian

@@ -1,0 +1,10 @@
+C:\Users\a.bakunovich\source\repos\TODO\TODO\bin\Debug\netcoreapp1.1\TODO.deps.json
+C:\Users\a.bakunovich\source\repos\TODO\TODO\bin\Debug\netcoreapp1.1\TODO.runtimeconfig.json
+C:\Users\a.bakunovich\source\repos\TODO\TODO\bin\Debug\netcoreapp1.1\TODO.runtimeconfig.dev.json
+C:\Users\a.bakunovich\source\repos\TODO\TODO\bin\Debug\netcoreapp1.1\TODO.dll
+C:\Users\a.bakunovich\source\repos\TODO\TODO\bin\Debug\netcoreapp1.1\TODO.pdb
+C:\Users\a.bakunovich\source\repos\TODO\TODO\obj\Debug\netcoreapp1.1\TODO.csprojResolveAssemblyReference.cache
+C:\Users\a.bakunovich\source\repos\TODO\TODO\obj\Debug\netcoreapp1.1\TODO.csproj.CoreCompileInputs.cache
+C:\Users\a.bakunovich\source\repos\TODO\TODO\obj\Debug\netcoreapp1.1\TODO.AssemblyInfo.cs
+C:\Users\a.bakunovich\source\repos\TODO\TODO\obj\Debug\netcoreapp1.1\TODO.dll
+C:\Users\a.bakunovich\source\repos\TODO\TODO\obj\Debug\netcoreapp1.1\TODO.pdb
