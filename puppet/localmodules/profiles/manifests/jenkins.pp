@@ -87,6 +87,7 @@ class profiles::jenkins {
   jenkins::plugin { 'command-launcher': }
   jenkins::plugin { 'matrix-auth': }
 
+
   file { '/var/lib/jenkins/init.groovy.d/':
   ensure  => 'directory',
   source  => 'puppet:///modules/profiles/jenkins/init.groovy/',

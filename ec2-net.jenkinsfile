@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage ('Clean WC') { 
+        steps {
+            cleanWs()
+        }
+    }        
+        stage ('Checkout git repo') { 
+        steps {
+            git branch: 'master', credentialsId: 'github', url: 'https://github.com/boshik/howto.git'
+    }
+        }
+        stage ('build and publish') {
+        steps {
+            sh(script: "dotnet publish /var/lib/jenkins/jobs/pipeline02ec2-net/workspace/TODO/HOWTO.csproj -c Release ", returnStdout: true)
+    }
+        }
+}
+}

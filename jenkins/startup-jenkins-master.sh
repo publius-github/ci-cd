@@ -1,8 +1,6 @@
 #!/bin/bash
 sudo su
-
 ## PREPARING 
-
 setenforce 0
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 yum update -y
@@ -12,12 +10,10 @@ yum remove firewalld -y
 sed -i 's/PasswordAuthentication no/#PasswordAuthentication no/g' /etc/ssh/sshd_config
 sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 systemctl restart sshd
-
-yum -y install expect git maven
+yum -y install git maven
 yum install -y java-1.8.0-openjdk-devel
 
 ## DOCKER ### 
-
 # sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 # sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 # yum install -y docker-ce docker-ce-cli containerd.io
@@ -25,7 +21,6 @@ yum install -y java-1.8.0-openjdk-devel
 # systemctl start docker
 
 ## JENKINS 
-
 curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
 rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 yum install -y jenkins
@@ -34,17 +29,12 @@ sed -i 's/JENKINS_ARGS=""/JENKINS_ARGS="-Djenkins.install.runSetupWizard=false"/
 # usermod -a -G docker jenkins
 systemctl enable jenkins
 systemctl start jenkins
-
-
 ## MYSQL
-
 wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
 rpm -ivh mysql-community-release-el7-5.noarch.rpm
-yum install mysql-server -y
+yum install -y mysql-server expect
 systemctl start mysqld
-
 export MYSQL_ROOT_PASSWORD="password"
-
 SECURE_MYSQL=$(expect -c "
 set timeout 10
 spawn mysql_secure_installation

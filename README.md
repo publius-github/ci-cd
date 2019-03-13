@@ -43,7 +43,29 @@ Copy Artifact	 Downloaded Successfully. Will be activated during the next boot
 S3 publisher
 
 
-Success
-MSTest	 Downloaded Successfully. Will be activated during the next boot
-MSTestRunner	 Downloaded Successfully. Will be activated during the next boot
-MSBuild	 Ожидает
+
+
+Подготовка	
+Checking internet connectivity
+Checking update center connectivity
+Pipeline: Milestone Step	 Ожидает
+Pipeline: Input Step	 Ожидает
+Pipeline: Stage Step	 Ожидает
+Pipeline Graph Analysis	 Ожидает
+Pipeline: REST API	 Ожидает
+JavaScript GUI Lib: Handlebars bundle	 Ожидает
+JavaScript GUI Lib: Moment.js bundle	 Ожидает
+Pipeline: Stage View	 Ожидает
+Pipeline: Build Step	 Ожидает
+Folders	 Ожидает
+GIT server	 Ожидает
+Pipeline: Shared Groovy Libraries	 Ожидает
+Branch API	 Ожидает
+Pipeline: Multibranch	 Ожидает
+Pipeline: Basic Steps	 Ожидает
+Docker Pipeline	 Ожидает
+Pipeline: Stage Tags Metadata	 Ожидает
+Pipeline: Declarative Agent API	 Ожидает
+Pipeline: Declarative	 Ожидает
+Lockable Resources	 Ожидает
+Pipeline

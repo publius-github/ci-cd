@@ -8,3 +8,5 @@ sudo systemctl enable docker
 sudo systemctl start docker
 sudo usermod -aG docker ec2-user
 sudo chmod 777 /var/run/docker.sock
+sudo rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm
+sudo yum -y install dotnet-sdk-2.2
