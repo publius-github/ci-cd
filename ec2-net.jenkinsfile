@@ -1,20 +1,21 @@
 pipeline {
+    // agent { node 'aws-ec2-cloud' }
     agent any
     stages {
         stage ('Clean WC') { 
-        steps {
-            cleanWs()
-        }
-    }        
+            steps {
+                cleanWs()
+            }
+        }        
         stage ('Checkout git repo') { 
-        steps {
-            git branch: 'master', credentialsId: 'github', url: 'https://github.com/boshik/howto.git'
-    }
+            steps {
+                git branch: 'dev-jenkins', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
+            }
         }
         stage ('build and publish') {
-        steps {
-            sh(script: "dotnet publish /var/lib/jenkins/jobs/pipeline02ec2-net/workspace/TODO/HOWTO.csproj -c Release ", returnStdout: true)
-    }
+            steps {
+                sh(script: "dotnet publish /var/lib/jenkins/jobs/pipeline02ec2-net/workspace/TODO/HOWTO.csproj -c Release ", returnStdout: true)
+            }
         }
-}
+    }
 }
