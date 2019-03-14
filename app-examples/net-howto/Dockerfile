@@ -12,9 +12,7 @@ RUN dotnet publish TODO/HOWTO.csproj -c Release
 
 FROM microsoft/aspnetcore:1.1.12
 
-COPY --from=build --chown=nobody:nogroup ./build/TODO/bin/Release/netcoreapp1.1/publish ./app
-
-USER nobody
+COPY --from=build ./build/TODO/bin/Release/netcoreapp1.1/publish /app
 
 WORKDIR /app
 
