@@ -1,10 +1,10 @@
 FROM microsoft/dotnet:2.2-sdk as build
 
-WORKDIR ./TODO
+WORKDIR /build
 
 COPY . /build
 
-RUN dotnet publish HOWTO.csproj -c Release 
+RUN dotnet publish TODO/HOWTO.csproj -c Release 
 
 # -----------------
 

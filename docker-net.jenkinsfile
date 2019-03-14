@@ -14,8 +14,18 @@ pipeline {
         }
         stage ('build and publish') {
             steps {
-                sh(script: "dotnet publish /var/lib/jenkins/jobs/pipeline02ec2-net/workspace/TODO/HOWTO.csproj -c Release")
+                sh(script: "dotnet publish app-examples/net-howto/TODO/HOWTO.csproj -c Release")
+            }
+        }
+        stage('[i] Docker build') {
+            agent { dockerfile { dir '/var/lib/jenkins/jobs/pipeline02ec2-net/workspace/app-examples/net-howto' } } 
+            steps {
+                dockerfile {
+                    filename 'Dockerfile'
+                    label 'lts'
+                }
             }
         }
     }
+    
 }
