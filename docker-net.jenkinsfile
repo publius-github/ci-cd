@@ -23,6 +23,7 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     label 'lts'
+                    args '-t netapp'
                 }
             }
         }
