@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:1.1-sdk as build
+FROM microsoft/dotnet:2.2-sdk as build
 
 WORKDIR /build
 
@@ -8,7 +8,7 @@ RUN dotnet publish TODO/HOWTO.csproj -c Release
 
 # -----------------
 
-FROM microsoft/dotnet:1.1-aspnetcore-runtime
+FROM microsoft/dotnet:2.2-aspnetcore-runtime
 
 COPY --from=build --chown=nobody:nogroup ./build/TODO/bin/Release/netcoreapp1.1/publish ./app
 
@@ -16,6 +16,6 @@ USER nobody
 
 WORKDIR /app
 
-EXPOSE 49929
+EXPOSE 5000
 
 CMD ["dotnet", "HOWTO.dll"]

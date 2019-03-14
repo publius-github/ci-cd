@@ -2,6 +2,10 @@
 resource "aws_instance" "jenkins" {
   ami = "ami-04bfee437f38a691e"
   instance_type = "t2.medium"
+  root_block_device {
+    volume_size = "15"
+    volume_type = "standard"
+  }
 
   tags = {
     Name = "cicd"
