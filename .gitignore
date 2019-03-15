@@ -7,6 +7,12 @@ terraform/vars/jenkins-ci-cd.tfvars
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 
+# terraform-ecs
+terraform-ecs/.*
+terraform-ecs/vars/jenkins-ci-cd.tfvars
+terraform-ecs/terraform.tfstate
+terraform-ecs/terraform.tfstate.backup
+
 # puppet
 puppet/.librarian
 puppet/.tmp
