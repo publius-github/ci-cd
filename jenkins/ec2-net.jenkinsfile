@@ -14,7 +14,6 @@ pipeline {
         }
         stage('[i] Docker build') {
             steps {
-                    echo "${WORKSPACE}"
                     sh 'cd ${WORKSPACE}'
                     sh 'ls -lah'
                     sh 'docker build -f "app-examples/net-howto/Dockerfile" -t traianusdockerhub/test:latest .'

@@ -104,7 +104,9 @@ class profiles::jenkins {
   jenkins::plugin { 'lockable-resources': }
   jenkins::plugin { 'git-server': }
   jenkins::plugin { 'docker-workflow': }
-
+  jenkins::plugin { 'amazon-ecr': }
+  jenkins::plugin { 'jaxb': }
+  
   file { '/var/lib/jenkins/init.groovy.d/':
   ensure  => 'directory',
   source  => 'puppet:///modules/profiles/jenkins/init.groovy/',

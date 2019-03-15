@@ -1,11 +1,20 @@
 
         //-----------//
-        // Terraform //
+        // make box //
         //-----------//
-
+        
+        terraform
+        puppet
                |
                V
             
+        Jenkins master                          Jenkins agent
+        * plugins
+        * config                JOB ------>  
+        * users
+        * jobs
+
+
 ➜ cat ~/.aws/config
 [profile_1]
 output = json
@@ -24,3 +33,7 @@ aws_secret_access_key =
 
 
 aws configure --profile user2
+
+
+https://plugins.jenkins.io/cloudbees-credentials
+https://plugins.jenkins.io/amazon-ecr
