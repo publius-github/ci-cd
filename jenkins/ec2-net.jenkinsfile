@@ -1,6 +1,6 @@
 pipeline {
-    // agent { node 'aws-ec2-cloud' }
-    agent any
+    agent { node 'aws-ec2-cloud' }
+    // agent any
     stages {
         stage ('[i] Clean WC') { 
             steps {
@@ -22,7 +22,7 @@ pipeline {
         }
         stage('[i] Docker push') {
             steps {
-                withDockerRegistry([ credentialsId: "docker", url: 'https://hub.docker.com' ]) {
+                withDockerRegistry([ credentialsId: "docker", url: '' ]) {
                     sh 'docker push traianusdockerhub/test:latest'
 
                 }

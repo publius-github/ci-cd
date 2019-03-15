@@ -14,24 +14,37 @@
   <properties/>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.64">
     <script>pipeline {
-    agent any
+    agent { node &apos;aws-ec2-cloud&apos; }
+    // agent any
     stages {
-        stage (&apos;Clean WC&apos;) {
-        steps {
-            cleanWs()
+        stage (&apos;[i] Clean WC&apos;) {
+            steps {
+                cleanWs()
+            }
+        }
+        stage (&apos;[i] GIT&apos;) {
+            steps {
+                git branch: &apos;dev-jenkins&apos;, credentialsId: &apos;github&apos;, url: &apos;https://github.com/publius-github/ci-cd.git&apos;
+            }
+        }
+        stage(&apos;[i] Docker build&apos;) {
+            steps {
+                    echo &quot;${WORKSPACE}&quot;
+                    sh &apos;cd ${WORKSPACE}&apos;
+                    sh &apos;ls -lah&apos;
+                    sh &apos;docker build -f &quot;app-examples/net-howto/Dockerfile&quot; -t traianusdockerhub/test:latest .&apos;
+                }
+        }
+        stage(&apos;[i] Docker push&apos;) {
+            steps {
+                withDockerRegistry([ credentialsId: &quot;docker&quot;, url: &apos;&apos; ]) {
+                    sh &apos;docker push traianusdockerhub/test:latest&apos;
+
+                }
+            }
         }
     }
-        stage (&apos;Checkout git repo&apos;) {
-        steps {
-            git branch: &apos;master&apos;, credentialsId: &apos;github&apos;, url: &apos;https://github.com/boshik/howto.git&apos;
-    }
-        }
-        stage (&apos;build and publish&apos;) {
-        steps {
-            sh(script: &quot;dotnet publish /var/lib/jenkins/jobs/pipeline02ec2-net/workspace/TODO/HOWTO.csproj -c Release &quot;, returnStdout: true)
-    }
-        }
-}
+
 }</script>
     <sandbox>true</sandbox>
   </definition>

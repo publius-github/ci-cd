@@ -40,6 +40,6 @@ Vagrant.configure("2") do |config|
       "role" => 'jenkins'
     }
   end
-  config.vm.provision "shell", path: "./sonar.sh"
+  config.vm.provision "shell", path: ".jenkins/sonar.sh"
 
 end
