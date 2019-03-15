@@ -13,12 +13,15 @@ pipeline {
             }
         }
         stage('[i] Docker build') {
-            agent { dockerfile { dir '/var/lib/jenkins/jobs/pipeline02ec2-net/workspace/app-examples/net-howto' } } 
             steps {
-                dockerfile {
-                    filename 'Dockerfile'
-                    label 'lts'
-                    args '-t netapp'
+                    sh 'docker build -f "app-examples/net-howto/Dockerfile" -t traianusdockerhub/test:latest .'
+                }
+        }
+        stage('[i] Docker push') {
+            steps {
+                withDockerRegistry([ credentialsId: "docker", url: "" ]) {
+                    sh 'docker push traianusdockerhub/test:latest'
+
                 }
             }
         }

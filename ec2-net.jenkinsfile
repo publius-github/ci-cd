@@ -12,9 +12,19 @@ pipeline {
                 git branch: 'dev-jenkins', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
             }
         }
-        stage ('build and publish') {
+        stage ('[I] .Net build 1/3 restore') {
             steps {
-                sh(script: "dotnet publish /var/lib/jenkins/jobs/pipeline02ec2-net/workspace/TODO/HOWTO.csproj -c Release")
+                sh(script: "dotnet restore app-examples/net-howto/TODO/HOWTO.csproj")
+            }
+        }
+        stage ('[I] .Net build 1/3 build') {
+            steps {
+                sh(script: "dotnet build app-examples/net-howto/TODO/HOWTO.csproj")
+            }
+        }
+        stage ('[I] .Net build 1/3 publish') {
+            steps {
+                sh(script: "dotnet publish app-examples/net-howto/TODO/HOWTO.csproj")
             }
         }
     }

@@ -4,15 +4,15 @@ WORKDIR /build
 
 COPY . /build
 
-RUN dotnet restore TODO/HOWTO.csproj
-RUN dotnet build TODO/HOWTO.csproj
-RUN dotnet publish TODO/HOWTO.csproj -c Release 
+RUN dotnet restore net-howto/TODO/HOWTO.csproj
+RUN dotnet build net-howto/TODO/HOWTO.csproj
+RUN dotnet publish net-howto/TODO/HOWTO.csproj -c Release 
 
 # -----------------
 
 FROM microsoft/aspnetcore:1.1.12
 
-COPY --from=build ./build/TODO/bin/Release/netcoreapp1.1/publish /app
+COPY --from=build ./build/net-howto/TODO/bin/Release/netcoreapp1.1/publish /app
 
 WORKDIR /app
 
