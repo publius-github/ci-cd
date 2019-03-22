@@ -29,29 +29,29 @@ How it works:
 3. Type `make plan`
 4. Type `make apply`
 
-# Now you have configured jenkins master in your AWS account with role, that allows build every job on dinamic agent
-
-# [need to be autmate in future]
-# *You need to change some fields in preferences:*
-# Settings/cloud/Amazon EC2
-# * EC2 Key Pair's Private Key 
-# Settings/cloud/Amazon EC2/Advanced
-# * Subnet IDs for VPC
+> Now you have configured jenkins master in your AWS account with role, that allows build every job on dinamic agent
+>
+> ***[need to be autmate in future]***
+> **You need to change some fields in preferences:**
+> Settings/cloud/Amazon EC2
+> * EC2 Key Pair's Private Key 
+> Settings/cloud/Amazon EC2/Advanced
+> * Subnet IDs for VPC
 
 5. Add credentials to jenkins
 6. BUILD! 
 
-# *What should be done in future:*
-#         *Case_1* (Dinamic jenkins agent)
-# 1. grep subnet ID after creating -> config.xml
-# 2. find the way to provide ec2 private key properly
-# 3. Terraform ECR
-# 4. dinamic sonar
-# 5. RDS for sonar
-# 6. Terraform subnet for RDS
-# 7. Parse RDS url for sonar.properties
-# 8. configure RDS in makefile (user/database/password)
-# 9. sonar pipeline
-# 10. sonar logs to s3
-#         *Case_2* (Fargate)
-# 1. Find the way to provide details in ./terraform-ecs
+> **What should be done in future:**
+>         ***Case_1*** (Dinamic jenkins agent)
+> 1. grep subnet ID after creating -> config.xml
+> 2. find the way to provide ec2 private key properly
+> 3. Terraform ECR
+> 4. dinamic sonar
+> 5. RDS for sonar
+> 6. Terraform subnet for RDS
+> 7. Parse RDS url for sonar.properties
+> 8. configure RDS in makefile (user/database/password)
+> 9. sonar pipeline
+> 10. sonar logs to s3
+>         ***Case_2*** (Fargate)
+> 1. Find the way to provide details in ./terraform-ecs
