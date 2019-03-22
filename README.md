@@ -36,6 +36,7 @@ How it works:
 >
 > Settings/cloud/Amazon EC2<br/>
 > * EC2 Key Pair's Private Key <br/>
+>
 > Settings/cloud/Amazon EC2/Advanced<br/>
 > * Subnet IDs for VPC
 
