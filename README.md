@@ -31,18 +31,18 @@ How it works:
 
 > Now you have configured jenkins master in your AWS account with role, that allows build every job on dinamic agent
 >
-> ***[need to be autmate in future]***
-> **You need to change some fields in preferences:**
-> Settings/cloud/Amazon EC2
-> * EC2 Key Pair's Private Key 
-> Settings/cloud/Amazon EC2/Advanced
+> ***[need to be autmate in future]***<br/>
+> **You need to change some fields in preferences:**<br/>
+> Settings/cloud/Amazon EC2<br/>
+> * EC2 Key Pair's Private Key <br/>
+> Settings/cloud/Amazon EC2/Advanced<br/>
 > * Subnet IDs for VPC
 
 5. Add credentials to jenkins
 6. BUILD! 
 
-> **What should be done in future:**
->         ***Case_1*** (Dinamic jenkins agent)
+> **What should be done in future:**<br/>
+>         ***Case_1*** (Dinamic jenkins agent)<br/>
 > 1. grep subnet ID after creating -> config.xml
 > 2. find the way to provide ec2 private key properly
 > 3. Terraform ECR
