@@ -31,8 +31,9 @@ How it works:
 
 > Now you have configured jenkins master in your AWS account with role, that allows build every job on dinamic agent
 >
-> *** [need to be autmate in future] ***<br/>
+> [need to be autmate in future]<br/>
 > **You need to change some fields in preferences:**<br/>
+>
 > Settings/cloud/Amazon EC2<br/>
 > * EC2 Key Pair's Private Key <br/>
 > Settings/cloud/Amazon EC2/Advanced<br/>
@@ -42,6 +43,7 @@ How it works:
 6. BUILD! 
 
 > **What should be done in future:**<br/>
+>
 >         ***Case_1*** (Dinamic jenkins agent)<br/>
 > 1. grep subnet ID after creating -> config.xml
 > 2. find the way to provide ec2 private key properly
@@ -52,6 +54,7 @@ How it works:
 > 7. Parse RDS url for sonar.properties
 > 8. configure RDS in makefile (user/database/password)
 > 9. sonar pipeline
-> 10. sonar logs to s3
+> 10. sonar logs to s3 <br/>
+>
 >         ***Case_2*** (Fargate) <br/>
 > 1. Find the way to provide details in ./terraform-ecs
