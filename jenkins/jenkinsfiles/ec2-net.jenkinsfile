@@ -1,0 +1,33 @@
+pipeline {
+    // agent { node 'aws-ec2-cloud' }
+    agent any
+    stages {
+        stage ('[i] Clean WC') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage ('[i] GIT') {
+            steps {
+                git branch: 'dev-jenkins', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
+            }
+        }
+        stage('[i] Docker build') {
+            steps {
+                    echo "${WORKSPACE}"
+                    sh 'cd ${WORKSPACE}'
+                    sh 'ls -lah'
+                    sh 'docker build -f "app-examples/net-howto/Dockerfile" -t 6264175366959.dkr.ecr.us-east-1.amazonaws.com/testrepo:latest .'
+                }
+        }
+        stage('[i] Docker push') {
+            steps {
+                script {
+                    docker.withRegistry("https://264175366959.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:aws") {
+                    docker.image("264175366959.dkr.ecr.us-east-1.amazonaws.com/testrepo:latest").push()
+                    }
+                } 
+            }   
+        }
+    }
+}

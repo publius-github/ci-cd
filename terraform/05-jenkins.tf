@@ -29,7 +29,7 @@ resource "aws_instance" "jenkins" {
   }
 
   provisioner "file" {
-    source      = "../puppet"
+    source      = "./puppet"
     destination = "/opt/cicd"
     
     connection {
@@ -39,7 +39,17 @@ resource "aws_instance" "jenkins" {
     }
   }
   provisioner "file" {
-    source      = "boot_scripts/global.sh"
+    source      = "./jenkins"
+    destination = "/opt/cicd"
+    
+    connection {
+      type     = "ssh"
+      user     = "ec2-user"
+      private_key = "${file(var.private_key_path)}"
+    }
+  }
+  provisioner "file" {
+    source      = "terraform/boot_scripts/global.sh"
     destination = "/opt/cicd/global.sh"
 
     connection {

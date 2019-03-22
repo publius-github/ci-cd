@@ -29,14 +29,12 @@ expect eof
 ")
 echo "$SECURE_MYSQL"
 yum remove -y expect
-# CREATE DATABASE sonarqube_db;
-# CREATE USER 'sonarqube_user'@'localhost' IDENTIFIED BY 'password';
-# GRANT ALL PRIVILEGES ON sonarqube_db.* TO 'sonarqube_user'@'localhost' IDENTIFIED BY 'password';
-# FLUSH PRIVILEGES;
+
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE DATABASE sonarqube_db;"
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE USER 'sonarqube_user'@'localhost' IDENTIFIED BY 'password';"
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON sonarqube_db.* TO 'sonarqube_user'@'localhost' IDENTIFIED BY 'password';"
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
+
 ## SONARQUBE 
 useradd sonarqube
 cd /opt
@@ -70,18 +68,4 @@ sudo unzip sonar-runner-dist-2.4.zip
 mv sonar-runner-2.4 sonar-runner
 rm -rf sonar-runner-dist-2.4.zip
 
-cp -rf /tmp/vagrant-puppet/localmodules/profiles/files/jenkins/jobs/* /var/lib/jenkins/jobs/
-chown jenkins:jenkins -R /var/lib/jenkins/jobs/
 
-cp -rf /tmp/vagrant-puppet/localmodules/profiles/files/jenkins/config.xml /var/lib/jenkins/config.xml
-# cp -rf /opt/cicd/puppet/localmodules/profiles/files/jenkins/hudson.plugins.sonar.SonarRunnerInstallation.xml /var/lib/jenkins/hudson.plugins.sonar.SonarRunnerInstallation.xml
-# cp -rf /opt/cicd/puppet/localmodules/profiles/files/jenkins/hudson.plugins.sonar.SonarGlobalConfiguration.xml /var/lib/jenkins/hudson.plugins.sonar.SonarGlobalConfiguration.xml
-
-chown jenkins:jenkins /var/lib/jenkins/config.xml
-# chown jenkins:jenkins /var/lib/jenkins/hudson.plugins.sonar.SonarRunnerInstallation.xml
-# chown jenkins:jenkins /var/lib/jenkins/hudson.plugins.sonar.SonarGlobalConfiguration.xml
-
-systemctl restart jenkins
-
-sudo rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm
-sudo yum -y install dotnet-sdk-2.2

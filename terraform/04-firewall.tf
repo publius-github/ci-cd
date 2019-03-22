@@ -34,6 +34,12 @@ resource "aws_security_group" "jenkins" {
     protocol    = "tcp"
     cidr_blocks = "${var.ip_white_list}"
   }
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = "${var.ip_white_list}"
+  }
 
   tags = {
     Name = "jenkins"
