@@ -4,9 +4,9 @@ WORKDIR /build
 
 COPY . /build
 
-RUN dotnet restore app-examples/net-howto/TODO-UI/HOWTO.csproj
-RUN dotnet build app-examples/net-howto/TODO-UI/HOWTO.csproj
-RUN dotnet publish app-examples/net-howto/TODO-UI/HOWTO.csproj -c Release 
+RUN dotnet restore app-examples/net-howto/TODO-UI/HOWTO-UI.csproj
+RUN dotnet build app-examples/net-howto/TODO-UI/HOWTO-UI.csproj
+RUN dotnet publish app-examples/net-howto/TODO-UI/HOWTO-UI.csproj -c Release 
 
 # -----------------
 
@@ -18,4 +18,4 @@ WORKDIR /app
 
 EXPOSE 80
 
-CMD ["dotnet", "HOWTO.dll"]
+CMD ["dotnet", "HOWTO-UI.dll"]
