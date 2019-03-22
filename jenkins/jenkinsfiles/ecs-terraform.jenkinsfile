@@ -16,6 +16,7 @@ pipeline {
                 sh '''
                 cd ${WORKSPACE}/terraform-ecs
                 terraform init
+                terraform plan -var-file=vars/nonprod.tfvars
                 terraform apply -auto-approve -var-file=vars/nonprod.tfvars
                 '''
             }

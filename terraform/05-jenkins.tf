@@ -1,7 +1,7 @@
 
 resource "aws_instance" "jenkins" {
   ami = "ami-04bfee437f38a691e"
-  instance_type = "t2.medium"
+  instance_type = "t2.micro"
   root_block_device {
     volume_size = "15"
     volume_type = "standard"

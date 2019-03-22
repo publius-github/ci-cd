@@ -33,6 +33,6 @@ echo "End puppet apply"
 # Copy jobs / configs
 
 cp -rf /opt/cicd/jenkins/jobs/* /var/lib/jenkins/jobs/
-cp -rf /opt/cicd/jenkins/configs/config.xml /var/lib/jenkins/config.xml
+cp -rf /opt/cicd/jenkins/configs/* /var/lib/jenkins/
 chown jenkins:jenkins -R /var/lib/jenkins
 systemctl restart jenkins

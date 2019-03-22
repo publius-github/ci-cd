@@ -12,19 +12,36 @@ pipeline {
                 git branch: 'dev-jenkins', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
             }
         }
-        stage('[i] Docker build') {
+        stage('[i] Docker build [TODO]') {
             steps {
                     echo "${WORKSPACE}"
                     sh 'cd ${WORKSPACE}'
                     sh 'ls -lah'
-                    sh 'docker build -f "app-examples/net-howto/Dockerfile" -t 6264175366959.dkr.ecr.us-east-1.amazonaws.com/testrepo:latest .'
+                    sh 'docker build -f "app-examples/net-howto/TODO/Dockerfile" -t 6264175366959.dkr.ecr.us-east-1.amazonaws.com/todo:latest .'
                 }
         }
-        stage('[i] Docker push') {
+        stage('[i] Docker push [TODO]') {
             steps {
                 script {
                     docker.withRegistry("https://264175366959.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:aws") {
-                    docker.image("264175366959.dkr.ecr.us-east-1.amazonaws.com/testrepo:latest").push()
+                    docker.image("264175366959.dkr.ecr.us-east-1.amazonaws.com/todo:latest").push()
+                    }
+                } 
+            }   
+        }
+      stage('[i] Docker build [TODO-UI]') {
+            steps {
+                    echo "${WORKSPACE}"
+                    sh 'cd ${WORKSPACE}'
+                    sh 'ls -lah'
+                    sh 'docker build -f "app-examples/net-howto/TODO-UI/Dockerfile" -t 6264175366959.dkr.ecr.us-east-1.amazonaws.com/todo-ui:latest .'
+                }
+        }
+        stage('[i] Docker push [TODO-UI]') {
+            steps {
+                script {
+                    docker.withRegistry("https://264175366959.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:aws") {
+                    docker.image("264175366959.dkr.ecr.us-east-1.amazonaws.com/todo-ui:latest").push()
                     }
                 } 
             }   

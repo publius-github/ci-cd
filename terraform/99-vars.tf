@@ -11,7 +11,7 @@ variable "aws_region" {
 }
 
 variable "public_key_path" {
-  default = "/home/szverau/.ssh/id_rsa.pub"
+  type = "string"
   description = <<DESCRIPTION
 Path to the SSH public key to be used for authentication.
 Ensure this keypair is added to your local SSH agent so provisioners can
@@ -20,7 +20,7 @@ Example: ~/.ssh/terraform.pub
 DESCRIPTION
 }
 variable "private_key_path" {
-  default = "/home/szverau/.ssh/id_rsa"
+  type = "string"
 }
 variable "key_name" {
   description = "Desired name of AWS key pair"
