@@ -44,7 +44,7 @@ How it works:
 
 > **What should be done in future:**<br/>
 >
->         ***Case_1*** (Dinamic jenkins agent)<br/>
+> ***Case_1*** (Dinamic jenkins agent) <br/>
 > 1. grep subnet ID after creating -> config.xml
 > 2. find the way to provide ec2 private key properly
 > 3. Terraform ECR
@@ -56,5 +56,5 @@ How it works:
 > 9. sonar pipeline
 > 10. sonar logs to s3 <br/>
 >
->         ***Case_2*** (Fargate) <br/>
+> ***Case_2*** (Fargate) <br/>
 > 1. Find the way to provide details in ./terraform-ecs
