@@ -10,7 +10,7 @@ resource "aws_ecs_task_definition" "app" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   # task_role_arn            = "${aws_iam_role.github-role.arn}"
-  execution_role_arn       = "${data.aws_iam_role.ecsTaskExecutionRole.arn}"
+  execution_role_arn       = "${aws_iam_role.ecsTaskExecutionRole.arn}"
   cpu                      = "${var.fargate_cpu}"
   memory                   = "${var.fargate_memory}"
 
