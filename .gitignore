@@ -2,6 +2,8 @@
 .vagrant
 
 # terraform
+.terraform
+terraform.tfstate
 terraform/.*
 terraform/vars/jenkins-ci-cd.tfvars
 terraform/terraform.tfstate
@@ -20,3 +22,7 @@ puppet/manifests-*
 puppet/modules/*
 puppet/modules-*
 puppet/Puppetfile.lock
+
+
+# not stable
+jenkins/jenkinsfiles/ec2-terraform-deploy-fargate.jenkinsfile

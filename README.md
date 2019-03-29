@@ -1,6 +1,6 @@
 
         //-----------//
-        // make box  //
+        // makefile  //
         //-----------//
         //-----------//
         //  vagrant  //
@@ -13,13 +13,13 @@
                V
             
         |-----------------|
-        | Jenkins master  |                        Dinamic Jenkins agent
-        | * plugins       |            JOB            *build job*                    DESTROING       Valhalla
-        | * config        |            ------>                                       -------->       
+        | Jenkins master  |                        Dinamic Jenkins agent                               
+        | * plugins       |            JOB 1.         *build job*                    Deploy       
+        | * config        |            ------>                                       -------->       FARGATE
         | * users         |
         | * jobs          |
-        |-----------------|
-
+        |-----------------|            JOB 2.
+                                       ------>     Destroy
 
 
 How it works:
@@ -46,14 +46,15 @@ How it works:
 > **What should be done in future:**<br/>
 >
 > ***Case_1*** (Dinamic jenkins agent) <br/>
-> 1. grep subnet ID after creating -> config.xml
-> 2. find the way to provide ec2 private key properly
-> 3. Terraform ECR
-> 4. dinamic sonar
-> 5. RDS for sonar
-> 6. Terraform subnet for RDS
-> 7. Parse RDS url for sonar.properties
-> 8. configure RDS in makefile (user/database/password)
+> 0. Grep ECR images and paste to terraform-ecr
+> 1. mysql server at jenkins master
+> 2. terraform ebs master
+> 3. configure database/user
+> 4. sonar-runner master
+> 5. sonar.properties
+> 6. dinamic sonar
+> 7. grep subnet ID after creating -> config.xml
+> 8. find the way to provide ec2 private key properly
 > 9. sonar pipeline
 > 10. sonar logs to s3 <br/>
 >

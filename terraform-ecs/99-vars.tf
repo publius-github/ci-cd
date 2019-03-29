@@ -23,7 +23,7 @@ variable "app_image" {
   description = "Docker image to run in the ECS cluster"
   type = "list"
   # default     = ["adongy/hostname-docker:latest"]
-  default     = ["264175366959.dkr.ecr.us-east-1.amazonaws.com/testrepo:latest"]
+  # default     = ["264175366959.dkr.ecr.us-east-1.amazonaws.com/testrepo:latest"]
 }
 
 variable "app_port" {
