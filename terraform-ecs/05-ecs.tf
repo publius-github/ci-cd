@@ -1,6 +1,6 @@
-data "aws_iam_role" "ecsTaskExecutionRole" {
-  name = "ecsTaskExecutionRole"
-}
+# data "aws_iam_role" "ecsTaskExecutionRole" {
+#   name = "ecsTaskExecutionRole"
+# }
 resource "aws_ecs_cluster" "main" {
   name = "tf-ecs-cluster"
 }
