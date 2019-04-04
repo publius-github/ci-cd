@@ -26,3 +26,7 @@ puppet/Puppetfile.lock
 
 # not stable
 jenkins/jenkinsfiles/ec2-terraform-deploy-fargate.jenkinsfile
+
+# privacy
+terraform-ecs-test
+jenkins/configs/config.xml

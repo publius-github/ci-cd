@@ -1,3 +1,7 @@
+resource "aws_key_pair" "auth" {
+  key_name   = "${var.key_name}"
+  public_key = "${file(var.public_key_path)}"
+}
 
 resource "aws_instance" "jenkins" {
   ami = "ami-04bfee437f38a691e"
@@ -6,7 +10,11 @@ resource "aws_instance" "jenkins" {
     volume_size = "15"
     volume_type = "standard"
   }
-
+  # ebs_block_device{
+  #   device_name = "/dev/sdh"
+  #   volume_size = 20
+  #   volume_type = "standard"
+  # }
   tags = {
     Name = "cicd"
     role = "jenkins"
@@ -14,6 +22,7 @@ resource "aws_instance" "jenkins" {
 
   vpc_security_group_ids = ["${aws_security_group.jenkins.id}"]
   subnet_id = "${aws_subnet.main.id}"
+  private_ip = "10.0.1.100"
   key_name = "${aws_key_pair.auth.id}"
 
   provisioner "remote-exec" {
@@ -70,7 +79,3 @@ resource "aws_instance" "jenkins" {
   }
 }
 
-resource "aws_key_pair" "auth" {
-  key_name   = "${var.key_name}"
-  public_key = "${file(var.public_key_path)}"
-}

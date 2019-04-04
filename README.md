@@ -19,7 +19,7 @@
         | * users         |
         | * jobs          |
         |-----------------|            JOB 2.
-                                       ------>     Destroy
+                                       ------>     Destroy FARGATE
 
 
 How it works:
@@ -46,17 +46,11 @@ How it works:
 > **What should be done in future:**<br/>
 >
 > ***Case_1*** (Dinamic jenkins agent) <br/>
-> 0. Grep ECR images and paste to terraform-ecr
-> 1. mysql server at jenkins master
-> 2. terraform ebs master
-> 3. configure database/user
-> 4. sonar-runner master
-> 5. sonar.properties
-> 6. dinamic sonar
+> 0. Create ECR in terraform, and comment it
 > 7. grep subnet ID after creating -> config.xml
 > 8. find the way to provide ec2 private key properly
 > 9. sonar pipeline
 > 10. sonar logs to s3 <br/>
 >
 > ***Case_2*** (Fargate) <br/>
-> 1. Find the way to provide details in ./terraform-ecs
+> 1. Troubleshout deploy step

@@ -1,0 +1,48 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+fs=$(sudo file -s /dev/xvdh | grep filesystem -c)
+if [ $fs -eq &quot;1&quot; ]
+then
+        echo &quot;[i] FS is exist.&quot;
+else
+        echo &quot;[i] Creating filesystem...&quot;
+        mkfs -t xfs /dev/xvdh
+fi
+sudo mkdir -p /data
+sudo chmod 755 /data
+sudo mount /dev/xvdh /data
+uid=$(sudo blkid | sed -n &apos;/xvdh/s/.*UUID=\&quot;\([^\&quot;]*\)\&quot;.*/\1/p&apos;)
+echo &quot;UUID=$uid  /data  xfs  defaults,nofail  0  2&quot; | sudo tee --append /etc/fstab &gt; /dev/null
+sudo systemctl stop mysql
+if [ -e /data/mysql.sock ]; then
+        echo &quot;[i] DB exist, on EBS. Configure to use it with current mysql&quot;
+    sudo cp -R -p -f /var/lib/mysql/*.cnf /data
+    sudo cp -R -p -f /var/lib/mysql/mysql.sock /data
+else
+    echo &quot;[i] There is new EBS, copying mysql files.&quot;
+    sudo cp -R -p /var/lib/mysql/* /data
+fi
+sudo cp -R -p /var/lib/mysql/* /data
+sudo sed -i &quot;s/datadir=\/var\/lib\/mysql/datadir=\/data/g&quot; /etc/my.cnf
+sudo sed -i &quot;s/socket=\/var\/lib\/mysql\/mysql.sock/socket=\/data\/mysql.sock/g&quot; /etc/my.cnf
+sudo chown -R mysql:mysql /data
+sudo systemctl start mysql</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
