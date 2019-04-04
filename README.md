@@ -46,10 +46,10 @@ How it works:
 > **What should be done in future:**<br/>
 >
 > ***Case_1*** (Dinamic jenkins agent) <br/>
-> 0. Create ECR in terraform, and comment it
-> 7. grep subnet ID after creating -> config.xml
-> 8. find the way to provide ec2 private key properly
-> 9. sonar pipeline
+> 0. Create ECR in terraform, and comment it <br/>
+> 7. grep subnet ID after creating -> config.xml <br/>
+> 8. find the way to provide ec2 private key properly <br/>
+> 9. sonar pipeline <br/> 
 > 10. sonar logs to s3 <br/>
 >
 > ***Case_2*** (Fargate) <br/>
