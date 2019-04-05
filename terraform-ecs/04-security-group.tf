@@ -1,7 +1,8 @@
+
 resource "aws_security_group" "lb" {
   name        = "tf-ecs-alb"
   description = "controls access to the ALB"
-  vpc_id      = "${aws_vpc.main.id}"
+  vpc_id      = "${aws_vpc.fargate_vpc.id}"
 
   ingress {
     protocol    = "tcp"
@@ -22,7 +23,7 @@ resource "aws_security_group" "lb" {
 resource "aws_security_group" "ecs_tasks" {
   name        = "tf-ecs-tasks"
   description = "allow inbound access from the ALB only"
-  vpc_id      = "${aws_vpc.main.id}"
+  vpc_id      = "${aws_vpc.fargate_vpc.id}"
 
   ingress {
     protocol        = "tcp"

@@ -20,7 +20,7 @@ then
         echo &quot;[i] FS is exist.&quot;
 else
         echo &quot;[i] Creating filesystem...&quot;
-        mkfs -t xfs /dev/xvdh
+        sudo mkfs -t xfs /dev/xvdh
 fi
 sudo mkdir -p /data
 sudo chmod 755 /data

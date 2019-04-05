@@ -60,23 +60,18 @@ expect eof
 ")
 echo "$SECURE_MYSQL"
 sudo yum remove -y expect
-
 # CREATE DATABASE sonarqube_db;
 # CREATE USER 'sonarqube_user'@'localhost' IDENTIFIED BY 'password';
 # GRANT ALL PRIVILEGES ON sonarqube_db.* TO 'sonarqube_user'@'localhost' IDENTIFIED BY 'password';
 # FLUSH PRIVILEGES;
-
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE DATABASE sonarqube_db;"
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE USER 'sonarqube_user'@'localhost' IDENTIFIED BY 'password';"
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON sonarqube_db.* TO 'sonarqube_user'@'localhost' IDENTIFIED BY 'password';"
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
-
 # Copy jobs / configs
-
 cp -rf /opt/cicd/jenkins/jobs/* /var/lib/jenkins/jobs/
 cp -rf /opt/cicd/jenkins/configs/* /var/lib/jenkins/
 chown jenkins:jenkins -R /var/lib/jenkins
 systemctl restart jenkins
-
 ## EBS mount requirements
 echo "jenkins ALL=(ALL) NOPASSWD: ALL" | sudo tee --append /etc/sudoers > /dev/null 

@@ -1,4 +1,3 @@
-
 resource "aws_security_group" "jenkins" {
   name        = "jenkins"
   description = "Allow inbound traffic for jenkins"

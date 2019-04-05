@@ -116,16 +116,4 @@ class profiles::jenkins {
   mode    => '0744'
   }
 
-  # file { '/var/lib/jenkins/jobs/':
-  # ensure  => 'directory',
-  # source  => 'puppet:///modules/profiles/jenkins/jobs/',
-  # recurse => true,
-  # owner   => 'jenkins',
-  # group   => 'jenkins',
-  # mode    => '0744'
-  # }
-  # jenkins::user { 'user':
-  #   email    => 's.zverau@godeltech.com',
-  #   password => 'password',
-  # }
 }

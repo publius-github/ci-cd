@@ -1,6 +1,3 @@
-# data "aws_iam_role" "ecsTaskExecutionRole" {
-#   name = "ecsTaskExecutionRole"
-# }
 resource "aws_ecs_cluster" "main" {
   name = "tf-ecs-cluster"
 }
@@ -9,8 +6,6 @@ resource "aws_ecs_task_definition" "app" {
   family                   = "app"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  # task_role_arn            = "${aws_iam_role.github-role.arn}"
-  execution_role_arn       = "${aws_iam_role.ecsTaskExecutionRole.arn}"
   cpu                      = "${var.fargate_cpu}"
   memory                   = "${var.fargate_memory}"
 
@@ -18,7 +13,7 @@ resource "aws_ecs_task_definition" "app" {
 [
   {
     "cpu": ${var.fargate_cpu},
-    "image": "${var.app_image[count.index]}",
+    "image": "${var.app_image}",
     "memory": ${var.fargate_memory},
     "name": "app",
     "networkMode": "awsvpc",
@@ -42,7 +37,7 @@ resource "aws_ecs_service" "main" {
 
   network_configuration {
     security_groups = ["${aws_security_group.ecs_tasks.id}"]
-    subnets         = ["${aws_subnet.private.*.id}"]
+    subnets         = ["${aws_subnet.fargate_subnet_private.*.id}"]
   }
 
   load_balancer {

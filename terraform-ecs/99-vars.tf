@@ -1,18 +1,7 @@
-variable "aws_access_key" {
-  type = "string"
-}
-variable "aws_secret_key" {
-  type = "string"
-}
-
 variable "aws_region" {
   description = "The AWS region to create things in."
   default     = "us-east-1"
 }
-
-# variable "aws_account_id" {
-#   description = "AWS account ID"
-# }
 
 variable "az_count" {
   description = "Number of AZs to cover in a given AWS region"
@@ -21,27 +10,32 @@ variable "az_count" {
 
 variable "app_image" {
   description = "Docker image to run in the ECS cluster"
-  type = "list"
-  # default     = ["adongy/hostname-docker:latest"]
-  # default     = ["264175366959.dkr.ecr.us-east-1.amazonaws.com/testrepo:latest"]
+  default     = "jenkins/jenkins:lts"
 }
 
 variable "app_port" {
   description = "Port exposed by the docker image to redirect traffic to"
-  default     = "3000"
+  default     = 8080
 }
 
 variable "app_count" {
   description = "Number of docker containers to run"
-  default     = "2"
+  default     = 2
 }
 
 variable "fargate_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default     = "256"
+  default     = "1024"
 }
 
 variable "fargate_memory" {
   description = "Fargate instance memory to provision (in MiB)"
-  default     = "512"
+  default     = "2048"
+}
+
+variable "aws_access_key" {
+  type = "string"
+}
+variable "aws_secret_key" {
+  type = "string"
 }

@@ -10,11 +10,7 @@ resource "aws_instance" "jenkins" {
     volume_size = "15"
     volume_type = "standard"
   }
-  # ebs_block_device{
-  #   device_name = "/dev/sdh"
-  #   volume_size = 20
-  #   volume_type = "standard"
-  # }
+
   tags = {
     Name = "cicd"
     role = "jenkins"
