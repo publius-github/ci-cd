@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Disable SeLinux
+## Disable SeLinux
 sudo sed -i 's/enforcing/disabled/g' /etc/selinux/config
 setenforce 0
-# Update all packages
+## Update all packages
 sudo yum -y update
-# Add Puppet repo and install Puppet
+## Add Puppet repo and install Puppet
 sudo rpm -Uvh https://yum.puppet.com/puppet5/puppet5-release-el-7.noarch.rpm
 sudo yum -y install puppet-agent
 sudo yum install gem -y
@@ -15,7 +15,7 @@ export PATH=/opt/puppetlabs/bin:$PATH
 /usr/local/bin/librarian-puppet install
 sudo yum clean all
 
-# Puppet facter
+## Puppet facter
 var=$(ec2-metadata | grep security-groups | awk '{ print $2 }')
 var2="role=$var"
 ROLE=$(/opt/puppetlabs/bin/facter $var)
@@ -25,12 +25,12 @@ $var2
 EOF
 chmod -R 700 /etc/facter/
 
-# Puppet apply
+## Puppet apply
 echo "Run puppet apply"
 /opt/puppetlabs/bin/puppet apply -d --hiera_config=/opt/cicd/puppet/hiera.yaml --modulepath=/opt/cicd/puppet/localmodules/:/opt/cicd/puppet/modules/  /opt/cicd/puppet/manifests/site.pp -l /var/log/puppet.log
 echo "End puppet apply"
 
-# MySql
+## MySql
 sudo yum install -y wget
 sudo wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
 sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm
@@ -68,10 +68,12 @@ mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE DATABASE sonarqube_db;"
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE USER 'sonarqube_user'@'localhost' IDENTIFIED BY 'password';"
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON sonarqube_db.* TO 'sonarqube_user'@'localhost' IDENTIFIED BY 'password';"
 mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
-# Copy jobs / configs
+
+## Copy jobs / configs
 cp -rf /opt/cicd/jenkins/jobs/* /var/lib/jenkins/jobs/
 cp -rf /opt/cicd/jenkins/configs/* /var/lib/jenkins/
 chown jenkins:jenkins -R /var/lib/jenkins
 systemctl restart jenkins
+
 ## EBS mount requirements
 echo "jenkins ALL=(ALL) NOPASSWD: ALL" | sudo tee --append /etc/sudoers > /dev/null 

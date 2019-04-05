@@ -115,5 +115,4 @@ class profiles::jenkins {
   group   => 'jenkins',
   mode    => '0744'
   }
-
 }

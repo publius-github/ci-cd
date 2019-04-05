@@ -10,7 +10,6 @@ variable "az_count" {
 
 variable "app_image" {
   description = "Docker image to run in the ECS cluster"
-  default     = "jenkins/jenkins:lts"
 }
 
 variable "app_port" {
