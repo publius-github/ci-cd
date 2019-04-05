@@ -1,0 +1,18 @@
+pipeline {
+    agent { node 'aws-ec2-cloud' }
+    stages {
+        stage ('[i] Clean WC') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('[i] AWS Destroy') {
+            steps {
+                sh '''
+                cd ~/workspace/pipeline04deploy-net
+                terraform destroy -auto-approve -var-file=vars/nonprod.tfvars
+                '''
+            }
+        }
+    }
+}
