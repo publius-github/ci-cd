@@ -1,7 +1,7 @@
 data "aws_availability_zones" "available" {}
 
 resource "aws_vpc" "fargate_vpc" {
-  cidr_block = "172.17.0.0/24"
+  cidr_block = "172.17.0.0/16"
   instance_tenancy = "default"
   enable_dns_hostnames = "true"
   tags = {
