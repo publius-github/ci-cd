@@ -1,7 +1,12 @@
 data "aws_availability_zones" "available" {}
 
 resource "aws_vpc" "fargate_vpc" {
-  cidr_block = "172.17.0.0/16"
+  cidr_block = "172.17.0.0/24"
+  instance_tenancy = "default"
+  enable_dns_hostnames = "true"
+  tags = {
+    Name = "fargate_vpc"
+  }
 }
 
 # Create var.az_count private subnets, each in a different AZ
@@ -10,6 +15,10 @@ resource "aws_subnet" "fargate_subnet_private" {
   cidr_block        = "${cidrsubnet(aws_vpc.fargate_vpc.cidr_block, 8, count.index)}"
   availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
   vpc_id            = "${aws_vpc.fargate_vpc.id}"
+  tags = {
+    Name = "fargate_subnet_private"
+  }
+  
 }
 
 # Create var.az_count public subnets, each in a different AZ
@@ -19,6 +28,9 @@ resource "aws_subnet" "fargate_subnet_public" {
   availability_zone       = "${data.aws_availability_zones.available.names[count.index]}"
   vpc_id                  = "${aws_vpc.fargate_vpc.id}"
   map_public_ip_on_launch = true
+  tags = {
+    Name = "fargate_subnet_public"
+  }
 }
 
 # IGW for the public subnet
