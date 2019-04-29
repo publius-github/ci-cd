@@ -1,10 +1,10 @@
 pipeline {
     agent { node 'aws-ec2-cloud' }
     environment {
-        access_key = "AKIA3WJV5JZR6ZZNV647"
-        secret_key = "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"
-        app1 = "803808824931.dkr.ecr.us-east-1.amazonaws.com/todo-ui:latest"
-        app_port = "5000"
+        access_key = ""
+        secret_key = ""
+        app1 = ""
+        app_port = ""
     }
     stages {
 
