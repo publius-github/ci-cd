@@ -16,6 +16,6 @@ COPY --from=build ./build/app-examples/net-howto/TODO-UI/bin/Release/netcoreapp1
 
 WORKDIR /app
 
-EXPOSE 80
+EXPOSE 5000
 
 CMD ["dotnet", "HOWTO-UI.dll"]
