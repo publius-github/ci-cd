@@ -43,18 +43,28 @@ How it works:
 5. Add credentials to jenkins
 6. BUILD! 
 
+
+
+
+
+
+
+
 > **What should be done in future:**<br/>
 >
 > ***Case_1*** (Dinamic jenkins agent) <br/>
+> preparation
 > 0. Create ECR in terraform, and comment it <br/>
+> 0. create s3<br/>
+
+
+> deploy
 > 7. grep subnet ID after creating -> config.xml <br/>
 > 8. find the way to provide ec2 private key properly <br/>
-> 8. add ami role for ECR registry
+
+
 > 9. sonar pipeline <br/> 
 > 10. sonar logs to s3 <br/>
-> 11. state to s3 / ecr state to s3
-> 12. create s3
+
+
 > 13. change vpss ecs to ECS -NETWORK
->
-> ***Case_2*** (Fargate) <br/>
-> 1. Troubleshout deploy step

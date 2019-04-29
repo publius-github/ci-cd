@@ -7,6 +7,11 @@ SHELL = /bin/bash
 TFBUCKETNAME = $(ENVNAME)-tfstate
 TFPLANFILE = ${ENVNAME}-tf.plan
 
+prepare:
+	@aws ecr create-repository --repository-name project-a/nginx-web-app
+	
+
+
 help:
 	@echo -e "\nProject defaults:\n Environment: $(ENVNAME)"
 	@echo -e "\n[!] You'll need to specify an action: \n"

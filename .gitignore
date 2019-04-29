@@ -1,19 +1,23 @@
 # vagrant
 .vagrant
 
-# terraform
-.terraform
-terraform.tfstate
-terraform/.*
-terraform/vars/jenkins-ci-cd.tfvars
-terraform/terraform.tfstate
-terraform/terraform.tfstate.backup
+# terraform-infra
+terraform/00-terraform-infra/.*
+terraform/00-terraform-infra/vars/jenkins-ci-cd.tfvars
+terraform/00-terraform-infra/terraform.tfstate
+terraform/00-terraform-infra/terraform.tfstate.backup
+
+# terraform-jenkins
+terraform/01-terraform-jenkins/.*
+terraform/01-terraform-jenkins/vars/jenkins-ci-cd.tfvars
+terraform/01-terraform-jenkins/terraform.tfstate
+terraform/01-terraform-jenkins/terraform.tfstate.backup
 
 # terraform-ecs
-terraform-ecs/.*
-terraform-ecs/vars/jenkins-ci-cd.tfvars
-terraform-ecs/terraform.tfstate
-terraform-ecs/terraform.tfstate.backup
+terraform/02-terraform-ecs/.*
+terraform/02-terraform-ecs/vars/jenkins-ci-cd.tfvars
+terraform/02-terraform-ecs/terraform.tfstate
+terraform/02-terraform-ecs/terraform.tfstate.backup
 
 # puppet
 puppet/.librarian
