@@ -1,5 +1,4 @@
 #!/bin/bash
-
 ## Disable SeLinux
 sudo sed -i 's/enforcing/disabled/g' /etc/selinux/config
 setenforce 0

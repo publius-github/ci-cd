@@ -3,40 +3,27 @@ pipeline {
     environment {
         access_key = ""
         secret_key = ""
-        app1 = ""
-        app_port = ""
     }
     stages {
-
         stage ('[i] Clean WC') {
             steps {
                 cleanWs()
             }
         }
-        stage ('[i] GIT') {
-            steps {
-                git branch: 'dev-jenkins', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
-            }
-        }
-
         stage('[i] Changing Data in Terraform') {
             steps {
                 sh '''
                 echo "\naws_access_key = \\"$access_key\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
-                echo "app_image = \\"$app1\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
-                echo "app_port = \\"$app_port\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
                 echo "aws_secret_key = \\"$secret_key\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
                 '''
                 }
         }
-
-        stage('[i] AWS Deployment') {
+        stage('[i] AWS Destroy') {
             steps {
                 sh '''
                 cd ${WORKSPACE}/terraform/02-terraform-ecs/
                 terraform init
-                terraform plan -var-file=vars/nonprod.tfvars ./
-                terraform apply -auto-approve -var-file=vars/nonprod.tfvars
+                terraform destroy -auto-approve -var-file=vars/nonprod.tfvars
                 '''
             }
         }

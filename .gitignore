@@ -26,8 +26,3 @@ puppet/manifests-*
 puppet/modules/*
 puppet/modules-*
 puppet/Puppetfile.lock
-
-
-# privacy
-terraform-ecs-test
-jenkins/configs/config.xml

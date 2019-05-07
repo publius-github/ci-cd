@@ -1,6 +1,8 @@
 pipeline {
     agent { node 'aws-ec2-cloud' }
-    // agent any
+    environment {
+        registry_url = ""
+    }
     stages {
         stage ('[i] Clean WC') {
             steps {
@@ -14,9 +16,7 @@ pipeline {
         }
         stage('[i] Docker build [TODO]') {
             steps {
-                    echo "${WORKSPACE}"
                     sh 'cd ${WORKSPACE}'
-                    sh 'ls -lah'
                     sh 'docker build -f "app-examples/net-howto/TODO/Dockerfile" -t 803808824931.dkr.ecr.us-east-1.amazonaws.com/todo:latest .'
                 }
         }
@@ -29,7 +29,7 @@ pipeline {
                 } 
             }   
         }
-      stage('[i] Docker build [TODO-UI]') {
+        stage('[i] Docker build [TODO-UI]') {
             steps {
                     echo "${WORKSPACE}"
                     sh 'cd ${WORKSPACE}'
@@ -45,6 +45,11 @@ pipeline {
                     }
                 } 
             }   
+        }
+        stage('[i] Remove tmp docker files') {
+            steps {
+                    sh 'docker system prune -a -f'
+            }
         }
     }
 }

@@ -1,0 +1,149 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson>
+  <disabledAdministrativeMonitors>
+    <string>jenkins.diagnostics.RootUrlNotSetMonitor</string>
+    <string>jenkins.security.csrf.CSRFAdministrativeMonitor</string>
+    <string>jenkins.security.s2m.MasterKillSwitchWarning</string>
+  </disabledAdministrativeMonitors>
+  <version>2.164.2</version>
+  <installStateName>RUNNING</installStateName>
+  <numExecutors>2</numExecutors>
+  <mode>NORMAL</mode>
+  <useSecurity>true</useSecurity>
+  <authorizationStrategy class="hudson.security.GlobalMatrixAuthorizationStrategy">
+    <permission>hudson.model.Hudson.Administer:admin</permission>
+  </authorizationStrategy>
+  <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
+    <disableSignup>true</disableSignup>
+    <enableCaptcha>false</enableCaptcha>
+  </securityRealm>
+  <disableRememberMe>false</disableRememberMe>
+  <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+  <workspaceDir>${ITEM_ROOTDIR}/workspace</workspaceDir>
+  <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+  <jdks/>
+  <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+  <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+  <clouds>
+    <hudson.plugins.ec2.EC2Cloud plugin="ec2@1.42">
+      <name>ec2-aws-ec2-cloud</name>
+      <useInstanceProfileForCredentials>false</useInstanceProfileForCredentials>
+      <roleArn></roleArn>
+      <roleSessionName></roleSessionName>
+      <credentialsId>aws</credentialsId>
+      <privateKey>
+        <privateKey>{AQAAABAAAAAQx1yJa3Kd5PT5nxo38A8U/vUUkIOu8MxObfoSXHTtlJY=}</privateKey>
+      </privateKey>
+      <instanceCap>2147483647</instanceCap>
+      <templates>
+        <hudson.plugins.ec2.SlaveTemplate>
+          <ami>ami-035be7bafff33b6b6</ami>
+          <description>aws-ec2-cloud</description>
+          <zone>us-east-1a</zone>
+          <securityGroups>jenkins</securityGroups>
+          <remoteFS></remoteFS>
+          <type>T2Medium</type>
+          <ebsOptimized>false</ebsOptimized>
+          <monitoring>false</monitoring>
+          <t2Unlimited>false</t2Unlimited>
+          <labels>aws-ec2-cloud</labels>
+          <mode>NORMAL</mode>
+          <initScript>sudo yum -y install git maven java-1.8.0-openjdk-devel yum-utils device-mapper-persistent-data lvm2 wget unzip
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install -y http://ftp.riken.jp/Linux/cern/centos/7/extras/x86_64/Packages/container-selinux-2.9-4.el7.noarch.rpm
+sudo yum install -y docker-ce docker-ce-cli containerd.io
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo usermod -aG docker ec2-user
+sudo chmod 777 /var/run/docker.sock
+sudo rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm
+sudo yum -y install dotnet-sdk-2.2
+sudo wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
+sudo unzip terraform_0.11.13_linux_amd64.zip
+sudo mv terraform /usr/local/bin
+sudo rm -f terraform_0.11.13_linux_amd64.zip
+sudo useradd sonarqube
+cd /opt
+sudo wget  https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip
+sudo unzip sonarqube-7.6.zip
+sudo rm -rf sonarqube-7.6.zip
+sudo cp -rf sonarqube-7.6 sonarqube
+sudo rm -rf sonarqube-7.6
+sudo chown sonarqube. /opt/sonarqube -R
+echo &apos;sonar.jdbc.username=sonarqube_user&apos; | sudo tee --append /opt/sonarqube/conf/sonar.properties
+echo &apos;sonar.jdbc.password=password&apos; | sudo tee --append /opt/sonarqube/conf/sonar.properties
+echo &apos;sonar.jdbc.url=jdbc:mysql://10.0.1.100:3306/sonarqube_db?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance&apos; | sudo tee --append /opt/sonarqube/conf/sonar.properties
+sudo sed -i &apos;s/#RUN_AS_USER=/RUN_AS_USER=sonarqube/&apos; /opt/sonarqube/bin/linux-x86-64/sonar.sh
+touch /tmp/sonar.service
+echo &quot;[Unit]&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;Description=SonarQube service&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;After=syslog.target network.target&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;[Service]&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;Type=forking&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;User=sonarqube&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;Group=sonarqube&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;Restart=always&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;[Install]&quot; &gt;&gt; /tmp/sonar.service
+echo &quot;WantedBy=multi-user.target&quot; &gt;&gt; /tmp/sonar.service
+sudo cp -f /tmp/sonar.service /etc/systemd/system/
+sudo rm -f /tmp/sonar.service
+sudo systemctl enable sonar
+sudo systemctl start sonar
+cd /opt
+sudo wget http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip
+sudo unzip sonar-runner-dist-2.4.zip
+sudo mv sonar-runner-2.4 sonar-runner
+sudo rm -rf sonar-runner-dist-2.4.zip
+
+</initScript>
+          <tmpDir></tmpDir>
+          <userData></userData>
+          <numExecutors>5</numExecutors>
+          <remoteAdmin>ec2-user</remoteAdmin>
+          <jvmopts></jvmopts>
+          <subnetId>subnet-001c1547d0608805d</subnetId>
+          <idleTerminationMinutes>30</idleTerminationMinutes>
+          <iamInstanceProfile></iamInstanceProfile>
+          <deleteRootOnTermination>false</deleteRootOnTermination>
+          <useEphemeralDevices>false</useEphemeralDevices>
+          <customDeviceMapping></customDeviceMapping>
+          <instanceCap>2147483647</instanceCap>
+          <stopOnTerminate>false</stopOnTerminate>
+          <usePrivateDnsName>false</usePrivateDnsName>
+          <associatePublicIp>false</associatePublicIp>
+          <useDedicatedTenancy>false</useDedicatedTenancy>
+          <amiType class="hudson.plugins.ec2.UnixData">
+            <rootCommandPrefix></rootCommandPrefix>
+            <slaveCommandPrefix></slaveCommandPrefix>
+            <slaveCommandSuffix></slaveCommandSuffix>
+            <sshPort>22</sshPort>
+          </amiType>
+          <launchTimeout>2147483647</launchTimeout>
+          <connectBySSHProcess>false</connectBySSHProcess>
+          <connectUsingPublicIp>false</connectUsingPublicIp>
+          <nextSubnet>0</nextSubnet>
+        </hudson.plugins.ec2.SlaveTemplate>
+      </templates>
+      <region>us-east-1</region>
+      <noDelayProvisioning>false</noDelayProvisioning>
+    </hudson.plugins.ec2.EC2Cloud>
+  </clouds>
+  <quietPeriod>5</quietPeriod>
+  <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
+  <views>
+    <hudson.model.AllView>
+      <owner class="hudson" reference="../../.."/>
+      <name>all</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+    </hudson.model.AllView>
+  </views>
+  <primaryView>all</primaryView>
+  <slaveAgentPort>0</slaveAgentPort>
+  <label></label>
+  <nodeProperties/>
+  <globalNodeProperties/>
+</hudson>

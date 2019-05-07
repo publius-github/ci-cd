@@ -19,6 +19,16 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "file", source: "jenkins/.", destination: "/tmp/vagrant-jenkins"
 
+  config.vm.provision "shell", inline: <<-SHELL
+    chmod 777 -R /tmp/vagrant-puppet/
+    cd /tmp/vagrant-puppet/
+    yum install gem -y
+    gem install librarian-puppet
+    cd /tmp/vagrant-puppet/
+    /usr/local/bin/librarian-puppet install
+    # puppet apply -d --hiera_config=/tmp/vagrant-puppet/hiera.yaml --modulepath=/tmp/vagrant-puppet/localmodules/:/tmp/vagrant-puppet/modules/  /tmp/vagrant-puppet/manifests/site.pp
+  SHELL
+
   config.vm.provision "puppet" do |puppet|
     puppet.working_directory = "/tmp/vagrant-puppet/"
     puppet.hiera_config_path = "puppet/hiera.yaml"
@@ -30,16 +40,6 @@ Vagrant.configure("2") do |config|
     }
   end
 
-  config.vm.provision "shell", inline: <<-SHELL
-    chmod 777 -R /tmp/vagrant-puppet/
-    cd /tmp/vagrant-puppet/
-    yum install gem -y
-    gem install librarian-puppet
-    cd /tmp/vagrant-puppet/
-    /usr/local/bin/librarian-puppet install
-    puppet apply -d --hiera_config=/tmp/vagrant-puppet/hiera.yaml --modulepath=/tmp/vagrant-puppet/localmodules/:/tmp/vagrant-puppet/modules/  /tmp/vagrant-puppet/manifests/site.pp
-  SHELL
-
   config.vm.provision "shell", path: "vagrant/00-vg-sonar.sh"
   config.vm.provision "shell", path: "vagrant/01-vg-docker.sh"
   config.vm.provision "shell", path: "vagrant/02-vg-dotnet.sh"
@@ -48,4 +48,5 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     hostname -I | awk '{print $1}'
   SHELL
+  
 end

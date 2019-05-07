@@ -7,10 +7,6 @@ SHELL = /bin/bash
 TFBUCKETNAME = $(ENVNAME)-tfstate
 TFPLANFILE = ${ENVNAME}-tf.plan
 
-prepare:
-	@aws ecr create-repository --repository-name project-a/nginx-web-app
-	
-
 
 help:
 	@echo -e "\nProject defaults:\n Environment: $(ENVNAME)"
@@ -19,34 +15,26 @@ help:
 
 clean: ## - Clean terraform state
 	@echo -ne "[i] Cleaning Terraform: "
-	@rm -rf .terraform terraform/modules terraform/terraform.plan terraform/${TFPLANFILE} && echo -ne "Done\n"
+	@rm -rf .terraform terraform/01-terraform-jenkins/modules terraform/01-terraform-jenkins/terraform.plan terraform/01-terraform-jenkins/${TFPLANFILE} && echo -ne "Done\n"
 
 init: ## - Initialize terraform
 	@echo "[i] Initializing for $(ENVNAME)"
-	@terraform init \
-		-backend-config "bucket=terraform/$(TFBUCKETNAME)" \
-		-backend-config "prefix=terraform/$(ENVNAME)" \
-		-backend-config "credentials=terraform/${CREDSFILE}" \
-		-get=true \
-		terraform
+	@terraform plan --var-file=terraform/01-terraform-jenkins/vars/$(ENVNAME).tfvars terraform/01-terraform-jenkins/
 
 plan: ## - Plan
 	@echo "[i] Planning for $(ENVNAME)"
-	@terraform plan -out=terraform/${TFPLANFILE} \
-		-var-file=./terraform/vars/$(ENVNAME).tfvars \
-		terraform
-
+	@terraform plan --var-file=terraform/01-terraform-jenkins/vars/$(ENVNAME).tfvars terraform/01-terraform-jenkins/
+		
 apply: ## - Apply Changes
 	@echo "[i] Applying for $(ENVNAME)"
-	@terraform apply -backup=./terraform/ \
-		./terraform/${TFPLANFILE}
-	@rm -rf terraform/$(TFPLANFILE)
+	@terraform apply --auto-approve --var-file=terraform/01-terraform-jenkins/vars/$(ENVNAME).tfvars terraform/01-terraform-jenkins/
+	@rm -rf terraform/01-terraform-jenkins/$(TFPLANFILE)
 
 destroy: ## - Destroy everything in the TF environment
-	@terraform destroy -var-file=terraform/vars/$(ENVNAME).tfvars \
-		-backup=./terraform/ \
+	@terraform destroy -var-file=terraform/01-terraform-jenkins/vars/$(ENVNAME).tfvars \
+		-backup=./terraform/01-terraform-jenkins/ \
 		-var project_id="$(ENVNAME)" \
-		terraform
+		terraform/01-terraform-jenkins/
 
-	@rm -rf terraform/$(TFPLANFILE)
+	@rm -rf terraform/01-terraform-jenkins/$(TFPLANFILE)
 
