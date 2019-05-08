@@ -1,0 +1,55 @@
+pipeline {
+    agent { node 'aws-ec2-cloud' }
+    environment {
+        registry_url = ""
+    }
+    stages {
+        stage ('[i] Clean WC') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage ('[i] GIT') {
+            steps {
+                git branch: 'dev-jenkins', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
+            }
+        }
+        stage('[i] Docker build [TODO]') {
+            steps {
+                    sh 'cd ${WORKSPACE}'
+                    sh 'docker build -f "app-examples/net-howto/TODO/Dockerfile" -t 803808824931.dkr.ecr.us-east-1.amazonaws.com/weathercast:latest .'
+                }
+        }
+        stage('[i] Docker push [TODO]') {
+            steps {
+                script {
+                    docker.withRegistry("https://803808824931.dkr.ecr.us-east-1.amazonaws.com/weathercast", "ecr:us-east-1:aws") {
+                    docker.image("803808824931.dkr.ecr.us-east-1.amazonaws.com/weathercast:latest").push()
+                    }
+                } 
+            }   
+        }
+        stage('[i] Docker build [TODO-UI]') {
+            steps {
+                    echo "${WORKSPACE}"
+                    sh 'cd ${WORKSPACE}'
+                    sh 'ls -lah'
+                    sh 'docker build -f "app-examples/net-howto/TODO-UI/Dockerfile" -t 803808824931.dkr.ecr.us-east-1.amazonaws.com/todo-ui:latest .'
+                }
+        }
+        stage('[i] Docker push [TODO-UI]') {
+            steps {
+                script {
+                    docker.withRegistry("https://803808824931.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:aws") {
+                    docker.image("803808824931.dkr.ecr.us-east-1.amazonaws.com/todo-ui:latest").push()
+                    }
+                } 
+            }   
+        }
+        stage('[i] Remove tmp docker files') {
+            steps {
+                    sh 'docker system prune -a -f'
+            }
+        }
+    }
+}
