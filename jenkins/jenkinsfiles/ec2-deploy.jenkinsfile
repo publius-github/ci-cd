@@ -1,5 +1,6 @@
 pipeline {
-    agent { node 'aws-ec2-cloud' }
+    // agent { node 'aws-ec2-cloud' }
+    agent { node 'master' }
     environment {
         access_key = ""
         secret_key = ""
@@ -22,9 +23,9 @@ pipeline {
         stage('[i] Changing Data in Terraform') {
             steps {
                 sh '''
-                echo "\naws_access_key = \\"$access_key\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
-                echo "app_image = \\"$app\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
+                echo "\napp_image = \\"$app\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
                 echo "app_port = \\"$app_port\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
+                echo "aws_access_key = \\"$access_key\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
                 echo "aws_secret_key = \\"$secret_key\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
                 '''
                 }
@@ -33,10 +34,12 @@ pipeline {
         stage('[i] AWS Deployment') {
             steps {
                 sh '''
+                export AWS_ACCESS_KEY_ID="$access_key"
+                export AWS_SECRET_ACCESS_KEY="$secret_key"
                 cd ${WORKSPACE}/terraform/02-terraform-ecs/
-                terraform init
-                terraform plan -var-file=vars/nonprod.tfvars ./
-                terraform apply -auto-approve -var-file=vars/nonprod.tfvars
+                /usr/local/bin/terraform init
+                /usr/local/bin/terraform plan --var-file=vars/nonprod.tfvars
+                /usr/local/bin/terraform apply -auto-approve --var-file=vars/nonprod.tfvars
                 '''
             }
         }

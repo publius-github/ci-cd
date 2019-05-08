@@ -81,3 +81,8 @@ systemctl restart jenkins
 
 ## EBS mount requirements
 echo "jenkins ALL=(ALL) NOPASSWD: ALL" | sudo tee --append /etc/sudoers > /dev/null 
+
+sudo wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
+sudo unzip terraform_0.11.13_linux_amd64.zip
+sudo mv terraform /usr/local/bin
+sudo rm -f terraform_0.11.13_linux_amd64.zip
