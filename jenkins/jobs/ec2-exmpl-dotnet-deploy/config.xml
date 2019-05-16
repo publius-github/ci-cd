@@ -38,8 +38,10 @@
         stage(&apos;[i] Changing Data in Terraform&apos;) {
             steps {
                 sh &apos;&apos;&apos;
-                echo &quot;app_image = \\&quot;$app\\&quot;&quot; &gt;&gt; ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
+                echo &quot;\napp_image = \\&quot;$app\\&quot;&quot; &gt;&gt; ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
                 echo &quot;app_port = \\&quot;$app_port\\&quot;&quot; &gt;&gt; ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
+                echo &quot;aws_access_key = \\&quot;$access_key\\&quot;&quot; &gt;&gt; ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
+                echo &quot;aws_secret_key = \\&quot;$secret_key\\&quot;&quot; &gt;&gt; ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
                 &apos;&apos;&apos;
                 }
         }

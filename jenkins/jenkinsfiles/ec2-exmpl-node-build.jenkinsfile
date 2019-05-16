@@ -17,7 +17,7 @@ pipeline {
         stage('[i] Docker build [TODO]') {
             steps {
                     sh 'cd ${WORKSPACE}'
-                    sh 'docker build -f "app-examples/net-howto/TODO/Dockerfile" -t 803808824931.dkr.ecr.us-east-1.amazonaws.com/weathercast:latest .'
+                    sh 'docker build -f "app-examples/WeatherForecast/WeatherForecast/Dockerfile" -t 803808824931.dkr.ecr.us-east-1.amazonaws.com/weathercast:latest .'
                 }
         }
         stage('[i] Docker push [TODO]') {
@@ -29,23 +29,7 @@ pipeline {
                 } 
             }   
         }
-        stage('[i] Docker build [TODO-UI]') {
-            steps {
-                    echo "${WORKSPACE}"
-                    sh 'cd ${WORKSPACE}'
-                    sh 'ls -lah'
-                    sh 'docker build -f "app-examples/net-howto/TODO-UI/Dockerfile" -t 803808824931.dkr.ecr.us-east-1.amazonaws.com/todo-ui:latest .'
-                }
-        }
-        stage('[i] Docker push [TODO-UI]') {
-            steps {
-                script {
-                    docker.withRegistry("https://803808824931.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:aws") {
-                    docker.image("803808824931.dkr.ecr.us-east-1.amazonaws.com/todo-ui:latest").push()
-                    }
-                } 
-            }   
-        }
+
         stage('[i] Remove tmp docker files') {
             steps {
                     sh 'docker system prune -a -f'
