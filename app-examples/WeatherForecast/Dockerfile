@@ -9,7 +9,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
 	&& apt install -y nodejs
 
 RUN dotnet restore app-examples/WeatherForecast/WeatherForecast/WeatherForecast.csproj
-RUN dotnet build -r linux-x64 app-examples/WeatherForecast/WeatherForecast/WeatherForecast.csproj
+RUN dotnet build app-examples/WeatherForecast/WeatherForecast/WeatherForecast.csproj
 RUN dotnet publish app-examples/WeatherForecast/WeatherForecast/WeatherForecast.csproj -c Release 
 
 # -----------------
@@ -22,5 +22,6 @@ COPY --from=build ./build/app-examples/WeatherForecast/WeatherForecast/bin/Relea
 WORKDIR /app
 
 EXPOSE 5001
+EXPOSE 5000
 
 CMD ["dotnet", "WeatherForecast.dll"]
