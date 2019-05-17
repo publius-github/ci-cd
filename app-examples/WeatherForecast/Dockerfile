@@ -4,12 +4,12 @@ WORKDIR /build
 
 COPY . /build
 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \ 
+RUN curl -sL https://deb.nodesource.com/setup_12@.x | bash - \ 
 	&& apt update \
 	&& apt install -y nodejs
 
 RUN dotnet restore app-examples/WeatherForecast/WeatherForecast/WeatherForecast.csproj
-RUN dotnet build app-examples/WeatherForecast/WeatherForecast/WeatherForecast.csproj
+RUN dotnet build -r linux-x64 app-examples/WeatherForecast/WeatherForecast/WeatherForecast.csproj
 RUN dotnet publish app-examples/WeatherForecast/WeatherForecast/WeatherForecast.csproj -c Release 
 
 # -----------------
