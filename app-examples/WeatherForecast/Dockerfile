@@ -12,6 +12,7 @@ RUN dotnet restore app-examples/WeatherForecast/WeatherForecast/WeatherForecast.
 RUN dotnet build app-examples/WeatherForecast/WeatherForecast/WeatherForecast.csproj
 RUN dotnet publish app-examples/WeatherForecast/WeatherForecast/WeatherForecast.csproj -c Release 
 
+RUN dotnet test --configuration Release --no-build app-examples/WeatherForecast/WeatherForecastTests/WeatherForecastTests.csproj
 # -----------------
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
