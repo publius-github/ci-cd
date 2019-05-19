@@ -30,11 +30,3 @@ variable "fargate_memory" {
   description = "Fargate instance memory to provision (in MiB)"
   default     = "2048"
 }
-
-variable "aws_access_key" {
-  type = "string"
-}
-
-variable "aws_secret_key" {
-  type = "string"
-}
