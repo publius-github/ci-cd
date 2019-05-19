@@ -1,6 +1,6 @@
 pipeline {
-    // agent { node 'aws-ec2-cloud' }
-    agent { node 'master' }
+    agent { node 'aws-ec2-cloud' }
+    // agent { node 'master' }
     environment {
         access_key = credentials('env-aws-access-key')
         secret_key = credentials('env-aws-secret-key')
@@ -8,7 +8,6 @@ pipeline {
         app_port = ""
     }
     stages {
-
         stage ('[i] Clean WC') {
             steps {
                 cleanWs()
@@ -19,7 +18,6 @@ pipeline {
                 git branch: 'dev-jenkins', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
             }
         }
-
         stage('[i] Changing Data in Terraform') {
             steps {
                 sh '''
@@ -30,8 +28,7 @@ pipeline {
                 '''
                 }
         }
-
-        stage('[i] AWS Deployment') {
+        stage('[i] AWS Destroy') {
             steps {
                 sh '''
                 export AWS_ACCESS_KEY_ID="$access_key"
@@ -39,7 +36,7 @@ pipeline {
                 cd ${WORKSPACE}/terraform/02-terraform-ecs/
                 /usr/local/bin/terraform init
                 /usr/local/bin/terraform plan --var-file=vars/nonprod.tfvars
-                /usr/local/bin/terraform apply -auto-approve --var-file=vars/nonprod.tfvars
+                /usr/local/bin/terraform destroy -auto-approve --var-file=vars/nonprod.tfvars
                 '''
             }
         }
