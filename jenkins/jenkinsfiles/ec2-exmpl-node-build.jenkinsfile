@@ -1,7 +1,8 @@
 pipeline {
     agent { node 'aws-ec2-cloud' }
     environment {
-        registry_url = ""
+        registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
+        app_weathercast = "weathercast:latest"
     }
     stages {
         stage ('[i] Clean WC') {
@@ -17,14 +18,14 @@ pipeline {
         stage('[i] Docker build [TODO]') {
             steps {
                     sh 'cd ${WORKSPACE}'
-                    sh 'docker build -f "app-examples/WeatherForecast/Dockerfile" -t 803808824931.dkr.ecr.us-east-1.amazonaws.com/weathercast:latest .'
+                    sh 'docker build -f "app-examples/WeatherForecast/Dockerfile" -t $registry_url/$app_weathercast .'
                 }
         }
         stage('[i] Docker push [TODO]') {
             steps {
                 script {
-                    docker.withRegistry("https://803808824931.dkr.ecr.us-east-1.amazonaws.com/weathercast", "ecr:us-east-1:aws") {
-                    docker.image("803808824931.dkr.ecr.us-east-1.amazonaws.com/weathercast:latest").push()
+                    docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {
+                    docker.image("$registry_url/$app_weathercast").push()
                     }
                 } 
             }   

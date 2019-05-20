@@ -16,7 +16,9 @@
     <script>pipeline {
     agent { node &apos;aws-ec2-cloud&apos; }
     environment {
-        registry_url = &quot;&quot;
+        registry_url = &quot;803808824931.dkr.ecr.us-east-1.amazonaws.com&quot;
+        app1_todo = &quot;todo:latest&quot;
+        app1_todo_ui = &quot;todo-ui:latest&quot;
     }
     stages {
         stage (&apos;[i] Clean WC&apos;) {
@@ -32,14 +34,14 @@
         stage(&apos;[i] Docker build [TODO]&apos;) {
             steps {
                     sh &apos;cd ${WORKSPACE}&apos;
-                    sh &apos;docker build -f &quot;app-examples/net-howto/TODO/Dockerfile&quot; -t 803808824931.dkr.ecr.us-east-1.amazonaws.com/todo:latest .&apos;
+                    sh &apos;docker build -f &quot;app-examples/net-howto/TODO/Dockerfile&quot; -t $registry_url/$app1_todo .&apos;
                 }
         }
         stage(&apos;[i] Docker push [TODO]&apos;) {
             steps {
                 script {
-                    docker.withRegistry(&quot;https://803808824931.dkr.ecr.us-east-1.amazonaws.com&quot;, &quot;ecr:us-east-1:aws&quot;) {
-                    docker.image(&quot;803808824931.dkr.ecr.us-east-1.amazonaws.com/todo:latest&quot;).push()
+                    docker.withRegistry(&quot;https://$registry_url&quot;, &quot;ecr:us-east-1:aws&quot;) {
+                    docker.image(&quot;$registry_url/$app1_todo&quot;).push()
                     }
                 }
             }
@@ -49,14 +51,14 @@
                     echo &quot;${WORKSPACE}&quot;
                     sh &apos;cd ${WORKSPACE}&apos;
                     sh &apos;ls -lah&apos;
-                    sh &apos;docker build -f &quot;app-examples/net-howto/TODO-UI/Dockerfile&quot; -t 803808824931.dkr.ecr.us-east-1.amazonaws.com/todo-ui:latest .&apos;
+                    sh &apos;docker build -f &quot;app-examples/net-howto/TODO-UI/Dockerfile&quot; -t $registry_url/$app1_todo_ui .&apos;
                 }
         }
         stage(&apos;[i] Docker push [TODO-UI]&apos;) {
             steps {
                 script {
-                    docker.withRegistry(&quot;https://803808824931.dkr.ecr.us-east-1.amazonaws.com&quot;, &quot;ecr:us-east-1:aws&quot;) {
-                    docker.image(&quot;803808824931.dkr.ecr.us-east-1.amazonaws.com/todo-ui:latest&quot;).push()
+                    docker.withRegistry(&quot;https://$registry_url&quot;, &quot;ecr:us-east-1:aws&quot;) {
+                    docker.image(&quot;$registry_url/$app1_todo_ui&quot;).push()
                     }
                 }
             }
