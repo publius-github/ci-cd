@@ -6,6 +6,8 @@ pipeline {
         secret_key = credentials('env-aws-secret-key')
         app = ""
         app_port = ""
+        // app = "803808824931.dkr.ecr.us-east-1.amazonaws.com/weathercast:latest"
+        // app_port = "80"
     }
     stages {
 
