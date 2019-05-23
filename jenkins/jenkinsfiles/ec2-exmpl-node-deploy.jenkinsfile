@@ -1,6 +1,6 @@
 pipeline {
-    // agent { node 'aws-ec2-cloud' }
-    agent { node 'master' }
+    agent { node 'aws-ec2-cloud' }
+    // agent { node 'master' }
     environment {
         access_key = credentials('env-aws-access-key')
         secret_key = credentials('env-aws-secret-key')

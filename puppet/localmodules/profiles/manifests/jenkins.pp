@@ -62,7 +62,8 @@ class profiles::jenkins {
   jenkins::plugin { 'resource-disposer': }
   jenkins::plugin { 'bouncycastle-api': }
   jenkins::plugin { 'node-iterator-api': }
-  jenkins::plugin { 'aws-credentials': }
+  jenkins::plugin { 'variant': }
+  jenkins::plugin { 'aws-credentials':  }
   jenkins::plugin { 'aws-java-sdk': }
   jenkins::plugin { 'git': }
   jenkins::plugin { 'ec2': }

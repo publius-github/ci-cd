@@ -12,7 +12,7 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties/>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.67">
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.68">
     <script>pipeline {
     agent { node &apos;aws-ec2-cloud&apos; }
     environment {
@@ -31,6 +31,13 @@
                 git branch: &apos;dev-jenkins&apos;, credentialsId: &apos;github&apos;, url: &apos;https://github.com/publius-github/ci-cd.git&apos;
             }
         }
+        stage(&apos;[i] Sonarqube analyse [TODO]&apos;) {
+            steps {
+                sh &apos;&apos;&apos;
+                    /opt/sonar-runner/bin/sonar-runner -Dsonar.projectKey=$app1_todo -Dsonar.sources=${WORKSPACE}/app-examples/net-howto/TODO -Dsonar.projectBaseDir=${WORKSPACE}/app-examples/net-howto/TODO
+                &apos;&apos;&apos;
+            }
+        }
         stage(&apos;[i] Docker build [TODO]&apos;) {
             steps {
                     sh &apos;cd ${WORKSPACE}&apos;
@@ -46,11 +53,16 @@
                 }
             }
         }
+        stage(&apos;[i] Sonarqube analyse [TODO-UI]&apos;) {
+            steps {
+                sh &apos;&apos;&apos;
+                    /opt/sonar-runner/bin/sonar-runner -Dsonar.projectKey=$app1_todo_ui -Dsonar.sources=${WORKSPACE}/app-examples/net-howto/TODO-UI -Dsonar.projectBaseDir=${WORKSPACE}/app-examples/net-howto/TODO-UI
+                &apos;&apos;&apos;
+            }
+        }
         stage(&apos;[i] Docker build [TODO-UI]&apos;) {
             steps {
-                    echo &quot;${WORKSPACE}&quot;
                     sh &apos;cd ${WORKSPACE}&apos;
-                    sh &apos;ls -lah&apos;
                     sh &apos;docker build -f &quot;app-examples/net-howto/TODO-UI/Dockerfile&quot; -t $registry_url/$app1_todo_ui .&apos;
                 }
         }

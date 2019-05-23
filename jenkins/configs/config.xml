@@ -96,6 +96,8 @@ sudo wget http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-d
 sudo unzip sonar-runner-dist-2.4.zip
 sudo mv sonar-runner-2.4 sonar-runner
 sudo rm -rf sonar-runner-dist-2.4.zip
+sudo curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+sudo yum -y install nodejs
 
 </initScript>
           <tmpDir></tmpDir>

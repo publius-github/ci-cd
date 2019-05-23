@@ -36,7 +36,7 @@ resource "aws_instance" "jenkins" {
   }
 
   provisioner "file" {
-    source      = "../../puppet"
+    source      = "puppet"
     destination = "/opt/cicd"
 
     connection {
@@ -47,7 +47,7 @@ resource "aws_instance" "jenkins" {
   }
 
   provisioner "file" {
-    source      = "../../jenkins"
+    source      = "jenkins"
     destination = "/opt/cicd"
 
     connection {
@@ -58,7 +58,7 @@ resource "aws_instance" "jenkins" {
   }
 
   provisioner "file" {
-    source      = "boot_scripts/global.sh"
+    source      = "terraform/01-terraform-jenkins/boot_scripts/global.sh"
     destination = "/opt/cicd/global.sh"
 
     connection {

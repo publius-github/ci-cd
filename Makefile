@@ -19,7 +19,7 @@ clean: ## - Clean terraform state
 
 init: ## - Initialize terraform
 	@echo "[i] Initializing for $(ENVNAME)"
-	@terraform plan --var-file=terraform/01-terraform-jenkins/vars/$(ENVNAME).tfvars terraform/01-terraform-jenkins/
+	@terraform init terraform/01-terraform-jenkins/
 
 plan: ## - Plan
 	@echo "[i] Planning for $(ENVNAME)"

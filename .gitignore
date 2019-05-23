@@ -1,6 +1,9 @@
 # vagrant
 .vagrant
 
+# terraform
+.terraform
+
 # terraform-infra
 terraform/00-terraform-infra/.*
 terraform/00-terraform-infra/vars/jenkins-ci-cd.tfvars

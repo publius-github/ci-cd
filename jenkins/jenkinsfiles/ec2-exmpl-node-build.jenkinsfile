@@ -15,13 +15,20 @@ pipeline {
                 git branch: 'dev-jenkins', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
             }
         }
-        stage('[i] Docker build [TODO]') {
+        stage('[i] Sonarqube analyse') {
+            steps {
+                sh '''
+                    /opt/sonar-runner/bin/sonar-runner -Dsonar.projectKey=$app_weathercast -Dsonar.sources=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecast -Dsonar.tests=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecastTests -Dsonar.projectBaseDir=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecast
+                '''
+            }
+        }
+        stage('[i] Docker build [WeatherForecast]') {
             steps {
                     sh 'cd ${WORKSPACE}'
                     sh 'docker build -f "app-examples/WeatherForecast/Dockerfile" -t $registry_url/$app_weathercast .'
                 }
         }
-        stage('[i] Docker push [TODO]') {
+        stage('[i] Docker push [WeatherForecast]') {
             steps {
                 script {
                     docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {

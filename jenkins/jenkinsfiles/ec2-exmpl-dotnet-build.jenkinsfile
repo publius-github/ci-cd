@@ -16,6 +16,13 @@ pipeline {
                 git branch: 'dev-jenkins', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
             }
         }
+        stage('[i] Sonarqube analyse [TODO]') {
+            steps {
+                sh '''
+                    /opt/sonar-runner/bin/sonar-runner -Dsonar.projectKey=$app1_todo -Dsonar.sources=${WORKSPACE}/app-examples/net-howto/TODO -Dsonar.projectBaseDir=${WORKSPACE}/app-examples/net-howto/TODO
+                '''
+            }
+        }
         stage('[i] Docker build [TODO]') {
             steps {
                     sh 'cd ${WORKSPACE}'
@@ -31,11 +38,16 @@ pipeline {
                 } 
             }   
         }
+        stage('[i] Sonarqube analyse [TODO-UI]') {
+            steps {
+                sh '''
+                    /opt/sonar-runner/bin/sonar-runner -Dsonar.projectKey=$app1_todo_ui -Dsonar.sources=${WORKSPACE}/app-examples/net-howto/TODO-UI -Dsonar.projectBaseDir=${WORKSPACE}/app-examples/net-howto/TODO-UI
+                '''
+            }
+        }
         stage('[i] Docker build [TODO-UI]') {
             steps {
-                    echo "${WORKSPACE}"
                     sh 'cd ${WORKSPACE}'
-                    sh 'ls -lah'
                     sh 'docker build -f "app-examples/net-howto/TODO-UI/Dockerfile" -t $registry_url/$app1_todo_ui .'
                 }
         }

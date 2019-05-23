@@ -12,7 +12,7 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties/>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.67">
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.68">
     <script>pipeline {
     agent { node &apos;aws-ec2-cloud&apos; }
     environment {
@@ -30,13 +30,20 @@
                 git branch: &apos;dev-jenkins&apos;, credentialsId: &apos;github&apos;, url: &apos;https://github.com/publius-github/ci-cd.git&apos;
             }
         }
-        stage(&apos;[i] Docker build [TODO]&apos;) {
+        stage(&apos;[i] Sonarqube analyse&apos;) {
+            steps {
+                sh &apos;&apos;&apos;
+                    /opt/sonar-runner/bin/sonar-runner -Dsonar.projectKey=$app_weathercast -Dsonar.sources=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecast -Dsonar.tests=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecastTests -Dsonar.projectBaseDir=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecast
+                &apos;&apos;&apos;
+            }
+        }
+        stage(&apos;[i] Docker build [WeatherForecast]&apos;) {
             steps {
                     sh &apos;cd ${WORKSPACE}&apos;
                     sh &apos;docker build -f &quot;app-examples/WeatherForecast/Dockerfile&quot; -t $registry_url/$app_weathercast .&apos;
                 }
         }
-        stage(&apos;[i] Docker push [TODO]&apos;) {
+        stage(&apos;[i] Docker push [WeatherForecast]&apos;) {
             steps {
                 script {
                     docker.withRegistry(&quot;https://$registry_url&quot;, &quot;ecr:us-east-1:aws&quot;) {

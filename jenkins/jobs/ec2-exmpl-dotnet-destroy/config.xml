@@ -18,7 +18,7 @@
     agent { node &apos;master&apos; }
     environment {
         access_key = credentials(&apos;env-aws-access-key&apos;)
-        secret_key = credentials(&apos;env-aws-access-key&apos;)
+        secret_key = credentials(&apos;env-aws-secret-key&apos;)
         app = &quot;&quot;
         app_port = &quot;&quot;
     }
