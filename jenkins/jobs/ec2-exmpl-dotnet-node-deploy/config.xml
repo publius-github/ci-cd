@@ -14,8 +14,8 @@
   <properties/>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.67">
     <script>pipeline {
-    // agent { node &apos;aws-ec2-cloud&apos; }
-    agent { node &apos;master&apos; }
+    agent { node &apos;aws-ec2-cloud&apos; }
+    // agent { node &apos;master&apos; }
     environment {
         access_key = credentials(&apos;env-aws-access-key&apos;)
         secret_key = credentials(&apos;env-aws-secret-key&apos;)

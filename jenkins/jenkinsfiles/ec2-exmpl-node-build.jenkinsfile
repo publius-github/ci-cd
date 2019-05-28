@@ -18,14 +18,22 @@ pipeline {
         stage('[i] Sonarqube analyse') {
             steps {
                 sh '''
-                    /opt/sonar-runner/bin/sonar-runner -Dsonar.projectKey=$app_weathercast -Dsonar.sources=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecast -Dsonar.tests=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecastTests -Dsonar.projectBaseDir=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecast
+                    echo "=========================== Sonarqube analyse ==========================="
+                    /opt/sonar-runner/bin/sonar-runner \
+                        -Dsonar.projectKey=$app_weathercast \
+                        -Dsonar.sources=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecast \
+                        -Dsonar.tests=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecastTests \
+                        -Dsonar.projectBaseDir=${WORKSPACE}/app-examples/WeatherForecast/WeatherForecast
                 '''
             }
         }
         stage('[i] Docker build [WeatherForecast]') {
             steps {
-                    sh 'cd ${WORKSPACE}'
-                    sh 'docker build -f "app-examples/WeatherForecast/Dockerfile" -t $registry_url/$app_weathercast .'
+                    sh '''
+                    echo "=========================== Build docker $app_weathercast image ==========================="
+                    cd ${WORKSPACE}
+                    docker build -f "app-examples/WeatherForecast/Dockerfile" -t $registry_url/$app_weathercast .
+                    '''
                 }
         }
         stage('[i] Docker push [WeatherForecast]') {
@@ -45,3 +53,54 @@ pipeline {
         }
     }
 }
+
+/opt/sonar-runner/bin/sonar-runner -Dsonar.projectKey=weathercast:latest -Dsonar.sources=/home/ec2-user/workspace/ec2-exmpl-dotnet-node-build/app-examples/WeatherForecast/WeatherForecast -Dsonar.tests=/home/ec2-user/workspace/ec2-exmpl-dotnet-node-build/app-examples/WeatherForecast/WeatherForecastTests -Dsonar.projectBaseDir=/home/ec2-user/workspace/ec2-exmpl-dotnet-node-build/app-examples/WeatherForecast/WeatherForecast -Dsonar.working.directory=/home/sonar-report -Dsonar.verbose=true -Dsonar.analysis.mode=incremental -Dsonar.issuesReport.html.enable=true -Dsonar.issuesReport.html.location=/home/sonar-report -Dsonar.issuesReport.html.name=sample -Dsonar.login=admin -Dsonar.password=admin
+
+
+error() {
+  echo ">>>>>> Failed to run sonarqube <<<<<<<<<"
+  echo ""
+
+  exit 1
+}
+
+trap error ERR
+
+CURRENT_DIR=`pwd`
+
+echo
+echo =============================================================================
+echo running sonarqube at $CURRENT_DIR
+echo =============================================================================
+echo
+
+ls -la 
+
+docker run -t -v $CURRENT_DIR:/usr/src newtmitch/sonar-scanner:3.3.0-alpine \
+  -Dsonar.host.url=https://sonarqube-security.test.ctmers.io \
+  -Dsonar.projectKey=$PRODUCT_KEY.$APP_NAME \
+  -Dsonar.projectName=$PRODUCT_NAME.$APP_NAME \
+  -Dsonar.projectVersion=1 \
+  -Dsonar.projectBaseDir=. \
+  -Dsonar.sources=. \
+  -Dsonar.exclusions=**/node_modules/**/*.*,**/coverage/**/*.* \
+  -Dsonar.language=js \
+  -Dsonar.sourceEncoding=UTF-8 \
+  -Dsonar.verbose=false \
+  -Dsonar.log.level=TRACE \
+  -Dsonar.scanner.metadataFilePath=/usr/lib/sonar-scanner/conf \
+  -Dsonar.working.directory=/usr/lib/sonar-scanner/conf 
+
+
+sleep 10
+
+STATUS=$(curl -d "login=${SCANNER_LOGIN}&password=${SCANNER_PASSWORD}" https://sonarqube-security.test.ctmers.io/api/authentication/login --cookie-jar sonarqube.cookies.txt)
+echo $STATUS
+
+STATUSCODE=$(curl -b sonarqube.cookies.txt https://sonarqube-security.test.ctmers.io//api/qualitygates/project_status?projectKey=$PRODUCT_KEY.$APP_NAME | jq '.projectStatus.status')
+echo "status code is : "$STATUSCODE
+if [ $STATUSCODE != '"OK"' ]; then
+    echo "Sonarqube quality criteria not met. Check the dashboard at https://sonarqube-security.test.ctmers.io/dashboard/index/$PRODUCT_NAME.$APP_NAME"
+    exit 1
+fi
+  exit 0

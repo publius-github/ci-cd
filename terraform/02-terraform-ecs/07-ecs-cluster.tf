@@ -1,7 +1,9 @@
-resource "aws_ecs_cluster" "main" {
-  name = "tf-ecs-cluster"
+// resource "aws_ecs_cluster" "main" {
+//   name = "tf-ecs-cluster"
+// }
+data "aws_ecs_cluster" "main" {
+  cluster_name = "tf-ecs-cluster"
 }
-
 resource "aws_ecs_task_definition" "app" {
   family                   = "app"
   network_mode             = "awsvpc"
