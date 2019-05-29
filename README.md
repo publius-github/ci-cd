@@ -41,11 +41,14 @@ How it works:
 > * Subnet IDs for VPC
 
 5. Add credentials to jenkins
+
+$sonar-login
+$sonar-password
+aws
+$env-aws-access-key
+$env-aws-secret-key
+
 6. BUILD! 
-
-
-
-
 
 
 
@@ -62,9 +65,6 @@ How it works:
 > 7. grep subnet ID after creating -> config.xml <br/>
 > 8. find the way to provide ec2 private key properly <br/>
 
-
-> 9. sonar pipeline <br/> 
 > 10. sonar logs to s3 <br/>
-
 
 > 13. change vpss ecs to ECS -NETWORK
