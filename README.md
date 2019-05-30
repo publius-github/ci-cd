@@ -28,31 +28,17 @@ How it works:
 2. Type `make init`
 3. Type `make plan`
 4. Type `make apply`
-
-> Now you have configured jenkins master in your AWS account with role, that allows build every job on dinamic agent
->
-> [need to be autmate in future]<br/>
-> **You need to change some fields in preferences:**<br/>
->
-> Settings/cloud/Amazon EC2<br/>
-> * EC2 Key Pair's Private Key <br/>
-
 5. Add credentials to jenkins
-
-sonar-login
-sonar-password
-aws
-env-aws-access-key
-env-aws-secret-key
-
+> sonar-login<br/>
+> sonar-password<br/>
+> aws<br/>
+> env-aws-access-key<br/>
+> env-aws-secret-key<br/>
 6. BUILD! 
 
 
 
-
-
-> 1. Create ECR in terraform, and comment it <br/>
-> 2. create s3<br/>
-> 3. find the way to provide ec2 private key properly <br/>
-> 4. artifact to s3 <br/>
-
+> 1. Create ECR in 00-terraform<br/>
+> 2. Create s3 in 00-terraform<br/>
+> 3. Provide ec2 private key to config.xml <br/>
+> 4. Pipeline: artifact to s3 (assume role to ec2?) > 01-terraform<br/>
