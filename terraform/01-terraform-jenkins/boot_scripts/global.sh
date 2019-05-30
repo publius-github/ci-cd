@@ -77,15 +77,15 @@ mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
 cp -rf /opt/cicd/jenkins/jobs/* /var/lib/jenkins/jobs/
 cp -rf /opt/cicd/jenkins/configs/* /var/lib/jenkins/
 chown jenkins:jenkins -R /var/lib/jenkins
+
+## Configure Jenkins
+MAC=$(curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/)
+SUBNET_ID=$(curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC\subnet-id)
+sed -i "s/subnet-id/$SUBNET_ID/g" /var/lib/jenkins/config.xml
 systemctl restart jenkins
 
 ## EBS mount requirements
 echo "jenkins ALL=(ALL) NOPASSWD: ALL" | sudo tee --append /etc/sudoers > /dev/null 
-
-sudo wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
-sudo unzip terraform_0.11.13_linux_amd64.zip
-sudo mv terraform /usr/local/bin
-sudo rm -f terraform_0.11.13_linux_amd64.zip
 
 ## SONARQUBE 
 useradd sonarqube

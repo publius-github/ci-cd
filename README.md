@@ -36,35 +36,23 @@ How it works:
 >
 > Settings/cloud/Amazon EC2<br/>
 > * EC2 Key Pair's Private Key <br/>
->
-> Settings/cloud/Amazon EC2/Advanced<br/>
-> * Subnet IDs for VPC
 
 5. Add credentials to jenkins
 
-$sonar-login
-$sonar-password
+sonar-login
+sonar-password
 aws
-$env-aws-access-key
-$env-aws-secret-key
+env-aws-access-key
+env-aws-secret-key
 
 6. BUILD! 
 
 
 
 
-> **What should be done in future:**<br/>
->
-> ***Case_1*** (Dinamic jenkins agent) <br/>
-> preparation
-> 0. Create ECR in terraform, and comment it <br/>
-> 0. create s3<br/>
 
+> 1. Create ECR in terraform, and comment it <br/>
+> 2. create s3<br/>
+> 3. find the way to provide ec2 private key properly <br/>
+> 4. artifact to s3 <br/>
 
-> deploy
-> 7. grep subnet ID after creating -> config.xml <br/>
-> 8. find the way to provide ec2 private key properly <br/>
-
-> 10. sonar logs to s3 <br/>
-
-> 13. change vpss ecs to ECS -NETWORK

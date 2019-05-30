@@ -1,11 +1,11 @@
 pipeline {
-    agent { node 'aws-ec2-cloud' }
-    // agent { node 'master' }
+    agent { node 'aws-ec2-test' }
     environment {
         access_key = credentials('env-aws-access-key')
         secret_key = credentials('env-aws-secret-key')
-        app = ""
-        app_port = ""
+        registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
+        app_weathercast = "weathercast:latest"
+        app_port = "80"
     }
     stages {
         stage ('[i] Clean WC') {
@@ -21,7 +21,7 @@ pipeline {
         stage('[i] Changing Data in Terraform') {
             steps {
                 sh '''
-                echo "\napp_image = \\"$app\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
+                echo "\napp_image = \\"$registry_url/$app_weathercast\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
                 echo "app_port = \\"$app_port\\"" >> ${WORKSPACE}/terraform/02-terraform-ecs/vars/nonprod.tfvars
                 '''
                 }

@@ -107,6 +107,8 @@ class profiles::jenkins {
   jenkins::plugin { 'docker-workflow': }
   jenkins::plugin { 'amazon-ecr': }
   jenkins::plugin { 'jaxb': }
+  jenkins::plugin { 'h2-api': }
+  jenkins::plugin { 'pipeline-timeline': }
 
   file { '/var/lib/jenkins/init.groovy.d/':
   ensure  => 'directory',
