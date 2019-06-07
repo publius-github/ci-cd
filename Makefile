@@ -1,4 +1,4 @@
-ENVNAME = jenkins-ci-cd
+ENVNAME = nonprod
 
 .PHONY: help clean init plan apply destroy
 
