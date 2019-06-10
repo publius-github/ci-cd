@@ -29,3 +29,6 @@ puppet/manifests-*
 puppet/modules/*
 puppet/modules-*
 puppet/Puppetfile.lock
+
+# docker
+docker/jenkins/home
