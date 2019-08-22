@@ -42,3 +42,7 @@ How it works:
 > 2. Create s3 in 00-terraform<br/>
 > 3. Provide ec2 private key to config.xml <br/>
 > 4. Pipeline: artifact to s3 (assume role to ec2?) > 01-terraform<br/>
+
+
+unit во время билда
+api в контейнере
