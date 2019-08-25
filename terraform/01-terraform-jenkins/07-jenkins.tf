@@ -21,7 +21,7 @@ resource "aws_instance" "jenkins" {
   subnet_id              = "${aws_subnet.main.id}"
   private_ip             = "10.0.1.100"
   key_name               = "${aws_key_pair.auth.id}"
-
+  # user_data = "#!/bin/bash\nmkdir /data; mount /dev/xvdh /data; service docker restart;"
   provisioner "remote-exec" {
     inline = [
       "sudo mkdir -p /opt/cicd",

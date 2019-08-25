@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "docker/", "/tmp/vagrant-docker/"
 
-  config.vm.network "public_network", bridge: "Default Switch"
+  # config.vm.network "public_network", bridge: "Default Switch"
   config.vm.network "forwarded_port", guest: 22, host: 2222
   # Jenkins 
   config.vm.network "forwarded_port", guest: 8080, host: 8080
@@ -44,9 +44,9 @@ Vagrant.configure("2") do |config|
   # Start apps
   config.vm.provision "shell", inline: <<-SHELL
     cd /tmp/vagrant-docker/
-    docker build -f jenkins.dockerfile -t cicd-jenkins .
-    # docker build -f sonar.dockerfile -t cicd-jenkins .
-    docker-compose up
+    docker build -f jenkins-docker.dockerfile -t cicd-jenkins .
+  #   # docker build -f sonar.dockerfile -t cicd-jenkins .
+  #   docker-compose up
+  # SHELL
 
-  SHELL
 end
