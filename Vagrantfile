@@ -9,17 +9,13 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "docker/", "/tmp/vagrant-docker/"
 
-  # config.vm.network "public_network", bridge: "Default Switch"
+  config.vm.network "public_network", bridge: "Default Switch"
   config.vm.network "forwarded_port", guest: 22, host: 2222
   # Jenkins 
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.network "forwarded_port", guest: 50000, host: 50000
   # Sonarqube
   config.vm.network "forwarded_port", guest: 9000, host: 9000
-
-  # config.vm.provision "file", source: "jenkins/.", destination: "/tmp/vagrant-jenkins"
-
-  # config.vm.provision "shell", path: "vagrant/03-vg-copy-jobs.sh"
 
   # Pre-configure
   config.vm.provision "shell", inline: <<-SHELL
@@ -44,9 +40,9 @@ Vagrant.configure("2") do |config|
   # Start apps
   config.vm.provision "shell", inline: <<-SHELL
     cd /tmp/vagrant-docker/
-    docker build -f jenkins-docker.dockerfile -t cicd-jenkins .
-  #   # docker build -f sonar.dockerfile -t cicd-jenkins .
-  #   docker-compose up
-  # SHELL
+    docker build -f jenkins.dockerfile -t cicd-jenkins .
+    # docker build -f sonar.dockerfile -t cicd-sonar .
+    docker-compose up
+  SHELL
 
 end
