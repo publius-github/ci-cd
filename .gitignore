@@ -5,22 +5,22 @@
 .terraform
 
 # terraform-infra
-terraform/00-terraform-infra/.*
-terraform/00-terraform-infra/vars/jenkins-ci-cd.tfvars
-terraform/00-terraform-infra/terraform.tfstate
-terraform/00-terraform-infra/terraform.tfstate.backup
+terraform/00-cicd-infra/.*
+terraform/00-cicd-infra/vars/jenkins-ci-cd.tfvars
+terraform/00-cicd-infra/terraform.tfstate
+terraform/00-cicd-infra/terraform.tfstate.backup
 
 # terraform-jenkins
-terraform/01-terraform-jenkins/.*
-terraform/01-terraform-jenkins/vars/jenkins-ci-cd.tfvars
-terraform/01-terraform-jenkins/terraform.tfstate
-terraform/01-terraform-jenkins/terraform.tfstate.backup
+terraform/01-cicd-jenkins/.*
+terraform/01-cicd-jenkins/vars/jenkins-ci-cd.tfvars
+terraform/01-cicd-jenkins/terraform.tfstate
+terraform/01-cicd-jenkins/terraform.tfstate.backup
 
 # terraform-ecs
-terraform/02-terraform-ecs/.*
-terraform/02-terraform-ecs/vars/jenkins-ci-cd.tfvars
-terraform/02-terraform-ecs/terraform.tfstate
-terraform/02-terraform-ecs/terraform.tfstate.backup
+terraform/02-cicd-ecs/.*
+terraform/02-cicd-ecs/vars/jenkins-ci-cd.tfvars
+terraform/02-cicd-ecs/terraform.tfstate
+terraform/02-cicd-ecs/terraform.tfstate.backup
 
 # puppet
 puppet/.librarian

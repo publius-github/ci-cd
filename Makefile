@@ -1,4 +1,4 @@
-ENVNAME = nonprod
+ENVNAME = jenkins-ci-cd
 
 .PHONY: help clean init plan apply destroy
 
@@ -15,26 +15,35 @@ help:
 
 clean: ## - Clean terraform state
 	@echo -ne "[i] Cleaning Terraform: "
-	@rm -rf .terraform terraform/01-terraform-jenkins/modules terraform/01-terraform-jenkins/terraform.plan terraform/01-terraform-jenkins/${TFPLANFILE} && echo -ne "Done\n"
+	@rm -rf .terraform terraform/01-cicd-jenkins/modules terraform/01-cicd-jenkins/terraform.plan terraform/01-cicd-jenkins/${TFPLANFILE} && echo -ne "Done\n"
 
-init: ## - Initialize terraform
+plan00:
 	@echo "[i] Initializing for $(ENVNAME)"
-	@terraform init terraform/01-terraform-jenkins/
-
-plan: ## - Plan
+	@terraform init terraform/00-cicd-infra/
 	@echo "[i] Planning for $(ENVNAME)"
-	@terraform plan --var-file=terraform/01-terraform-jenkins/vars/$(ENVNAME).tfvars terraform/01-terraform-jenkins/
-		
-apply: ## - Apply Changes
+	@terraform plan --var-file=terraform/00-cicd-infra/vars/$(ENVNAME).tfvars terraform/00-cicd-infra/
+
+apply00: ## - Apply Changes
 	@echo "[i] Applying for $(ENVNAME)"
-	@terraform apply --auto-approve --var-file=terraform/01-terraform-jenkins/vars/$(ENVNAME).tfvars terraform/01-terraform-jenkins/
-	@rm -rf terraform/01-terraform-jenkins/$(TFPLANFILE)
+	@terraform apply --auto-approve --var-file=terraform/00-cicd-infra/vars/$(ENVNAME).tfvars terraform/00-cicd-infra/
+	@rm -rf terraform/00-cicd-infra/$(TFPLANFILE)
 
-destroy: ## - Destroy everything in the TF environment
-	@terraform destroy -var-file=terraform/01-terraform-jenkins/vars/$(ENVNAME).tfvars \
-		-backup=./terraform/01-terraform-jenkins/ \
+plan01: ## - Plan
+	@echo "[i] Initializing for $(ENVNAME)"
+	@terraform init terraform/01-cicd-jenkins/
+	@echo "[i] Planning for $(ENVNAME)"
+	@terraform plan --var-file=terraform/01-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/01-cicd-jenkins/
+		
+apply01: ## - Apply Changes
+	@echo "[i] Applying for $(ENVNAME)"
+	@terraform apply --auto-approve --var-file=terraform/01-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/01-cicd-jenkins/
+	@rm -rf terraform/01-cicd-jenkins/$(TFPLANFILE)
+
+destroy01: ## - Destroy everything in the TF environment
+	@terraform destroy -var-file=terraform/01-cicd-jenkins/vars/$(ENVNAME).tfvars \
+		-backup=./terraform/01-cicd-jenkins/ \
 		-var project_id="$(ENVNAME)" \
-		terraform/01-terraform-jenkins/
+		terraform/01-cicd-jenkins/
 
-	@rm -rf terraform/01-terraform-jenkins/$(TFPLANFILE)
+	@rm -rf terraform/01-cicd-jenkins/$(TFPLANFILE)
 
