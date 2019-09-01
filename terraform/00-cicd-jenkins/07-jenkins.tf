@@ -21,48 +21,36 @@ resource "aws_instance" "jenkins" {
   subnet_id              = "${aws_subnet.main.id}"
   private_ip             = "10.0.1.100"
   key_name               = "${aws_key_pair.auth.id}"
-  # user_data = "#!/bin/bash\nmkdir /data; mount /dev/xvdh /data; service docker restart;"
+
   provisioner "remote-exec" {
     inline = [
       "sudo mkdir -p /opt/cicd",
       "sudo chmod 777 -R /opt/cicd",
     ]
-
     connection {
       type        = "ssh"
+      host        = "${aws_instance.jenkins.public_ip}"
       user        = "ec2-user"
       private_key = "${file(var.private_key_path)}"
     }
   }
 
   provisioner "file" {
-    source      = "puppet"
-    destination = "/opt/cicd"
-
+    source      = "scripts"
+    destination = "/opt/cicd/scripts"
     connection {
       type        = "ssh"
+      host        = "${aws_instance.jenkins.public_ip}"
       user        = "ec2-user"
       private_key = "${file(var.private_key_path)}"
     }
   }
-
   provisioner "file" {
-    source      = "jenkins"
-    destination = "/opt/cicd"
-
+    source      = "docker"
+    destination = "/opt/cicd/docker"
     connection {
       type        = "ssh"
-      user        = "ec2-user"
-      private_key = "${file(var.private_key_path)}"
-    }
-  }
-
-  provisioner "file" {
-    source      = "terraform/01-terraform-jenkins/boot_scripts/global.sh"
-    destination = "/opt/cicd/global.sh"
-
-    connection {
-      type        = "ssh"
+      host        = "${aws_instance.jenkins.public_ip}"
       user        = "ec2-user"
       private_key = "${file(var.private_key_path)}"
     }
@@ -70,13 +58,35 @@ resource "aws_instance" "jenkins" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo sh /opt/cicd/global.sh",
+      "sudo sh /opt/cicd/scripts/boot-script.sh",
     ]
-
     connection {
       type        = "ssh"
+      host        = "${aws_instance.jenkins.public_ip}"
       user        = "ec2-user"
       private_key = "${file(var.private_key_path)}"
     }
   }
+}
+
+resource "aws_volume_attachment" "ebs_att" {
+  device_name = "/dev/sdh"
+  volume_id   = "${aws_ebs_volume.example.id}"
+  instance_id = "${aws_instance.jenkins.id}"
+}
+
+resource "null_resource" "configuration" {
+  depends_on = ["aws_volume_attachment.ebs_att"]
+  provisioner "remote-exec" {
+    inline = [
+      "sudo sh /opt/cicd/scripts/ebs-mount.sh",
+    ]
+    connection {
+      type        = "ssh"
+      host        = "${aws_instance.jenkins.public_ip}"
+      user        = "ec2-user"
+      private_key = "${file(var.private_key_path)}"
+    }
+  }
+
 }

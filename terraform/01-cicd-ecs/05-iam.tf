@@ -24,7 +24,7 @@ EOF
 
 
 resource "aws_iam_policy" "fargate-ecr-policy" {
-  name        = "fargate-ecr-policy"
+  name = "fargate-ecr-policy"
 
   policy = <<EOF
 {
@@ -43,7 +43,7 @@ EOF
 }
 
 resource "aws_iam_policy" "fargate-ecs-policy" {
-  name        = "fargate-ecs-policy"
+  name = "fargate-ecs-policy"
 
   policy = <<EOF
 {

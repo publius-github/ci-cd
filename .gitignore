@@ -4,31 +4,16 @@
 # terraform
 .terraform
 
-# terraform-infra
-terraform/00-cicd-infra/.*
-terraform/00-cicd-infra/vars/jenkins-ci-cd.tfvars
-terraform/00-cicd-infra/terraform.tfstate
-terraform/00-cicd-infra/terraform.tfstate.backup
-
 # terraform-jenkins
-terraform/01-cicd-jenkins/.*
-terraform/01-cicd-jenkins/vars/jenkins-ci-cd.tfvars
-terraform/01-cicd-jenkins/terraform.tfstate
-terraform/01-cicd-jenkins/terraform.tfstate.backup
+terraform/00-cicd-jenkins/.*
+terraform/00-cicd-jenkins/vars/jenkins-ci-cd.tfvars
+terraform/00-cicd-jenkins/terraform.tfstate
+terraform/00-cicd-jenkins/terraform.tfstate.backup
 
 # terraform-ecs
-terraform/02-cicd-ecs/.*
-terraform/02-cicd-ecs/vars/jenkins-ci-cd.tfvars
-terraform/02-cicd-ecs/terraform.tfstate
-terraform/02-cicd-ecs/terraform.tfstate.backup
-
-# puppet
-puppet/.librarian
-puppet/.tmp
-puppet/manifests-*
-puppet/modules/*
-puppet/modules-*
-puppet/Puppetfile.lock
+terraform/01-cicd-ecs/.*
+terraform/01-cicd-ecs/vars/jenkins-ci-cd.tfvars
+terraform/01-cicd-ecs/terraform.tfstate
+terraform/01-cicd-ecs/terraform.tfstate.backup
 
 # docker
-docker/jenkins/home
