@@ -19,7 +19,7 @@ clean: ## - Clean terraform state
 plan: ## - Plan
 	@echo "[i] Initializing for $(ENVNAME)"
 	@terraform init terraform/00-cicd-jenkins/
-	@terraform destroy -target null_resource.configuration -var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
+	@terraform destroy -auto-approve -target null_resource.configure -var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
 	@echo "[i] Planning for $(ENVNAME)"
 	@terraform plan --var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
 		

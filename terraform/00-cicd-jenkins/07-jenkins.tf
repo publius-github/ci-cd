@@ -34,6 +34,16 @@ resource "aws_instance" "jenkins" {
       private_key = "${file(var.private_key_path)}"
     }
   }
+  provisioner "file" {
+    source      = "jenkins"
+    destination = "/opt/cicd/jenkins"
+    connection {
+      type        = "ssh"
+      host        = "${aws_instance.jenkins.public_ip}"
+      user        = "ec2-user"
+      private_key = "${file(var.private_key_path)}"
+    }
+  }
 
   provisioner "file" {
     source      = "scripts"
@@ -55,31 +65,13 @@ resource "aws_instance" "jenkins" {
       private_key = "${file(var.private_key_path)}"
     }
   }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo sh /opt/cicd/scripts/boot-script.sh",
-    ]
-    connection {
-      type        = "ssh"
-      host        = "${aws_instance.jenkins.public_ip}"
-      user        = "ec2-user"
-      private_key = "${file(var.private_key_path)}"
-    }
-  }
 }
 
-resource "aws_volume_attachment" "ebs_att" {
-  device_name = "/dev/sdh"
-  volume_id   = "${aws_ebs_volume.example.id}"
-  instance_id = "${aws_instance.jenkins.id}"
-}
-
-resource "null_resource" "configuration" {
+resource "null_resource" "configure" {
   depends_on = ["aws_volume_attachment.ebs_att"]
   provisioner "remote-exec" {
     inline = [
-      "sudo sh /opt/cicd/scripts/ebs-mount.sh",
+      "sudo sh /opt/cicd/scripts/startup_script.sh",
     ]
     connection {
       type        = "ssh"
