@@ -6,7 +6,7 @@ setenforce 0
 
 ## Install docker
 sudo yum -y update
-sudo amazon-linux-extras install docker
+sudo amazon-linux-extras install -y docker
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
 sudo yum install -y python-pip
@@ -42,4 +42,5 @@ sed -i "s/subnet-id/$SUBNET_ID/g" /data/jenkins/config.xml
 
 ## Run docker
 cd /data/docker
+sudo docker build -t cicd-jenkins -f jenkins.dockerfile .
 sudo docker-compose up -d

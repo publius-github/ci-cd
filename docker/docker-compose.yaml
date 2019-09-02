@@ -11,7 +11,7 @@ services:
     networks:
       - cicd-net
     volumes:
-      # - /var/wisestep/data/jenkins_home:/var/jenkins_home
+      - /data/jenkins/jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
 
   sonarqube:

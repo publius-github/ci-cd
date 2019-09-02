@@ -1,4 +1,5 @@
 ENVNAME = jenkins-ci-cd
+PROFILE = godel
 
 .PHONY: help clean init plan apply destroy
 
