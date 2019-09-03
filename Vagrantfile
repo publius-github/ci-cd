@@ -3,11 +3,12 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "jenkins"
 
   config.vm.provider "hyperv" do |h|
-    h.memory = "4000"
-    h.cpus = "2"
+    h.memory = "6000"
+    h.cpus = "4"
   end
 
   config.vm.synced_folder "docker/", "/tmp/vagrant-docker/"
+  config.vm.synced_folder "vagrant/", "/tmp/vagrant-docker-endpoint"
 
   config.vm.network "public_network", bridge: "Default Switch"
   config.vm.network "forwarded_port", guest: 22, host: 2222
@@ -33,16 +34,23 @@ Vagrant.configure("2") do |config|
     yum install -y python-pip
     pip install docker-compose
     yum upgrade -y python*
-    usermod -aG docker jenkins
     usermod -aG docker vagrant
   SHELL
 
   # Start apps
   config.vm.provision "shell", inline: <<-SHELL
+    mkdir -p /data/postgres/postgresql
+    mkdir -p /data/postgres/postgresql_data
+    mkdir -p /data/sonarqube/sonarqube_conf
+    mkdir -p /data/sonarqube/sonarqube_data
+    mkdir -p /data/sonarqube/sonarqube_extensions
+    mkdir -p /data/sonarqube/sonarqube_bundled-plugins 
+    mkdir -p /data/jenkins/jenkins_home
+    cp -rf /tmp/vagrant-docker/jenkins/* /data/jenkins/jenkins_home
     cd /tmp/vagrant-docker/
     docker build -f jenkins.dockerfile -t cicd-jenkins .
-    # docker build -f sonar.dockerfile -t cicd-sonar .
-    docker-compose up
+    cd /tmp/vagrant-docker-endpoint
+    docker-compose up -d
   SHELL
 
 end

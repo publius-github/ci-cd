@@ -46,3 +46,9 @@ How it works:
 
 unit во время билда
 api в контейнере
+
+
+1. make file create ecr
+2. make file create s3
+3. make file docker build && push to ecr
+4. docker compose as service on host system

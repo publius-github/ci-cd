@@ -30,6 +30,12 @@ uid=$(sudo blkid | sed -n '/xvdh/s/.*UUID=\"\([^\"]*\)\".*/\1/p')
 echo "UUID=$uid  /data  xfs  defaults,nofail  0  2" | sudo tee --append /etc/fstab > /dev/null
 
 ## Copy jobs / configs
+mkdir -p /data/postgres/postgresql
+mkdir -p /data/postgres/postgresql_data
+mkdir -p /data/sonarqube/sonarqube_conf
+mkdir -p /data/sonarqube/sonarqube_data
+mkdir -p /data/sonarqube/sonarqube_extensions
+mkdir -p /data/sonarqube/sonarqube_bundled-plugins 
 mkdir -p /data/jenkins/jenkins_home
 mkdir -p /data/docker
 cp -rf /opt/cicd/jenkins/* /data/jenkins/jenkins_home

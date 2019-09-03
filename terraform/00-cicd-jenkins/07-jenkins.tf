@@ -46,8 +46,8 @@ resource "aws_instance" "jenkins" {
   }
 
   provisioner "file" {
-    source      = "scripts"
-    destination = "/opt/cicd/scripts"
+    source      = "files"
+    destination = "/opt/cicd/files"
     connection {
       type        = "ssh"
       host        = "${aws_instance.jenkins.public_ip}"
@@ -71,7 +71,7 @@ resource "null_resource" "configure" {
   depends_on = ["aws_volume_attachment.ebs_att"]
   provisioner "remote-exec" {
     inline = [
-      "sudo sh /opt/cicd/scripts/startup_script.sh",
+      "sudo sh /opt/cicd/files/startup_script_jenkins.sh",
     ]
     connection {
       type        = "ssh"
