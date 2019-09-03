@@ -35,7 +35,7 @@ resource "aws_instance" "jenkins" {
     }
   }
   provisioner "file" {
-    source      = "jenkins"
+    source      = "docker/jenkins"
     destination = "/opt/cicd/jenkins"
     connection {
       type        = "ssh"

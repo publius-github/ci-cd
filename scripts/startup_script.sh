@@ -30,9 +30,9 @@ uid=$(sudo blkid | sed -n '/xvdh/s/.*UUID=\"\([^\"]*\)\".*/\1/p')
 echo "UUID=$uid  /data  xfs  defaults,nofail  0  2" | sudo tee --append /etc/fstab > /dev/null
 
 ## Copy jobs / configs
-mkdir -p /data/jenkins
+mkdir -p /data/jenkins/jenkins_home
 mkdir -p /data/docker
-cp -rf /opt/cicd/jenkins/* /data/jenkins/
+cp -rf /opt/cicd/jenkins/* /data/jenkins/jenkins_home
 cp -rf /opt/cicd/docker/* /data/docker/
 
 ## Configure Jenkins
