@@ -1,7 +1,10 @@
 ENVNAME = jenkins-ci-cd
 PROFILE = godel
+S3_BUCKET = cicd
 
-.PHONY: help clean init plan apply destroy
+
+
+.PHONY: help clean prepare plan apply destroy
 
 SHELL = /bin/bash
 
@@ -12,6 +15,13 @@ help:
 	@echo -e "\nProject defaults:\n Environment: $(ENVNAME)"
 	@echo -e "\n[!] You'll need to specify an action: \n"
 	@egrep '^(.+)\:\ ##\ (.+)' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
+
+prepare:
+	@echo "[i] Creating S3 for terraform state"
+	@aws s3 mb s3://$(S3_BUCKET)
+	@aws s3api put-object --bucket $(S3_BUCKET) --key terraform-state/  
+	@echo "tfstate_bucket = "$(S3_BUCKET)"" >> terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars
+	@echo "[i] Creating ECR docker image"
 
 clean: ## - Clean terraform state
 	@echo -ne "[i] Cleaning Terraform: "

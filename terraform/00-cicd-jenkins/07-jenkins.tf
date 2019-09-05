@@ -5,6 +5,7 @@ resource "aws_key_pair" "auth" {
 
 resource "aws_instance" "jenkins" {
   ami           = "ami-04bfee437f38a691e"
+  # instance_type = "t3.large"
   instance_type = "t2.medium"
 
   root_block_device {

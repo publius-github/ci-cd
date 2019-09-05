@@ -52,3 +52,5 @@ api в контейнере
 2. make file create s3
 3. make file docker build && push to ecr
 4. docker compose as service on host system
+5. attach role to instance
+6. pull docker image

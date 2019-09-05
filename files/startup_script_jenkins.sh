@@ -32,10 +32,10 @@ echo "UUID=$uid  /data  xfs  defaults,nofail  0  2" | sudo tee --append /etc/fst
 ## Copy jobs / configs
 mkdir -p /data/postgres/postgresql
 mkdir -p /data/postgres/postgresql_data
-mkdir -p /data/sonarqube/sonarqube_conf
-mkdir -p /data/sonarqube/sonarqube_data
-mkdir -p /data/sonarqube/sonarqube_extensions
-mkdir -p /data/sonarqube/sonarqube_bundled-plugins 
+mkdir -p /data/sonarqube/conf
+mkdir -p /data/sonarqube/data
+mkdir -p /data/sonarqube/extensions
+mkdir -p /data/sonarqube/logs
 mkdir -p /data/jenkins/jenkins_home
 mkdir -p /data/docker
 cp -rf /opt/cicd/jenkins/* /data/jenkins/jenkins_home
@@ -44,7 +44,7 @@ cp -rf /opt/cicd/docker/* /data/docker/
 ## Configure Jenkins
 MAC=$(curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/)
 SUBNET_ID=$(curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC\subnet-id)
-sed -i "s/subnet-id/$SUBNET_ID/g" /data/jenkins/config.xml
+sed -i "s/subnet-id/$SUBNET_ID/g" /data/jenkins/jenkins_home/config.xml
 
 ## Run docker
 cd /data/docker

@@ -8,7 +8,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "ci-cd-bucket-125845703452"
-    key    = "terraform-state/01-cicd-jenkins.tfstate"
+    key    = "terraform-state/00-cicd-jenkins.tfstate"
     region = "us-east-1"
   }
 }

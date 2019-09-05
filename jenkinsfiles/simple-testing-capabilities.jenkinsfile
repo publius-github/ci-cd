@@ -1,0 +1,67 @@
+pipeline {
+    agent { node 'aws-ec2-dev' }
+    environment {
+        access_key = credentials('env-aws-access-key')
+        secret_key = credentials('env-aws-secret-key')
+        registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
+        app = "simple-testing-capabilities:latest"
+        app_port = "80"
+    }
+    stages {
+        stage ('[i] Clean WC') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage ('[i] GIT') {
+            steps {
+                git branch: 'master', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd-app.git'
+            }
+        }
+        stage('[i] Docker build [simple-testing-capabilities]') {
+            steps {
+                    sh '''
+                    echo "=========================== Build docker $app image ==========================="
+                    cd ${WORKSPACE}
+                    docker build -f "simple-testing-capabilities/Dockerfile" -t $registry_url/$app .
+                    docker run -d -p 80:80 $registry_url/$app
+                    '''
+                }
+        }
+        stage('[i] Docker push [simple-testing-capabilities]') {
+            steps {
+                script {
+                    docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {
+                    docker.image("$registry_url/$app").push()
+                    }
+                } 
+            }   
+        }
+        // stage('[i] Changing Data in Terraform') {
+        //     steps {
+        //         sh '''
+        //         echo "\napp_image = \\"$registry_url/$app\\"" >> ${WORKSPACE}/terraform/01-cicd-ecs/vars/nonprod.tfvars
+        //         echo "app_port = \\"$app_port\\"" >> ${WORKSPACE}/terraform/01-cicd-ecs/vars/nonprod.tfvars
+        //         '''
+        //         }
+        // }
+
+        // stage('[i] AWS Deployment') {
+        //     steps {
+        //         sh '''
+        //         export AWS_ACCESS_KEY_ID="$access_key"
+        //         export AWS_SECRET_ACCESS_KEY="$secret_key"
+        //         cd ${WORKSPACE}/terraform/01-cicd-ecs/
+        //         /usr/local/bin/terraform init
+        //         /usr/local/bin/terraform plan --var-file=vars/nonprod.tfvars
+        //         /usr/local/bin/terraform apply -auto-approve --var-file=vars/nonprod.tfvars
+        //         '''
+        //     }
+        // }
+        // stage('[i] Remove tmp docker files') {
+        //     steps {
+        //             sh 'docker system prune -a -f'
+        //     }
+        // }
+    }
+}
