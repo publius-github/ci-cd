@@ -4,8 +4,8 @@ pipeline {
         access_key = credentials('env-aws-access-key')
         secret_key = credentials('env-aws-secret-key')
         registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
-        app = "simple-testing-capabilities:latest"
-        app_port = "50504"
+        app = "simple-testing-capabilities-spa:latest"
+        app_port = "3000"
     }
     stages {
         stage ('[i] Clean WC') {
@@ -23,16 +23,16 @@ pipeline {
                 }
             }
         }
-        stage('[i] Docker build [simple-testing-capabilities]') {
+        stage('[i] Docker build [simple-testing-capabilities-spa]') {
             steps {
                     sh '''
                     echo "=========================== Build docker $app image ==========================="
                     cd ${WORKSPACE}/ci-cd-app/
-                    /usr/bin/docker build -f "simple-testing-capabilities.dockerfile" -t $registry_url/$app .
+                    /usr/bin/docker build -f "simple-testing-capabilities-spa.dockerfile" -t $registry_url/$app .
                     '''
                 }
         }
-        stage('[i] Docker push [simple-testing-capabilities]') {
+        stage('[i] Docker push [simple-testing-capabilities-spa]') {
             steps {
                 script {
                     docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {
@@ -48,8 +48,8 @@ pipeline {
                 export AWS_SECRET_ACCESS_KEY="$secret_key"
                 cd ${WORKSPACE}/ci-cd-infra/terraform/01-cicd-ecs/
                 /usr/local/bin/terraform init
-                /usr/local/bin/terraform plan --var-file=vars/nonprod.tfvars --var "app_image=$registry_url/$app" --var "app_port=$app_port"
-                /usr/local/bin/terraform apply -auto-approve --var-file=vars/nonprod.tfvars --var "app_image=$registry_url/$app" --var "app_port=$app_port"
+                /usr/local/bin/terraform plan --var-file=vars/nonprod.tfvars -var app_image=$registry_url/$app
+                /usr/local/bin/terraform apply -auto-approve --var-file=vars/nonprod.tfvars -var app_image=$registry_url/$app
                 '''
             }
         }

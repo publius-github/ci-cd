@@ -54,3 +54,5 @@ api в контейнере
 4. docker compose as service on host system
 5. attach role to instance
 6. pull docker image
+7. кондишон исполнения нул ресурса
+ 	Block device mapping
