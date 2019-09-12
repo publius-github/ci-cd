@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "task_backend" {
   {
     "cpu": "1024"},
     "image": "${var.app_image_backend}",
-    "memory": ${var.fargate_memory},
+    "memory": "2048",
     "name": "backend",
     "networkMode": "host",
     "portMappings": [
@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "task_frontend" {
   {
     "cpu": "1024"},
     "image": "${var.app_image_frontend}",
-    "memory": ${var.fargate_memory},
+    "memory": "2048",
     "name": "frontend",
     "networkMode": "host",
     "portMappings": [
@@ -96,7 +96,7 @@ resource "aws_ecs_task_definition" "task_db" {
   {
     "cpu": "1024"},
     "image": "${var.app_image_db}",
-    "memory": ${var.fargate_memory},
+    "memory": "2048",
     "name": "db",
     "networkMode": "host",
     "portMappings": [
