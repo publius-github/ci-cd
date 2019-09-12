@@ -27,6 +27,7 @@ variable "ip_white_list" {
   type    = "list"
   default = ["93.125.8.133/32", "10.0.0.0/16", "93.85.92.82/32", "213.184.244.188/32", "82.209.241.194/32", "0.0.0.0/0"]
 }
+
 variable "aws_access_key" {
   type = "string"
 }

@@ -4,7 +4,8 @@ resource "aws_key_pair" "auth" {
 }
 
 resource "aws_instance" "jenkins" {
-  ami           = "ami-04bfee437f38a691e"
+  ami = "ami-04bfee437f38a691e"
+
   # instance_type = "t3.large"
   instance_type = "t2.medium"
 
@@ -28,6 +29,7 @@ resource "aws_instance" "jenkins" {
       "sudo mkdir -p /opt/cicd",
       "sudo chmod 777 -R /opt/cicd",
     ]
+
     connection {
       type        = "ssh"
       host        = "${aws_instance.jenkins.public_ip}"
@@ -35,9 +37,11 @@ resource "aws_instance" "jenkins" {
       private_key = "${file(var.private_key_path)}"
     }
   }
+
   provisioner "file" {
     source      = "docker/jenkins"
     destination = "/opt/cicd/jenkins"
+
     connection {
       type        = "ssh"
       host        = "${aws_instance.jenkins.public_ip}"
@@ -49,6 +53,7 @@ resource "aws_instance" "jenkins" {
   provisioner "file" {
     source      = "files"
     destination = "/opt/cicd/files"
+
     connection {
       type        = "ssh"
       host        = "${aws_instance.jenkins.public_ip}"
@@ -56,9 +61,11 @@ resource "aws_instance" "jenkins" {
       private_key = "${file(var.private_key_path)}"
     }
   }
+
   provisioner "file" {
     source      = "docker"
     destination = "/opt/cicd/docker"
+
     connection {
       type        = "ssh"
       host        = "${aws_instance.jenkins.public_ip}"
@@ -70,10 +77,12 @@ resource "aws_instance" "jenkins" {
 
 resource "null_resource" "configure" {
   depends_on = ["aws_volume_attachment.ebs_att"]
+
   provisioner "remote-exec" {
     inline = [
       "sudo sh /opt/cicd/files/startup_script_jenkins.sh",
     ]
+
     connection {
       type        = "ssh"
       host        = "${aws_instance.jenkins.public_ip}"
@@ -81,5 +90,4 @@ resource "null_resource" "configure" {
       private_key = "${file(var.private_key_path)}"
     }
   }
-
 }

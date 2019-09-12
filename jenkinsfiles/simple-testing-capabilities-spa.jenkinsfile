@@ -5,7 +5,6 @@ pipeline {
         secret_key = credentials('env-aws-secret-key')
         registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
         app = "simple-testing-capabilities-spa:latest"
-        app_port = "3000"
     }
     stages {
         stage ('[i] Clean WC') {
@@ -40,18 +39,6 @@ pipeline {
                     }
                 } 
             }   
-        }
-        stage('[i] AWS Deployment') {
-            steps {
-                sh '''
-                export AWS_ACCESS_KEY_ID="$access_key"
-                export AWS_SECRET_ACCESS_KEY="$secret_key"
-                cd ${WORKSPACE}/ci-cd-infra/terraform/01-cicd-ecs/
-                /usr/local/bin/terraform init
-                /usr/local/bin/terraform plan --var-file=vars/nonprod.tfvars -var app_image=$registry_url/$app
-                /usr/local/bin/terraform apply -auto-approve --var-file=vars/nonprod.tfvars -var app_image=$registry_url/$app
-                '''
-            }
         }
     }
 }

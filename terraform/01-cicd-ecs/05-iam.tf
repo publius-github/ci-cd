@@ -22,7 +22,6 @@ resource "aws_iam_role" "fargate-ecr-role" {
 EOF
 }
 
-
 resource "aws_iam_policy" "fargate-ecr-policy" {
   name = "fargate-ecr-policy"
 
@@ -58,6 +57,7 @@ resource "aws_iam_policy" "fargate-ecs-policy" {
 }
 EOF
 }
+
 resource "aws_iam_role_policy_attachment" "fargate-attach" {
   role       = "${aws_iam_role.fargate-ecr-role.name}"
   policy_arn = "${aws_iam_policy.fargate-ecr-policy.arn}"
