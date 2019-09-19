@@ -33,7 +33,13 @@ plan: ## - Plan
 	@terraform destroy -auto-approve -target null_resource.configure -var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
 	@echo "[i] Planning for $(ENVNAME)"
 	@terraform plan --var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
-		
+
+plan2: ## - Plan
+	@echo "[i] Initializing for $(ENVNAME)"
+	@terraform init terraform/01-cicd-ecs/
+	@echo "[i] Planning for $(ENVNAME)"
+	@terraform plan --var-file=terraform/01-cicd-ecs/vars/$(ENVNAME).tfvars terraform/01-cicd-ecs/
+			
 apply: ## - Apply Changes
 	@echo "[i] Applying for $(ENVNAME)"
 	@terraform apply --auto-approve --var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/

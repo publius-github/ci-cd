@@ -6,15 +6,15 @@ resource "aws_ecs_task_definition" "task_backend" {
   family                   = "task_backend"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = "${aws_iam_role.fargate-ecr-role.arn}"
+  network_mode             = "awsvpc"
+  cpu                      = "${var.app_cpu_backend}"
+  memory                   = "${var.app_memory_backend}"
 
   container_definitions = <<DEFINITION
 [
   {
-    "cpu": "1024"},
     "image": "${var.app_image_backend}",
-    "memory": "2048",
     "name": "backend",
-    "networkMode": "host",
     "portMappings": [
       {
         "containerPort": ${var.app_port_backend},
@@ -32,6 +32,7 @@ resource "aws_ecs_service" "service_backend" {
   task_definition = "${aws_ecs_task_definition.task_backend.arn}"
   desired_count   = "1"
   launch_type     = "FARGATE"
+  network_configuration = ["${aws_subnet.fargate_subnet_public.id}"]
 
   load_balancer {
     target_group_arn = "${aws_alb_target_group.backend_target_group.id}"
@@ -48,15 +49,15 @@ resource "aws_ecs_task_definition" "task_frontend" {
   family                   = "task_frontend"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = "${aws_iam_role.fargate-ecr-role.arn}"
+  network_mode             = "awsvpc"
+  cpu                      = "${var.app_cpu_frontend}"
+  memory                   = "${var.app_memory_frontend}"
 
   container_definitions = <<DEFINITION
 [
   {
-    "cpu": "1024"},
     "image": "${var.app_image_frontend}",
-    "memory": "2048",
     "name": "frontend",
-    "networkMode": "host",
     "portMappings": [
       {
         "containerPort": ${var.app_port_frontend},
@@ -74,6 +75,7 @@ resource "aws_ecs_service" "service_frontend" {
   task_definition = "${aws_ecs_task_definition.task_frontend.arn}"
   desired_count   = "1"
   launch_type     = "FARGATE"
+  network_configuration = ["${aws_subnet.fargate_subnet_public.id}"]
 
   load_balancer {
     target_group_arn = "${aws_alb_target_group.frontend_target_group.id}"
@@ -90,15 +92,15 @@ resource "aws_ecs_task_definition" "task_db" {
   family                   = "task_db"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = "${aws_iam_role.fargate-ecr-role.arn}"
+  network_mode             = "awsvpc"
+  cpu                      = "${var.app_cpu_db}"
+  memory                   = "${var.app_memory_db}"
 
   container_definitions = <<DEFINITION
 [
   {
-    "cpu": "1024"},
     "image": "${var.app_image_db}",
-    "memory": "2048",
     "name": "db",
-    "networkMode": "host",
     "portMappings": [
       {
         "containerPort": ${var.app_port_db},
@@ -116,6 +118,7 @@ resource "aws_ecs_service" "service_db" {
   task_definition = "${aws_ecs_task_definition.task_db.arn}"
   desired_count   = "1"
   launch_type     = "FARGATE"
+  network_configuration = ["${aws_subnet.fargate_subnet_public.id}", "${aws_subnet.fargate_subnet_private.id}"]
 
   load_balancer {
     target_group_arn = "${aws_alb_target_group.db_target_group.id}"

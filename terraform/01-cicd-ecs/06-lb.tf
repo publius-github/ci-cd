@@ -1,13 +1,13 @@
 ### ALB BACKEND
 
 resource "aws_alb" "alb_backend" {
-  name            = "alb_backend"
+  name            = "alb-backend"
   subnets         = ["${aws_subnet.fargate_subnet_public.*.id}"]
   security_groups = ["${aws_security_group.lb.id}"]
 }
 
 resource "aws_alb_target_group" "backend_target_group" {
-  name        = "backend_target_group"
+  name        = "backend-target-group"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = "${aws_vpc.fargate_vpc.id}"
@@ -29,13 +29,13 @@ resource "aws_alb_listener" "listener_backend" {
 ### ALB DB 
 
 resource "aws_alb" "alb_db" {
-  name            = "alb_db"
+  name            = "alb-db"
   subnets         = ["${aws_subnet.fargate_subnet_public.*.id}"]
   security_groups = ["${aws_security_group.lb.id}"]
 }
 
 resource "aws_alb_target_group" "db_target_group" {
-  name        = "db_target_group"
+  name        = "db-target-group"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = "${aws_vpc.fargate_vpc.id}"
@@ -57,13 +57,13 @@ resource "aws_alb_listener" "listener_db" {
 ### ALB FRONTEND
 
 resource "aws_alb" "alb_frontend" {
-  name            = "alb_frontend"
+  name            = "alb-frontend"
   subnets         = ["${aws_subnet.fargate_subnet_public.*.id}"]
   security_groups = ["${aws_security_group.lb.id}"]
 }
 
 resource "aws_alb_target_group" "frontend_target_group" {
-  name        = "frontend_target_group"
+  name        = "frontend-target-group"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = "${aws_vpc.fargate_vpc.id}"

@@ -2,7 +2,7 @@
 .vagrant
 
 # terraform
-.terraform
+.terraform/*
 
 # terraform-jenkins
 terraform/00-cicd-jenkins/.*
