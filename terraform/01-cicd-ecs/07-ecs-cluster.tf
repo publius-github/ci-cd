@@ -1,103 +1,31 @@
 data "aws_ecs_cluster" "main" {
-  cluster_name = "tf-ecs-cluster"
+  cluster_name = "simple-testing-capabilities"
 }
 
-resource "aws_ecs_task_definition" "task_backend" {
-  family                   = "task_backend"
-  requires_compatibilities = ["FARGATE"]
+resource "aws_ecs_task_definition" "task_simple_testing_capabilities" {
+  family                   = "task-simple-testing-capabilities"
+  # requires_compatibilities = ["FARGATE"]
   execution_role_arn       = "${aws_iam_role.fargate-ecr-role.arn}"
-  network_mode             = "awsvpc"
-  cpu                      = "${var.app_cpu_backend}"
-  memory                   = "${var.app_memory_backend}"
-
+  # network_mode             = "awsvpc"
+  network_mode             = "bridge"
+  cpu                      = "2048"
+  memory                   = "4096"
+  
   container_definitions = <<DEFINITION
 [
   {
     "image": "${var.app_image_backend}",
     "name": "backend",
+    "links": [
+      "db"
+    ],
     "portMappings": [
       {
         "containerPort": ${var.app_port_backend},
         "hostPort": ${var.app_port_backend}
       }
     ]
-  }
-]
-DEFINITION
-}
-
-resource "aws_ecs_service" "service_backend" {
-  name            = "service_backend"
-  cluster         = "${data.aws_ecs_cluster.main.id}"
-  task_definition = "${aws_ecs_task_definition.task_backend.arn}"
-  desired_count   = "1"
-  launch_type     = "FARGATE"
-  network_configuration = ["${aws_subnet.fargate_subnet_public.id}"]
-
-  load_balancer {
-    target_group_arn = "${aws_alb_target_group.backend_target_group.id}"
-    container_name   = "backend"
-    container_port   = "${var.app_port_backend}"
-  }
-
-  depends_on = [
-    "aws_alb_listener.listener_backend",
-  ]
-}
-
-resource "aws_ecs_task_definition" "task_frontend" {
-  family                   = "task_frontend"
-  requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = "${aws_iam_role.fargate-ecr-role.arn}"
-  network_mode             = "awsvpc"
-  cpu                      = "${var.app_cpu_frontend}"
-  memory                   = "${var.app_memory_frontend}"
-
-  container_definitions = <<DEFINITION
-[
-  {
-    "image": "${var.app_image_frontend}",
-    "name": "frontend",
-    "portMappings": [
-      {
-        "containerPort": ${var.app_port_frontend},
-        "hostPort": ${var.app_port_frontend}
-      }
-    ]
-  }
-]
-DEFINITION
-}
-
-resource "aws_ecs_service" "service_frontend" {
-  name            = "service_frontend"
-  cluster         = "${data.aws_ecs_cluster.main.id}"
-  task_definition = "${aws_ecs_task_definition.task_frontend.arn}"
-  desired_count   = "1"
-  launch_type     = "FARGATE"
-  network_configuration = ["${aws_subnet.fargate_subnet_public.id}"]
-
-  load_balancer {
-    target_group_arn = "${aws_alb_target_group.frontend_target_group.id}"
-    container_name   = "frontend"
-    container_port   = "${var.app_port_frontend}"
-  }
-
-  depends_on = [
-    "aws_alb_listener.listener_frontend",
-  ]
-}
-
-resource "aws_ecs_task_definition" "task_db" {
-  family                   = "task_db"
-  requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = "${aws_iam_role.fargate-ecr-role.arn}"
-  network_mode             = "awsvpc"
-  cpu                      = "${var.app_cpu_db}"
-  memory                   = "${var.app_memory_db}"
-
-  container_definitions = <<DEFINITION
-[
+  },
   {
     "image": "${var.app_image_db}",
     "name": "db",
@@ -107,26 +35,20 @@ resource "aws_ecs_task_definition" "task_db" {
         "hostPort": ${var.app_port_db}
       }
     ]
+  },
+  {
+    "image": "${var.app_image_frontend}",
+    "name": "frontend",
+    "links": [
+      "backend"
+    ],
+    "portMappings": [
+      {
+        "containerPort": ${var.app_port_frontend},
+        "hostPort": ${var.app_port_frontend}
+      }
+    ]
   }
 ]
 DEFINITION
-}
-
-resource "aws_ecs_service" "service_db" {
-  name            = "service_db"
-  cluster         = "${data.aws_ecs_cluster.main.id}"
-  task_definition = "${aws_ecs_task_definition.task_db.arn}"
-  desired_count   = "1"
-  launch_type     = "FARGATE"
-  network_configuration = ["${aws_subnet.fargate_subnet_public.id}", "${aws_subnet.fargate_subnet_private.id}"]
-
-  load_balancer {
-    target_group_arn = "${aws_alb_target_group.db_target_group.id}"
-    container_name   = "db"
-    container_port   = "${var.app_port_db}"
-  }
-
-  depends_on = [
-    "aws_alb_listener.listener_db",
-  ]
 }
