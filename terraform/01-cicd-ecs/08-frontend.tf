@@ -3,7 +3,7 @@ resource "aws_ecs_service" "service_frontend" {
   cluster         = "${data.aws_ecs_cluster.main.id}"
   task_definition = "${aws_ecs_task_definition.task_simple_testing_capabilities.arn}"
   desired_count   = "1"
-  # launch_type     = "FARGATE"
+  launch_type     = "FARGATE"
 
   network_configuration {
     security_groups = ["${aws_security_group.ecs_tasks.id}"]

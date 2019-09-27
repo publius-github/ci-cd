@@ -66,6 +66,8 @@ sudo mv sonar-runner-2.4 sonar-runner
 sudo rm -rf sonar-runner-dist-2.4.zip
 sudo curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
 sudo yum -y install nodejs
+sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 </initScript>
           <tmpDir></tmpDir>
           <userData></userData>

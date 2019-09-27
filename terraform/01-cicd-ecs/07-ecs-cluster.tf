@@ -4,10 +4,9 @@ data "aws_ecs_cluster" "main" {
 
 resource "aws_ecs_task_definition" "task_simple_testing_capabilities" {
   family                   = "task-simple-testing-capabilities"
-  # requires_compatibilities = ["FARGATE"]
+  requires_compatibilities = ["FARGATE"]
   execution_role_arn       = "${aws_iam_role.fargate-ecr-role.arn}"
-  # network_mode             = "awsvpc"
-  network_mode             = "bridge"
+  network_mode             = "awsvpc"
   cpu                      = "2048"
   memory                   = "4096"
   
@@ -16,9 +15,14 @@ resource "aws_ecs_task_definition" "task_simple_testing_capabilities" {
   {
     "image": "${var.app_image_backend}",
     "name": "backend",
-    "links": [
-      "db"
-    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "ecs-log-streaming",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "fargate-task-1"
+      }
+    },
     "portMappings": [
       {
         "containerPort": ${var.app_port_backend},
@@ -27,28 +31,53 @@ resource "aws_ecs_task_definition" "task_simple_testing_capabilities" {
     ]
   },
   {
-    "image": "${var.app_image_db}",
-    "name": "db",
-    "portMappings": [
-      {
-        "containerPort": ${var.app_port_db},
-        "hostPort": ${var.app_port_db}
-      }
-    ]
-  },
-  {
     "image": "${var.app_image_frontend}",
     "name": "frontend",
-    "links": [
-      "backend"
-    ],
     "portMappings": [
       {
         "containerPort": ${var.app_port_frontend},
         "hostPort": ${var.app_port_frontend}
       }
     ]
+  },
+  {
+    "image": "${var.app_image_db}",
+    "name": "db",
+    "environment": [
+      {
+      "name": "ALLOW_EMPTY_PASSWORD",
+      "value": "yes"
+      }
+    ],
+    "portMappings": [
+      {
+        "containerPort": ${var.app_port_db},
+        "hostPort": ${var.app_port_db}
+      }
+    ]
   }
 ]
 DEFINITION
 }
+
+# ,
+#   {
+#     "image": "${var.app_image_db}",
+#     "name": "db",
+#     "portMappings": [
+#       {
+#         "containerPort": ${var.app_port_db},
+#         "hostPort": ${var.app_port_db}
+#       }
+#     ]
+#   },
+#   {
+#     "image": "${var.app_image_frontend}",
+#     "name": "frontend",
+#     "portMappings": [
+#       {
+#         "containerPort": ${var.app_port_frontend},
+#         "hostPort": ${var.app_port_frontend}
+#       }
+#     ]
+#   }
