@@ -42,6 +42,7 @@ plan2: ## - Plan
 			
 apply: ## - Apply Changes
 	@echo "[i] Applying for $(ENVNAME)"
+	@terraform destroy -auto-approve -target null_resource.configure -var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
 	@terraform apply --auto-approve --var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
 	@rm -rf terraform/00-cicd-jenkins/$(TFPLANFILE)
 

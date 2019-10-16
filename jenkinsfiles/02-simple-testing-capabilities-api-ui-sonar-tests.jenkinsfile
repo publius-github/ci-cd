@@ -1,0 +1,41 @@
+pipeline {
+    agent { node 'aws-ec2-dev' }
+    environment {
+    }
+    stages {
+        stage ('[i] Clean WC') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage ('[i] GIT') {
+            steps {
+                dir ("ci-cd-app") {
+                    git branch: 'master', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd-app.git'
+                }
+                dir ("ci-cd-infra") {
+                    git branch: 'feature/container', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
+                }
+            }
+        }
+        stage('[i] API integration tests') {
+            steps {
+                    sh '''
+                    cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests
+                    dotnet publish --output api-tests
+                    dotnet vstest api-tests/APITests.dll /logger:trx
+                    '''
+            } 
+        }
+        stage('[i] UI integration tests') {
+            steps {
+                    sh '''
+                    cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests
+                    dotnet publish --output ui-tests
+                    dotnet vstest ui-tests/UITests.dll /logger:trx  
+                    '''
+            } 
+               
+        }
+    }   
+}

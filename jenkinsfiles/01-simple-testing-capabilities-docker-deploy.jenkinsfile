@@ -4,7 +4,8 @@ pipeline {
         access_key = credentials('env-aws-access-key')
         secret_key = credentials('env-aws-secret-key')
         registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
-        app = "simple-testing-capabilities-redis:latest"
+        api_test = "simple-testing-capabilities-api-tests:latest"
+        ui_test = "simple-testing-capabilities-ui-tests:latest"
     }
     stages {
         stage ('[i] Clean WC') {
@@ -22,23 +23,27 @@ pipeline {
                 }
             }
         }
-        stage('[i] Docker build [simple-testing-capabilities]') {
+        stage('[i] cred]') {
             steps {
                     sh '''
-                    echo "=========================== Build docker $app image ==========================="
-                    cd ${WORKSPACE}/ci-cd-app/
-                    /usr/bin/docker build -f "simple-testing-capabilities-redis.dockerfile" -t $registry_url/$app .
+                    mkdir -p ~/.aws
+                    echo "[default]" >> ~/.aws/config
+                    echo "output = json" >> ~/.aws/config
+                    echo "region = us-east-1" >> ~/.aws/config
+                    echo "[default]" >> ~/.aws/credentials
+                    echo "aws_access_key_id = $access_key" >> ~/.aws/credentials
+                    echo "aws_secret_access_key = $secret_key" >> ~/.aws/credentials
                     '''
                 }
         }
-        stage('[i] Docker push [simple-testing-capabilities]') {
+        stage('[i] Docker-compose up]') {
             steps {
-                script {
-                    docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {
-                    docker.image("$registry_url/$app").push()
-                    }
-                } 
-            }   
+                    sh '''
+                    $(aws ecr get-login --no-include-email --region us-east-1)
+                    cd ${WORKSPACE}/ci-cd-app/
+                    /usr/local/bin/docker-compose up -d
+                    '''
+            }
         }
-    }
+    }   
 }

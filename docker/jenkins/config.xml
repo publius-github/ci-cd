@@ -55,19 +55,16 @@ sudo systemctl enable docker
 sudo systemctl start docker
 sudo usermod -aG docker ec2-user
 sudo chmod 777 /var/run/docker.sock
+sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 sudo wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
 sudo unzip terraform_0.11.13_linux_amd64.zip
 sudo mv terraform /usr/local/bin
 sudo rm -f terraform_0.11.13_linux_amd64.zip
-cd /opt
-sudo wget http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip
-sudo unzip sonar-runner-dist-2.4.zip
-sudo mv sonar-runner-2.4 sonar-runner
-sudo rm -rf sonar-runner-dist-2.4.zip
+sudo rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm
+sudo yum -y install dotnet-sdk-2.2
 sudo curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
 sudo yum -y install nodejs
-sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
 </initScript>
           <tmpDir></tmpDir>
           <userData></userData>

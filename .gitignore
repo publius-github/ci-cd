@@ -2,10 +2,10 @@
 .vagrant
 
 # terraform
-.terraform/*
+.terraform
 
 # terraform-jenkins
-terraform/00-cicd-jenkins/.*
+terraform/00-cicd-jenkins/.terraform/
 terraform/00-cicd-jenkins/vars/jenkins-ci-cd.tfvars
 terraform/00-cicd-jenkins/terraform.tfstate
 terraform/00-cicd-jenkins/terraform.tfstate.backup
