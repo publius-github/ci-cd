@@ -29,4 +29,4 @@ COPY sonar-runner.properties /usr/lib/sonar-scanner/conf/sonar-scanner.propertie
 # be easily overridden by passing them in as part of the `docker run` command.
 # This allows the default /usr/src base dir to be overridden by users as-needed.
 # ENTRYPOINT ["sonar-scanner"]
-CMD ["-Dsonar.projectBaseDir=/usr/src"]
+# CMD ["-Dsonar.projectBaseDir=/usr/src"]
