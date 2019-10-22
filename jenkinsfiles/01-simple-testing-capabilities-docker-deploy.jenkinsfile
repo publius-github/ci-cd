@@ -4,8 +4,6 @@ pipeline {
         access_key = credentials('env-aws-access-key')
         secret_key = credentials('env-aws-secret-key')
         registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
-        api_test = "simple-testing-capabilities-api-tests:latest"
-        ui_test = "simple-testing-capabilities-ui-tests:latest"
     }
     stages {
         stage ('[i] Clean WC') {
@@ -27,10 +25,10 @@ pipeline {
             steps {
                     sh '''
                     mkdir -p ~/.aws
-                    echo "[default]" >> ~/.aws/config
+                    echo "[default]" > ~/.aws/config
                     echo "output = json" >> ~/.aws/config
                     echo "region = us-east-1" >> ~/.aws/config
-                    echo "[default]" >> ~/.aws/credentials
+                    echo "[default]" > ~/.aws/credentials
                     echo "aws_access_key_id = $access_key" >> ~/.aws/credentials
                     echo "aws_secret_access_key = $secret_key" >> ~/.aws/credentials
                     '''

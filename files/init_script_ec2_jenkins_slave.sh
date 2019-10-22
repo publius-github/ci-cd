@@ -7,7 +7,7 @@ sudo systemctl start docker
 sudo usermod -aG docker ec2-user
 sudo chmod 777 /var/run/docker.sock
 # docker-compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.17.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 # terraform
 sudo wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
@@ -20,7 +20,12 @@ sudo yum -y install dotnet-sdk-2.2
 # node
 sudo curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
 sudo yum -y install nodejs
-
+# chrome
+wget http://chromedriver.storage.googleapis.com/77.0.3865.10/chromedriver_linux64.zip -O /tmp/chromedriver_linux64.zip
+unzip -o /tmp/chromedriver_linux64.zip -d /tmp
+sudo mv /tmp/chromedriver /usr/bin/chromedriver
+curl https://intoli.com/install-google-chrome.sh | bash
+mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
 
 
 

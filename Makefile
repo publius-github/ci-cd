@@ -34,7 +34,7 @@ plan: ## - Plan
 	@echo "[i] Planning for $(ENVNAME)"
 	@terraform plan --var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
 
-plan2: ## - Plan
+plan-ecs: ## - Plan
 	@echo "[i] Initializing for $(ENVNAME)"
 	@terraform init terraform/01-cicd-ecs/
 	@echo "[i] Planning for $(ENVNAME)"
@@ -48,6 +48,12 @@ apply: ## - Apply Changes
 
 destroy: ## - Destroy everything in the TF environment
 	@terraform destroy -var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars \
+		-backup=./terraform/00-cicd-jenkins/ \
+		terraform/00-cicd-jenkins/
+	@rm -rf terraform/00-cicd-jenkins/$(TFPLANFILE)
+
+jenkins: ## - Destroy everything in the TF environment
+	@
 		-backup=./terraform/00-cicd-jenkins/ \
 		terraform/00-cicd-jenkins/
 	@rm -rf terraform/00-cicd-jenkins/$(TFPLANFILE)
