@@ -84,8 +84,8 @@ resource "aws_security_group" "application" {
   }
 
   ingress {
-    from_port   = 637
-    to_port     = 637
+    from_port   = 6379
+    to_port     = 6379
     protocol    = "tcp"
     cidr_blocks = "${var.ip_white_list}"
   }
