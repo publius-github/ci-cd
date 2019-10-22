@@ -50,3 +50,10 @@ sed -i "s/subnet-id/$SUBNET_ID/g" /data/jenkins/jenkins_home/config.xml
 cd /data/docker
 sudo docker build -t cicd-jenkins -f jenkins.dockerfile .
 sudo docker-compose up -d
+
+## Run docker as service
+cp cicd.service /etc/systemd/system
+chmod 664 /etc/systemd/system/cicd.service
+systemctl daemon-reload
+systemctl start cicd.service 
+#systemctl status cicd.service
