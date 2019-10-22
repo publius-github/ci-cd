@@ -44,23 +44,24 @@ How it works:
 > 4. Pipeline: artifact to s3 (assume role to ec2?) > 01-terraform<br/>
 
 
-unit во время билда
-api в контейнере
 
 
-<!-- 1. make file create ecr -->
 2. make file create s3 for state
 3. create s3 for tests result
-<!-- 3. make file docker build && push to ecr (means JENKINS) -->
 4. docker compose as service on host system
+12. Результаты тестов в файл на с3
+<!-- 1. make file create ecr -->
+
+<!-- 3. make file docker build && push to ecr (means JENKINS) -->
+
 <!-- 5. attach role to instance -->
 6. pull docker image
 <!-- 7. кондишон исполнения нул ресурса -->
 8. Block device mapping to slave (or just more space)
 <!-- 9. тригерить один за одним паййплайны -->
 10. ДНС для фаргейт
-11. ввынести юай / апи тесты в дженкинс (не контейнер) (установить дотнет)
-12. Результаты тестов в файл на с3
+<!-- 11. ввынести юай / апи тесты в дженкинс (не контейнер) (установить дотнет) -->
+
 <!-- 13. в косоле дженкинса тоже все логи -->
 <!-- 14. одну кнопку -->
 15. документация

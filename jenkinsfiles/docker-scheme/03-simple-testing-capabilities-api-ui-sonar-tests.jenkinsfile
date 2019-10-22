@@ -94,7 +94,14 @@ pipeline {
                     dotnet vstest ui-tests/UITests.dll /logger:trx  
                     '''
             } 
-               
+        }
+        stage('[i] Docker-compose up]') {
+            steps {
+                    sh '''
+                    cd ${WORKSPACE}/ci-cd-app/
+                    /usr/local/bin/docker-compose down
+                    '''
+            }
         }
     }   
 }
