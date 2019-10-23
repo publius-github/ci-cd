@@ -21,11 +21,11 @@ sudo yum -y install dotnet-sdk-2.2
 sudo curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
 sudo yum -y install nodejs
 # chrome
-wget http://chromedriver.storage.googleapis.com/77.0.3865.10/chromedriver_linux64.zip -O /tmp/chromedriver_linux64.zip
-unzip -o /tmp/chromedriver_linux64.zip -d /tmp
+sudo wget http://chromedriver.storage.googleapis.com/77.0.3865.10/chromedriver_linux64.zip -O /tmp/chromedriver_linux64.zip
+sudo unzip -o /tmp/chromedriver_linux64.zip -d /tmp
 sudo mv /tmp/chromedriver /usr/bin/chromedriver
-curl https://intoli.com/install-google-chrome.sh | bash
-mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
+sudo curl https://intoli.com/install-google-chrome.sh | bash
+sudo mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
 
 
 

@@ -8,7 +8,7 @@ resource "aws_instance" "jenkins" {
 
   # instance_type = "t3.large"
   instance_type = "t2.medium"
-
+  iam_instance_profile = "${aws_iam_instance_profile.jenkins_profile.name}"
   root_block_device {
     volume_size = "15"
     volume_type = "standard"
