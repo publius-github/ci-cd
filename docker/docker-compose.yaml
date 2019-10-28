@@ -3,9 +3,6 @@ version: "3"
 services:
   jenkins:
     image: cicd-jenkins:latest
-    deploy:
-        restart_policy:
-          condition: on-failure
     container_name: cicd-jenkins
     ports:
       - 8080:8080
@@ -15,9 +12,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
   sonarqube:
     image: sonarqube:lts
-    deploy:
-        restart_policy:
-          condition: on-failure
     container_name: cicd-sonarqube
     ports:
       - 9000:9000
@@ -34,9 +28,6 @@ services:
         hard: 65536
   db:
     image: postgres
-    deploy:
-        restart_policy:
-          condition: on-failure
     container_name: cicd-postgres
     ports:
       - 5432

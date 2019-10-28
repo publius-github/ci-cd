@@ -6,7 +6,7 @@
     <string>jenkins.security.s2m.MasterKillSwitchWarning</string>
     <string>hudson.diagnosis.ReverseProxySetupMonitor</string>
   </disabledAdministrativeMonitors>
-  <version>2.176.3</version>
+  <version>2.190.1</version>
   <installStateName>RUNNING</installStateName>
   <numExecutors>2</numExecutors>
   <mode>NORMAL</mode>
@@ -26,14 +26,14 @@
   <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
   <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
   <clouds>
-    <hudson.plugins.ec2.EC2Cloud plugin="ec2@1.45">
+    <hudson.plugins.ec2.EC2Cloud plugin="ec2@1.46.1">
       <name>ec2-aws-ec2-dev</name>
       <useInstanceProfileForCredentials>false</useInstanceProfileForCredentials>
       <roleArn></roleArn>
       <roleSessionName></roleSessionName>
       <credentialsId>aws</credentialsId>
       <privateKey>
-        <privateKey>{AQAAABAAAAaQV57u2LbPAnGIwX8Be2Fl5/h4XF9i6hqaiPNlU7++/rBKRDyKcMLvNbfakCF6J25JkSan0lFgStQCiEVBhNaa7SCml5j3lBoUT9kfwME+SFbBym91MKGs69jSDV4AO4KPqX5mIPYz3uIEM6vY3fK/j2Um8RNNGizvI06/R4Sari9VTxPPpi8YtSqG6I/YYDz559ffWvfI7kgFyD/nGYNgXB2g+PBAuQFF0xOB/jpyDtIZre/hFWRxW6jSbZxrnBzDjUg3xckFIpEjyyyn5L2CAxmm9H84seeDTvaGGa777rFWF+dJR2sFULYUgfWdfWh5Sk2NzZzDkB+hkDmqZNDDj4QgRjKisKfDnYVLsFjBNFXvdmhyfHd9Q4P22gxDPBvLh8PiUTNLQDeQxB2fbl2f44kk/iExVG6HmiewZJglnzDyoxSWSMrLTUZUoAaK9oXu4+ZpRoY8VOt5KLiyRLaTCjC6rGb79YQOOdCF1oJnrfc+/X0NurhTqm5xIUYU1mmMQ7C0jD+9mlgLMCvUfsVRInByUs1IVXxIU1wdfBqvSak74DqVwG+gqu2MTjKqQgtNFng417ff/0kq3tpmbvPI87R6+3mkbaSfkcNQ4O7h9gkaRz6gZiVSO6Lw+V74zetcXh/uVeabP/OlM7nmzzFbrnBQdCzkXZr7hNRsa+BWRpU3lbMQruLeCl4C7ar5RuCvEfRSUkc1r1y5umhD0CQ/PCXETNhVCzWGfOX9k7oUbvFyEEr5w828+dx6Rp2Lyf4Hto6pujWTmpH4pHWc+YksJ8JCH34qeegcAQrgYbHFss9qOm1Sky9AZ/iHsWb1nKNh6zDH4/ugWGDfAFRtytoqKbn5XoptMDWyOYT7heKPgrLkXczoyIQx+Z4hzc/8g646pHQQY/40ZvcYM4iT9nvSh4AC7LphYWZ+Nnp3iXIZ/K0biuW6Q4dCqUXKL9YGfLmbeg5AZjCypbzHKktJoaGZY4T8C1LmkjNdMWE0fDGxXppWdznVDz2YcwYwrezmQwJk0H770WB1w2yNKKUcwTAiWBEbKUkQ2WLLyT3MEMV5AbTk/5qMPPbpObUOCeeY75SZvC41sFrUaCRavjLzw9dyLCXHheJhu6/wgXorbzdM82o01VgbnKi6G9HYf+cDO8WPClttdvJhweyS3b+Wkr/5rENvQXZ4N0R8i0fKXKsmQIxH78fVhNP8TMnUcGyXF0pRzT/RwcScdGQm3PGFa69hi3boBJx7hmzsjpxXMCkMpSSZnGUUUGquumduYQ2UroLAI6h+Ba5pNz+WWF+Lbjd48YqmAu67pDzjOp26wslT9W+Yk7WDQY8OVrz/Xaj3SPUHQjCqhsPbafQQ6g76td72z0X1OjbQXw2ntS9Y8P2tB0mflSmGI4CyjkYYGpJQtF+4t5JhB+mm3H4VEWZonfxTRow/w71JELBBElhlsePsoJeV0IYrTKMmhKmo8XIePMF8uIpZMrg2O1lbjyULMnRY80++4473WjWpPTba4QT08rvcSJkRJRnQ+CWWArZ0638J/ZRGFQRpPhwx3WGnnUokc28q4DlmiNmsDSpiTG4JS3z5hrNokrM7nTs+bFRLHzH1Pr1/K0pqpeQPTwm4cltv8CGYN5wmtmWqTpoFGsEkiUQSUKvk8HyOY9wQGzGXYlSGt/CpPoPd8pMsITlCC4xrqtfSkjDP4NZcQJKGil1Pbg/ucLMGwUT0IbRvmGHKoO6C6IUEEvzyn669U96lsr7fr9l88O2lL+DttHhDSMuh5+RZ8U2O/GRPHe/8pHXOA/0Nsx24Ax54HzT+u2QrfU/qt3JKx/Fc0R+mK1gFajLdM4CtKvACugGq5GuqQSLxw/93rzEU1RldcNHb7+GrtVXyNAPKCj3XDbyE3j+IsZFZRRM5RbJqABm6+VYNkutfC8oVTJUuJjkit0oeSk38ops1uLyLPIpSKu8naeLumgYlZNRbe3R3bFHw7zqVi/uraXeWnXkAOZlyV4CHaGrGUc5fXhAY3FrqIK70jyNZ5cKLuO3MeOZ9C1ETf6XfuFmW4zqswvaTp9qJxmlgUtMs+WfO3NYplSsxeH2OJJYjAbaQpvKenb1o2uS+VYVn1tC4fdtXEAwPAFL4sw7HHTWbCNhRh4CY1xGR2qXpd63C/nKl5VA/0hwmeq5kmy+evX+CqL1fLyAfYMyb3NSDG48q0P3X+FoIePtqv81iC79NhZBU8cWJBgv5gikTblmm3HWqbxr2D5SsRd4lRYkWhILRyXVyHw==}</privateKey>
+        <privateKey>{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}</privateKey>
       </privateKey>
       <instanceCap>2147483647</instanceCap>
       <templates>
@@ -41,7 +41,7 @@
           <ami>ami-035be7bafff33b6b6</ami>
           <description>aws-ec2-dev</description>
           <zone>us-east-1a</zone>
-          <securityGroups>jenkins</securityGroups>
+          <securityGroups>jenkins, application</securityGroups>
           <remoteFS></remoteFS>
           <type>T2Medium</type>
           <ebsOptimized>false</ebsOptimized>
@@ -55,7 +55,7 @@ sudo systemctl enable docker
 sudo systemctl start docker
 sudo usermod -aG docker ec2-user
 sudo chmod 777 /var/run/docker.sock
-sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.17.1/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
 sudo unzip terraform_0.11.13_linux_amd64.zip
@@ -65,6 +65,11 @@ sudo rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-pr
 sudo yum -y install dotnet-sdk-2.2
 sudo curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
 sudo yum -y install nodejs
+sudo wget http://chromedriver.storage.googleapis.com/77.0.3865.10/chromedriver_linux64.zip -O /tmp/chromedriver_linux64.zip
+sudo unzip -o /tmp/chromedriver_linux64.zip -d /tmp
+sudo mv /tmp/chromedriver /usr/bin/chromedriver
+sudo curl https://intoli.com/install-google-chrome.sh | bash
+sudo mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
 </initScript>
           <tmpDir></tmpDir>
           <userData></userData>
@@ -73,14 +78,15 @@ sudo yum -y install nodejs
           <jvmopts></jvmopts>
           <subnetId>subnet-0402427494020e819</subnetId>
           <idleTerminationMinutes>30</idleTerminationMinutes>
-          <iamInstanceProfile></iamInstanceProfile>
+          <iamInstanceProfile>arn:aws:iam::803808824931:instance-profile/jenkins_profile</iamInstanceProfile>
           <deleteRootOnTermination>false</deleteRootOnTermination>
           <useEphemeralDevices>false</useEphemeralDevices>
           <customDeviceMapping></customDeviceMapping>
           <instanceCap>2147483647</instanceCap>
+          <minimumNumberOfInstances>0</minimumNumberOfInstances>
           <stopOnTerminate>false</stopOnTerminate>
           <connectionStrategy>PRIVATE_IP</connectionStrategy>
-          <associatePublicIp>false</associatePublicIp>
+          <associatePublicIp>true</associatePublicIp>
           <useDedicatedTenancy>false</useDedicatedTenancy>
           <amiType class="hudson.plugins.ec2.UnixData">
             <rootCommandPrefix></rootCommandPrefix>
@@ -92,6 +98,8 @@ sudo yum -y install nodejs
           <connectBySSHProcess>false</connectBySSHProcess>
           <maxTotalUses>-1</maxTotalUses>
           <nextSubnet>0</nextSubnet>
+          <usePrivateDnsName>false</usePrivateDnsName>
+          <connectUsingPublicIp>false</connectUsingPublicIp>
         </hudson.plugins.ec2.SlaveTemplate>
       </templates>
       <region>us-east-1</region>

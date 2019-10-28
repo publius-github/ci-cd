@@ -27,8 +27,6 @@ pipeline {
         stage('[i] AWS Deployment') {
             steps {
                 sh '''
-                export AWS_ACCESS_KEY_ID="$access_key"
-                export AWS_SECRET_ACCESS_KEY="$secret_key"
                 cd ${WORKSPACE}/ci-cd-infra/terraform/01-cicd-ecs/
                 /usr/local/bin/terraform init
                 /usr/local/bin/terraform plan --var-file=vars/nonprod.tfvars --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$app_db" --var "app_port_db=$app_port_db"

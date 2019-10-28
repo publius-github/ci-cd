@@ -15,23 +15,7 @@ pipeline {
                 dir ("ci-cd-app") {
                     git branch: 'master', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd-app.git'
                 }
-                dir ("ci-cd-infra") {
-                    git branch: 'feature/container', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
-                }
             }
-        }
-        stage('[i] cred') {
-            steps {
-                    sh '''
-                    mkdir -p ~/.aws
-                    echo "[default]" > ~/.aws/config
-                    echo "output = json" >> ~/.aws/config
-                    echo "region = us-east-1" >> ~/.aws/config
-                    echo "[default]" > ~/.aws/credentials
-                    echo "aws_access_key_id = $access_key" >> ~/.aws/credentials
-                    echo "aws_secret_access_key = $secret_key" >> ~/.aws/credentials
-                    '''
-                }
         }
 	    stage('[i] Sonarqube: simple-testing-capabilities') {
 		    steps {
@@ -80,6 +64,7 @@ pipeline {
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests
                     dotnet publish --output api-tests
                     dotnet vstest api-tests/APITests.dll /logger:trx
+                    aws s3 mv TestResults/*.trx s3://simple-testing-capabilities-tests/api-tests/${JOB_NAME}-${BUILD_NUMBER}.trx
                     '''
             } 
         }
@@ -91,7 +76,8 @@ pipeline {
                     ip_address=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
                     sed -i -e "s/localhost/$ip_address/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests/appsettings.json
                     dotnet publish --output ui-tests
-                    dotnet vstest ui-tests/UITests.dll /logger:trx  
+                    dotnet vstest ui-tests/UITests.dll /logger:trx
+                    aws s3 mv TestResults/*.trx s3://simple-testing-capabilities-tests/ui-tests/${JOB_NAME}-${BUILD_NUMBER}.trx
                     '''
             } 
         }

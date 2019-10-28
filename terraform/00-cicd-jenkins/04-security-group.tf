@@ -35,14 +35,7 @@ resource "aws_security_group" "jenkins" {
     from_port   = 50000
     to_port     = 50000
     protocol    = "tcp"
-    cidr_blocks = "${var.ip_white_list}"
-  }
-
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = "${var.ip_white_list}"
+    cidr_blocks = ["${aws_vpc.main.cidr_block}"]
   }
 
   tags = {
@@ -60,13 +53,6 @@ resource "aws_security_group" "application" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = "${var.ip_white_list}"
   }
 
   ingress {

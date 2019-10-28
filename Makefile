@@ -30,21 +30,36 @@ clean: ## - Clean terraform state
 plan: ## - Plan
 	@echo "[i] Initializing for $(ENVNAME)"
 	@terraform init terraform/00-cicd-jenkins/
+	@terraform destroy -auto-approve -target null_resource.configure terraform/00-cicd-jenkins/
+	@echo "[i] Planning for $(ENVNAME)"
+	@terraform plan terraform/00-cicd-jenkins/
+
+apply: ## - Apply Changes
+	@echo "[i] Applying for $(ENVNAME)"
+	@terraform destroy -auto-approve -target null_resource.configure terraform/00-cicd-jenkins/
+	@terraform apply --auto-approve terraform/00-cicd-jenkins/
+	@rm -rf terraform/00-cicd-jenkins/$(TFPLANFILE)
+
+plan-without-profile: ## - Plan
+	@echo "[i] Initializing for $(ENVNAME)"
+	@terraform init terraform/00-cicd-jenkins/
 	@terraform destroy -auto-approve -target null_resource.configure -var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
 	@echo "[i] Planning for $(ENVNAME)"
 	@terraform plan terraform/00-cicd-jenkins/
 
-plan-ecs: ## - Plan
-	@echo "[i] Initializing for $(ENVNAME)"
-	@terraform init terraform/01-cicd-ecs/
-	@echo "[i] Planning for $(ENVNAME)"
-	@terraform plan --var-file=terraform/01-cicd-ecs/vars/$(ENVNAME).tfvars terraform/01-cicd-ecs/
-			
-apply: ## - Apply Changes
+apply-without-profile: ## - Apply Changes
 	@echo "[i] Applying for $(ENVNAME)"
-#	@terraform destroy -auto-approve -target null_resource.configure -var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
+	@terraform destroy -auto-approve -target null_resource.configure -var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars terraform/00-cicd-jenkins/
 	@terraform apply --auto-approve terraform/00-cicd-jenkins/
 	@rm -rf terraform/00-cicd-jenkins/$(TFPLANFILE)
+
+# plan-ecs: ## - Plan
+# 	@echo "[i] Initializing for $(ENVNAME)"
+# 	@terraform init terraform/01-cicd-ecs/
+# 	@echo "[i] Planning for $(ENVNAME)"
+# 	@terraform plan --var-file=terraform/01-cicd-ecs/vars/$(ENVNAME).tfvars terraform/01-cicd-ecs/
+			
+
 
 destroy: ## - Destroy everything in the TF environment
 	@terraform destroy -var-file=terraform/00-cicd-jenkins/vars/$(ENVNAME).tfvars \

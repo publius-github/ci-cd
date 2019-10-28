@@ -1,8 +1,6 @@
 pipeline {
     agent { node 'aws-ec2-dev' }
     environment {
-        access_key = credentials('env-aws-access-key')
-        secret_key = credentials('env-aws-secret-key')
         registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
         app = "simple-testing-capabilities:latest"
     }
@@ -16,9 +14,6 @@ pipeline {
             steps {
                 dir ("ci-cd-app") {
                     git branch: 'master', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd-app.git'
-                }
-                dir ("ci-cd-infra") {
-                    git branch: 'feature/container', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
                 }
             }
         }
