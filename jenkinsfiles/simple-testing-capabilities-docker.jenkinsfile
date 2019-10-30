@@ -14,7 +14,7 @@ pipeline {
         stage ('[i] GIT') {
             steps {
                 dir ("ci-cd-app") {
-                    git branch: 'master', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd-app.git'
+                    git branch: 'master', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd-app'
                 }
             }
         }
