@@ -1,5 +1,0 @@
-private_key_path = "~/.ssh/id_rsa"
-public_key_path = "~/.ssh/id_rsa.pub"
-aws_access_key = "AKIA3WJV5JZRUHWESVMH"
-aws_secret_key = "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"
-tfstate_bucket = "ci-cd-bucket-125845703452"

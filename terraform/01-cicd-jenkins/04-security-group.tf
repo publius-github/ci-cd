@@ -56,24 +56,10 @@ resource "aws_security_group" "application" {
   }
 
   ingress {
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = "${var.ip_white_list}"
-  }
-
-  ingress {
-    from_port   = 50504
-    to_port     = 50504
-    protocol    = "tcp"
-    cidr_blocks = "${var.ip_white_list}"
-  }
-
-  ingress {
-    from_port   = 6379
-    to_port     = 6379
-    protocol    = "tcp"
-    cidr_blocks = "${var.ip_white_list}"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {

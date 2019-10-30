@@ -11,6 +11,7 @@ sudo yum install -y python-pip
 sudo pip install docker-compose
 sudo yum upgrade -y python*
 sudo yum clean all
+sudo usermod -aG docker $USER
 ## Mount EBS
 fs=$(sudo file -s /dev/xvdh | grep filesystem -c)
 if [ $fs -eq "1" ]
@@ -42,7 +43,13 @@ SUBNET_ID=$(curl http://169.254.169.254/latest/meta-data/network/interfaces/macs
 sed -i "s/subnet-id/$SUBNET_ID/g" /data/jenkins/jenkins_home/config.xml
 ## Run docker
 cd /data/docker
-sudo docker build -t cicd-jenkins -f jenkins.dockerfile .
+$(aws ecr get-login --no-include-email --region us-east-1)
+docker build -t cicd-jenkins -f jenkins.dockerfile .
+docker tag cicd-jenkins:latest 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-jenkins:latest
+docker push 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-jenkins:latest
+docker build -t cicd-sonar-runner -f sonar-runner.dockerfile .
+docker tag cicd-sonar-runner:latest 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest
+docker push 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest
 docker-compose up -d
 ## Run docker as service
 # cd /opt/cicd/files

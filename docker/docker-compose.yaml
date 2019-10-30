@@ -2,7 +2,7 @@ version: "3"
 
 services:
   jenkins:
-    image: cicd-jenkins:latest
+    image: 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-jenkins:latest
     container_name: cicd-jenkins
     ports:
       - 8080:8080

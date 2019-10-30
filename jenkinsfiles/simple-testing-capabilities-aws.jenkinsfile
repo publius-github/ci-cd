@@ -1,5 +1,8 @@
 pipeline {
     agent { node 'aws-ec2-dev' }
+    options {
+        ansiColor('xterm')
+    }
     environment {
         access_key = credentials('env-aws-access-key')
         secret_key = credentials('env-aws-secret-key')

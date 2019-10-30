@@ -1,8 +1,9 @@
 pipeline {
     agent { node 'aws-ec2-dev' }
     environment {
-        access_key = credentials('env-aws-access-key')
-        secret_key = credentials('env-aws-secret-key')
+        registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
+        app = "simple-testing-capabilities:latest"
+        app2 = "simple-testing-capabilities-spa:latest"
     }
     stages {
         stage ('[i] Clean WC') {
@@ -17,10 +18,58 @@ pipeline {
                 }
             }
         }
-	    stage('[i] Sonarqube: simple-testing-capabilities') {
+        stage('[i] Docker build [simple-testing-capabilities]') {
+            steps {
+                    sh '''
+                    echo "=========================== Build docker $app image ==========================="
+                    cd ${WORKSPACE}/ci-cd-app/
+                    /usr/bin/docker build -f "simple-testing-capabilities.dockerfile" -t $registry_url/$app .
+                    '''
+                }
+        }
+        stage('[i] Docker push [simple-testing-capabilities]') {
+            steps {
+                script {
+                    docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {
+                    docker.image("$registry_url/$app").push()
+                    }
+                } 
+            }   
+        }
+        stage('[i] Docker build [simple-testing-capabilities-spa]') {
+            steps {
+                    sh '''
+                    echo "=========================== Build docker $app2 image ==========================="
+                    cd ${WORKSPACE}/ci-cd-app/
+                    ip_address=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
+                    sed -i -e "s/localhost/$ip_address/g" simple-testing-capabilities-spa/src/ProjectSettings.json
+                    /usr/bin/docker build -f "simple-testing-capabilities-spa.dockerfile" -t $registry_url/$app2 .
+                    '''
+                }
+        }
+        stage('[i] Docker push [simple-testing-capabilities-spa]') {
+            steps {
+                script {
+                    docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {
+                    docker.image("$registry_url/$app2").push()
+                    }
+                } 
+            }   
+        }
+        stage('[i] Docker-compose up]') {
+            steps {
+                    sh '''
+                    echo "====================== Docker-compose up ======================"
+                    $(aws ecr get-login --no-include-email --region us-east-1)
+                    cd ${WORKSPACE}/ci-cd-app/
+                    /usr/local/bin/docker-compose up -d
+                    '''
+            }
+        }
+	    stage('[i] Sonarqube: simple-testing-capabilities (Backend)') {
 		    steps {
 			        sh '''
-                    echo "====================== Sonarqube: simple-testing-capabilities ======================"
+                    echo "====================== Sonarqube: simple-testing-capabilities (Backend) ======================"
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject
                     dotnet publish --output publish
                     $(aws ecr get-login --no-include-email --region us-east-1)
@@ -39,10 +88,10 @@ pipeline {
                     '''
 		    }
 	    }
-        stage('[i] Sonarqube: simple-testing-capabilities-spa') {
+        stage('[i] Sonarqube: simple-testing-capabilities-spa (Frontend)') {
             steps {
                     sh '''
-                    echo "====================== Sonarqube: simple-testing-capabilities-spa ======================"
+                    echo "====================== Sonarqube: simple-testing-capabilities-spa (Frontend) ======================"
                     $(aws ecr get-login --no-include-email --region us-east-1)
                     docker run -dit --rm -v ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa:/usr/src 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar:latest sonar-scanner   \
                     -Dsonar.host.url=http://10.0.1.100:9000 \
@@ -81,9 +130,10 @@ pipeline {
                     '''
             } 
         }
-        stage('[i] Docker-compose up]') {
+        stage('[i] Docker-compose down]') {
             steps {
                     sh '''
+                    echo "====================== Docker-compose down ======================"
                     cd ${WORKSPACE}/ci-cd-app/
                     /usr/local/bin/docker-compose down
                     '''

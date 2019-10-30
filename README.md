@@ -53,7 +53,7 @@ How it works:
 <!-- 14. одну кнопку -->
 <!-- 16. сонаркуб -->
 <!-- 19. сонаркуб в пайплайн -->
-<!-- 18. add 3000/50504/6379 to sg -->
+<!-- 18. add 00000 to sg application -->
 19. groovy init script ec2
 2. make file create s3 for state
 4. docker compose as service on host system
@@ -62,3 +62,15 @@ How it works:
 15. документация
 17. Код деплой
 10. ДНС для фаргейт
+make file create s3 bucket
+
+
+init:
+1. bucket: 
+- simple-testing-capabilities-tests
+2. ecr:
+- cicd-jenkins
+- cicd-sonar
+- simple-testing-capabilities
+- simple-testing-capabilities-spa
+
