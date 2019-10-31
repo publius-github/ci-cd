@@ -62,7 +62,9 @@ How it works:
 15. документация
 17. Код деплой
 10. ДНС для фаргейт
-make file create s3 bucket
+makefile create s3 bucket
+sonar hide credentials
+
 
 
 init:

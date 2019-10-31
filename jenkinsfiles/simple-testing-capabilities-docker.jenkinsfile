@@ -73,7 +73,7 @@ pipeline {
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject
                     dotnet publish --output publish
                     $(aws ecr get-login --no-include-email --region us-east-1)
-                    docker run -dit --rm -v ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject:/usr/src 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar:latest sonar-scanner   \
+                    docker run -dit --rm -v ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject:/usr/src 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest sonar-scanner   \
                     -Dsonar.host.url=http://10.0.1.100:9000 \
                     -Dsonar.jdbc.url=jdbc:postgresql://10.0.1.100:5432/sonar \
                     -Dsonar.jdbc.username=sonar \
@@ -93,7 +93,7 @@ pipeline {
                     sh '''
                     echo "====================== Sonarqube: simple-testing-capabilities-spa (Frontend) ======================"
                     $(aws ecr get-login --no-include-email --region us-east-1)
-                    docker run -dit --rm -v ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa:/usr/src 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar:latest sonar-scanner   \
+                    docker run -dit --rm -v ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa:/usr/src 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest sonar-scanner   \
                     -Dsonar.host.url=http://10.0.1.100:9000 \
                     -Dsonar.jdbc.url=jdbc:postgresql://10.0.1.100:5432/sonar \
                     -Dsonar.jdbc.username=sonar \
