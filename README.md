@@ -64,6 +64,7 @@ How it works:
 10. ДНС для фаргейт
 makefile create s3 bucket
 sonar hide credentials
+1st-pipeline Aproove for destroy
 
 
 
