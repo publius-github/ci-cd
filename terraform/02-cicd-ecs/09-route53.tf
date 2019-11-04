@@ -6,7 +6,7 @@ resource "aws_route53_record" "frontend" {
   zone_id = "${data.aws_route53_zone.primary.zone_id}"
   name    = "frontend.simple-testing-capabilities.co.uk"
   type    = "A"
-  ttl     = "300"
+
   alias {
     name                   = "${aws_alb.alb_frontend.dns_name}"
     zone_id                = "${aws_alb.alb_frontend.zone_id}"
@@ -18,7 +18,7 @@ resource "aws_route53_record" "backend" {
   zone_id = "${data.aws_route53_zone.primary.zone_id}"
   name    = "backend.simple-testing-capabilities.co.uk"
   type    = "A"
-  ttl     = "300"
+
   alias {
     name                   = "${aws_alb.alb_backend.dns_name}"
     zone_id                = "${aws_alb.alb_backend.zone_id}"
@@ -30,7 +30,7 @@ resource "aws_route53_record" "db" {
   zone_id = "${data.aws_route53_zone.primary.zone_id}"
   name    = "db.simple-testing-capabilities.co.uk"
   type    = "A"
-  ttl     = "300"
+
   alias {
     name                   = "${aws_alb.alb_db.dns_name}"
     zone_id                = "${aws_alb.alb_db.zone_id}"
