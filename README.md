@@ -58,13 +58,13 @@ How it works:
 2. make file create s3 for state
 4. docker compose as service on host system
 8. Block device mapping to slave (or just more space)
-9. role for slave
+<!-- 9. role for slave -->
 15. документация
 17. Код деплой
 10. ДНС для фаргейт
-makefile create s3 bucket
 sonar hide credentials
 1st-pipeline Aproove for destroy
+<!-- change subnet in config.xml -->
 
 
 

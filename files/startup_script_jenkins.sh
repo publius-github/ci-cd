@@ -35,7 +35,6 @@ mkdir -p /data/sonarqube/extensions
 mkdir -p /data/sonarqube/logs
 mkdir -p /data/jenkins/jenkins_home
 mkdir -p /data/docker
-rm -rf /data/jenkins/jenkins_home/config.xml
 cp -rf /opt/cicd/jenkins/* /data/jenkins/jenkins_home
 cp -rf /opt/cicd/docker/* /data/docker/
 ## Configure Jenkins

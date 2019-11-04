@@ -55,6 +55,12 @@ clean: ## - Clean terraform state
 	@terraform apply --auto-approve terraform/01-cicd-jenkins/
 	@rm -rf terraform/01-cicd-jenkins/$(TFPLANFILE)
 
+01-cicd-jenkins-destroy: ##
+	@echo "[i] Initializing for $(ENVNAME)"
+	@terraform init terraform/01-cicd-jenkins/
+	@echo "[i] Destroying for $(ENVNAME)"
+	@terraform destroy --auto-approve terraform/01-cicd-jenkins/
+	@rm -rf terraform/01-cicd-jenkins/$(TFPLANFILE)
 
 # plan-ecs: ## - Plan
 # 	@echo "[i] Initializing for $(ENVNAME)"

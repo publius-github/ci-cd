@@ -76,7 +76,7 @@ sudo mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
           <numExecutors>5</numExecutors>
           <remoteAdmin>ec2-user</remoteAdmin>
           <jvmopts></jvmopts>
-          <subnetId>subnet-0402427494020e819</subnetId>
+          <subnetId>subnet-id</subnetId>
           <idleTerminationMinutes>30</idleTerminationMinutes>
           <iamInstanceProfile>arn:aws:iam::803808824931:instance-profile/jenkins_profile</iamInstanceProfile>
           <deleteRootOnTermination>false</deleteRootOnTermination>
