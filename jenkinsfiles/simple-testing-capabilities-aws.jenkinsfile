@@ -32,6 +32,7 @@ pipeline {
                     sh '''
                     echo "=========================== Build docker $app image ==========================="
                     cd ${WORKSPACE}/ci-cd-app/
+                    sed -i -e "s/redis/db.example.com/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/appsettings.json
                     /usr/bin/docker build -f "simple-testing-capabilities.dockerfile" -t $registry_url/$app .
                     '''
                 }
@@ -50,8 +51,7 @@ pipeline {
                     sh '''
                     echo "=========================== Build docker $app2 image ==========================="
                     cd ${WORKSPACE}/ci-cd-app/
-                    ip_address=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
-                    sed -i -e "s/localhost/$ip_address/g" simple-testing-capabilities-spa/src/ProjectSettings.json
+                    sed -i -e "s/localhost/app.example.com/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/src/ProjectSettings.json
                     /usr/bin/docker build -f "simple-testing-capabilities-spa.dockerfile" -t $registry_url/$app2 .
                     '''
                 }

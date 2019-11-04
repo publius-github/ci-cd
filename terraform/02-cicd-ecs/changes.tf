@@ -223,22 +223,3 @@ resource "aws_route_table_association" "private" {
 
 # route 53
 
-resource "aws_route53_zone" "private" {
-  name = "example.com"
-
-  vpc {
-    vpc_id = "${data.aws_vpc.main.id}"
-  }
-}
-
-resource "aws_route53_record" "www" {
-  zone_id = "${aws_route53_zone.private.zone_id}"
-  name    = "app.example.com"
-  type    = "A"
-
-  alias {
-    name                   = "${aws_alb.alb_frontend.dns_name}"
-    zone_id                = "${aws_alb.alb_frontend.zone_id}"
-    evaluate_target_health = true
-  }
-}
