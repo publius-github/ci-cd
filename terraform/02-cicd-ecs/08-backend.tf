@@ -1,10 +1,10 @@
-# 08-backend.tf
 resource "aws_ecs_service" "service_backend" {
   name            = "service_backend"
   cluster         = "${data.aws_ecs_cluster.main.id}"
   task_definition = "${aws_ecs_task_definition.task_simple_testing_capabilities.arn}"
   desired_count   = "1"
   launch_type     = "FARGATE"
+
   network_configuration {
     security_groups = ["${aws_security_group.ecs_tasks.id}"]
     subnets         = ["${aws_subnet.fargate_subnet_private.*.id}"]
@@ -33,7 +33,7 @@ resource "aws_alb_target_group" "backend_target_group" {
   name        = "backend-target-group"
   port        = "${var.app_port_backend}"
   protocol    = "HTTP"
-  vpc_id      = "${data.aws_vpc.main.id}"
+  vpc_id      = "${aws_vpc.fargate_vpc.id}"
   target_type = "ip"
 }
 
@@ -52,4 +52,3 @@ resource "aws_alb_listener" "listener_backend" {
 output "alb_backend" {
   value = "${aws_alb.alb_backend.dns_name}"
 }
-

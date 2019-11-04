@@ -1,16 +1,12 @@
-resource "aws_route53_zone" "private" {
-  name = "example.com"
-
-  vpc {
-    vpc_id = "${data.aws_vpc.main.id}"
-  }
+data "aws_route53_zone" "selected" {
+  name         = "simple-testing-capabilities.co.uk."
 }
 
 resource "aws_route53_record" "frontend" {
   zone_id = "${aws_route53_zone.private.zone_id}"
-  name    = "frontend.example.com"
+  name    = "frontend.simple-testing-capabilities.co.uk"
   type    = "A"
-
+  ttl     = "300"
   alias {
     name                   = "${aws_alb.alb_frontend.dns_name}"
     zone_id                = "${aws_alb.alb_frontend.zone_id}"
@@ -20,9 +16,9 @@ resource "aws_route53_record" "frontend" {
 
 resource "aws_route53_record" "backend" {
   zone_id = "${aws_route53_zone.private.zone_id}"
-  name    = "backend.example.com"
+  name    = "backend.simple-testing-capabilities.co.uk"
   type    = "A"
-
+  ttl     = "300"
   alias {
     name                   = "${aws_alb.alb_backend.dns_name}"
     zone_id                = "${aws_alb.alb_backend.zone_id}"
@@ -32,9 +28,9 @@ resource "aws_route53_record" "backend" {
 
 resource "aws_route53_record" "db" {
   zone_id = "${aws_route53_zone.private.zone_id}"
-  name    = "db.example.com"
+  name    = "db.simple-testing-capabilities.co.uk"
   type    = "A"
-
+  ttl     = "300"
   alias {
     name                   = "${aws_alb.alb_db.dns_name}"
     zone_id                = "${aws_alb.alb_db.zone_id}"

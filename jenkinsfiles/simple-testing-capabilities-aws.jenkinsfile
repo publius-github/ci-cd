@@ -47,7 +47,7 @@ pipeline {
                     sh '''
                     echo "=========================== Build docker $app image ==========================="
                     cd ${WORKSPACE}/ci-cd-app/
-                    sed -i -e "s/redis/db.example.com/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/appsettings.json
+                    sed -i -e "s/redis/db.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/appsettings.json
                     /usr/bin/docker build -f "simple-testing-capabilities.dockerfile" -t $registry_url/$app .
                     '''
                 }
@@ -66,7 +66,7 @@ pipeline {
                     sh '''
                     echo "=========================== Build docker $app2 image ==========================="
                     cd ${WORKSPACE}/ci-cd-app/
-                    sed -i -e "s/localhost/alb-backend-344200290.us-east-1.elb.amazonaws.com/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/src/ProjectSettings.json
+                    sed -i -e "s/localhost/backend.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/src/ProjectSettings.json
                     /usr/bin/docker build -f "simple-testing-capabilities-spa.dockerfile" -t $registry_url/$app2 .
                     '''
                 }
@@ -135,7 +135,7 @@ pipeline {
                     sh '''
                     echo "====================== API integration test ======================"
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests
-                    sed -i -e "s/localhost/backend.example.com/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests/appsettings.json
+                    sed -i -e "s/localhost/backend.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests/appsettings.json
                     dotnet publish --output api-tests
                     dotnet vstest api-tests/APITests.dll /logger:trx
                     '''
@@ -146,7 +146,7 @@ pipeline {
                     sh '''
                     echo "====================== UI test ======================"
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests
-                    sed -i -e "s/localhost/frontend.example.com/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests/appsettings.json
+                    sed -i -e "s/localhost/frontend.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests/appsettings.json
                     dotnet publish --output ui-tests
                     dotnet vstest ui-tests/UITests.dll /logger:trx  
                     '''
@@ -155,7 +155,7 @@ pipeline {
         stage('[i] AWS Destroy') {
             steps {
                 sh '''
-                cd ${WORKSPACE}/ci-cd-infra/terraform/01-cicd-ecs/
+                cd ${WORKSPACE}/ci-cd-infra/terraform/02-cicd-ecs/
                 /usr/local/bin/terraform init
                 /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
                 /usr/local/bin/terraform destroy --auto-approve --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
