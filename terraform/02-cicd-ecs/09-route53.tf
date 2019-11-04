@@ -24,6 +24,7 @@ resource "aws_route53_record" "backend" {
   type    = "A"
 
   alias {
+    name                   = "${aws_alb.alb_backend.dns_name}"
     zone_id                = "${aws_alb.alb_backend.zone_id}"
     evaluate_target_health = true
   }
@@ -33,7 +34,6 @@ resource "aws_route53_record" "db" {
   zone_id = "${aws_route53_zone.private.zone_id}"
   name    = "db.example.com"
   type    = "A"
-    name                   = "${aws_alb.alb_backend.dns_name}"
 
   alias {
     name                   = "${aws_alb.alb_db.dns_name}"
