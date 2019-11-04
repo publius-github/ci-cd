@@ -85,8 +85,8 @@ pipeline {
                 sh '''
                 cd ${WORKSPACE}/ci-cd-infra/terraform/02-cicd-ecs/
                 /usr/local/bin/terraform init
-                /usr/local/bin/terraform plan --var-file=vars/nonprod.tfvars --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$app_db" --var "app_port_db=$app_port_db"
-                /usr/local/bin/terraform apply --var-file=vars/nonprod.tfvars --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$app_db" --var "app_port_db=$app_port_db"
+                /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$app_db" --var "app_port_db=$app_port_db"
+                /usr/local/bin/terraform apply --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$app_db" --var "app_port_db=$app_port_db"
                 '''
             }
         }
@@ -135,6 +135,7 @@ pipeline {
                     sh '''
                     echo "====================== API integration test ======================"
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests
+                    sed -i -e "s/localhost/backend.example.com/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests/appsettings.json
                     dotnet publish --output api-tests
                     dotnet vstest api-tests/APITests.dll /logger:trx
                     '''
@@ -145,8 +146,7 @@ pipeline {
                     sh '''
                     echo "====================== UI test ======================"
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests
-                    ip_address=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
-                    sed -i -e "s/localhost/$ip_address/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests/appsettings.json
+                    sed -i -e "s/localhost/frontend.example.com/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests/appsettings.json
                     dotnet publish --output ui-tests
                     dotnet vstest ui-tests/UITests.dll /logger:trx  
                     '''
@@ -157,8 +157,8 @@ pipeline {
                 sh '''
                 cd ${WORKSPACE}/ci-cd-infra/terraform/01-cicd-ecs/
                 /usr/local/bin/terraform init
-                /usr/local/bin/terraform plan --var-file=vars/nonprod.tfvars --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
-                /usr/local/bin/terraform destroy --var-file=vars/nonprod.tfvars --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
+                /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
+                /usr/local/bin/terraform destroy  --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
                 '''
             }
         }
