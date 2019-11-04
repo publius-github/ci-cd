@@ -10,6 +10,8 @@ pipeline {
         app_port_frontend = "3000"
         app_db = "redis:latest"
         app_port_db = "6379"
+        access_key = credentials('env-aws-access-key')
+        secret_key = credentials('env-aws-secret-key')
     }
     stages {
         stage ('[i] Clean WC') {
@@ -26,6 +28,19 @@ pipeline {
                     git branch: 'feature/container', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
                 }
             }
+        }
+        stage('[i] cred') {
+            steps {
+                    sh '''
+                    mkdir -p ~/.aws
+                    echo "[default]" > ~/.aws/config
+                    echo "output = json" >> ~/.aws/config
+                    echo "region = us-east-1" >> ~/.aws/config
+                    echo "[default]" > ~/.aws/credentials
+                    echo "aws_access_key_id = $access_key" >> ~/.aws/credentials
+                    echo "aws_secret_access_key = $secret_key" >> ~/.aws/credentials
+                    '''
+                }
         }
         stage('[i] Docker build [simple-testing-capabilities]') {
             steps {
