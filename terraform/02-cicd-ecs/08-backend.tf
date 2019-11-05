@@ -8,6 +8,7 @@ resource "aws_ecs_service" "service_backend" {
   network_configuration {
     security_groups = ["${aws_security_group.ecs_tasks.id}"]
     subnets         = ["${aws_subnet.fargate_subnet_private.*.id}"]
+    assign_public_ip = "true"
   }
 
   load_balancer {
