@@ -1,10 +1,10 @@
 
-resource "aws_route53_zone" "primary" {
+data "aws_route53_zone" "primary" {
   name = "simple-testing-capabilities.co.uk."
 }
 
 resource "aws_route53_record" "frontend" {
-  zone_id = "${aws_route53_zone.primary.zone_id}"
+  zone_id = "${data.aws_route53_zone.primary.zone_id}"
   name    = "frontend.simple-testing-capabilities.co.uk"
   type    = "A"
 
@@ -16,7 +16,7 @@ resource "aws_route53_record" "frontend" {
 }
 
 resource "aws_route53_record" "backend" {
-  zone_id = "${aws_route53_zone.primary.zone_id}"
+  zone_id = "${data.aws_route53_zone.primary.zone_id}"
   name    = "backend.simple-testing-capabilities.co.uk"
   type    = "A"
 
@@ -28,7 +28,7 @@ resource "aws_route53_record" "backend" {
 }
 
 resource "aws_route53_record" "db" {
-  zone_id = "${aws_route53_zone.primary.zone_id}"
+  zone_id = "${data.aws_route53_zone.primary.zone_id}"
   name    = "db.simple-testing-capabilities.co.uk"
   type    = "A"
 
