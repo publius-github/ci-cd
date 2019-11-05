@@ -1,7 +1,7 @@
 resource "aws_ecs_service" "service_backend" {
   name            = "service_backend"
   cluster         = "${data.aws_ecs_cluster.main.id}"
-  task_definition = "${aws_ecs_task_definition.task_simple_testing_capabilities.arn}"
+  task_definition = "${aws_ecs_task_definition.task_simple_testing_capabilities_backend.arn}"
   desired_count   = "1"
   launch_type     = "FARGATE"
 
