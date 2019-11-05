@@ -61,12 +61,12 @@ How it works:
 <!-- 9. role for slave -->
 15. документация
 17. Код деплой
-10. ДНС для фаргейт
+<!-- 10. ДНС для фаргейт -->
 sonar hide credentials
 1st-pipeline Aproove for destroy
 <!-- change subnet in config.xml -->
-
-
+run sonar in parallel
+2 cases: sucsesfull and disaster
 
 init:
 1. bucket: 
