@@ -91,3 +91,15 @@ resource "null_resource" "configure" {
     }
   }
 }
+
+data "aws_route53_zone" "primary" {
+  name = "simple-testing-capabilities.co.uk."
+}
+
+resource "aws_route53_record" "jenkins" {
+  zone_id = "${data.aws_route53_zone.primary.zone_id}"
+  name    = "jenkins.simple-testing-capabilities.co.uk"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.jenkins.public_ip}"]
+}

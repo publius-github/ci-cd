@@ -48,7 +48,7 @@ clean: ## - Clean terraform state
 01-cicd-jenkins: ##
 	@echo "[i] Initializing for $(ENVNAME)"
 	@terraform init terraform/01-cicd-jenkins/
-#	@terraform destroy -auto-approve -target null_resource.configure terraform/01-cicd-jenkins/
+	@terraform destroy -auto-approve -target null_resource.configure terraform/01-cicd-jenkins/
 	@echo "[i] Planning for $(ENVNAME)"
 	@terraform plan terraform/01-cicd-jenkins/
 	@echo "[i] Applying for $(ENVNAME)"
