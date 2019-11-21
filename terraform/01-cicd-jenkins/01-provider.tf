@@ -11,5 +11,6 @@ terraform {
     key    = "01-cicd-jenkins/terraform.tfstate"
     region = "us-east-1"
     encrypt = false
+    acl = "bucket-owner-full-control"
   }
 }

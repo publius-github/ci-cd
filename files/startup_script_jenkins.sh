@@ -7,6 +7,8 @@ sudo yum -y update
 sudo amazon-linux-extras install -y docker
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
+sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 sudo yum install -y python-pip
 sudo pip install docker-compose
 sudo yum upgrade -y python*
