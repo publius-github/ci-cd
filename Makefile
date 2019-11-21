@@ -39,13 +39,13 @@ clean: ## - Clean terraform state
 	@terraform apply --auto-approve terraform/00-init/
 	@rm -rf terraform/00-init/$(TFPLANFILE)
 
-01-cicd-jenkins-plan: ##
+01-plan: ##
 	@echo "[i] Initializing for $(ENVNAME)"
 	@terraform init terraform/01-cicd-jenkins/
 	@echo "[i] Planning for $(ENVNAME)"
 	@terraform plan terraform/01-cicd-jenkins/
 
-01-cicd-jenkins: ##
+01-apply: ##
 	@cd terraform/01-cicd-jenkins/ && echo "[i] Initializing for $(ENVNAME)"
 	@terraform init -backend-config="profile=godel" 
 	@terraform destroy -auto-approve -target null_resource.configure
