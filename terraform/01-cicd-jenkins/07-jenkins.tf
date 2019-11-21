@@ -39,7 +39,7 @@ resource "aws_instance" "jenkins" {
   }
 
   provisioner "file" {
-    source      = "docker/jenkins"
+    source      = "../../docker/jenkins"
     destination = "/opt/cicd/jenkins"
 
     connection {
@@ -51,7 +51,7 @@ resource "aws_instance" "jenkins" {
   }
 
   provisioner "file" {
-    source      = "files"
+    source      = "../../files"
     destination = "/opt/cicd/files"
 
     connection {
@@ -63,7 +63,7 @@ resource "aws_instance" "jenkins" {
   }
 
   provisioner "file" {
-    source      = "docker"
+    source      = "../../docker"
     destination = "/opt/cicd/docker"
 
     connection {
