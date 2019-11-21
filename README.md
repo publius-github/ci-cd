@@ -67,6 +67,8 @@ sonar hide credentials
 <!-- change subnet in config.xml -->
 run sonar in parallel
 2 cases: sucsesfull and disaster
+Фаргейт запустить
+
 
 init:
 1. bucket: 
