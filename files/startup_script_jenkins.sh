@@ -9,9 +9,9 @@ sudo systemctl enable docker.service
 sudo systemctl start docker.service
 sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-sudo yum install -y python-pip
-sudo pip install docker-compose
-sudo yum upgrade -y python*
+# sudo yum install -y python-pip
+# sudo pip install docker-compose
+# sudo yum upgrade -y python*
 sudo yum clean all
 sudo usermod -aG docker $USER
 ## Mount EBS
@@ -52,7 +52,7 @@ docker push 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-jenkins:latest
 docker build -t cicd-sonar-runner -f sonar-runner.dockerfile .
 docker tag cicd-sonar-runner:latest 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest
 docker push 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest
-docker-compose up -d
+/usr/local/bin/docker-compose up -d
 ## Run docker as service
 # cd /opt/cicd/files
 # sudo cp cicd.service /etc/systemd/system
