@@ -4,6 +4,8 @@ pipeline {
         registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
         app = "simple-testing-capabilities:latest"
         app2 = "simple-testing-capabilities-spa:latest"
+        sonar_db_login = credentials('sonar-login')
+        sonar_db_passwd = credentials('sonar-passwd')
     }
     stages {
         stage ('[i] Clean WC') {
@@ -18,25 +20,18 @@ pipeline {
                 }
             }
         }
-        stage('[i] Docker build [simple-testing-capabilities]') {
+        stage('[i] Docker build / push [simple-testing-capabilities]') {
             steps {
                     sh '''
                     echo "=========================== Build docker $app image ==========================="
                     cd ${WORKSPACE}/ci-cd-app/
                     /usr/bin/docker build -f "simple-testing-capabilities.dockerfile" -t $registry_url/$app .
+                    $(aws ecr get-login --no-include-email --region us-east-1)
+                    docker push $registry_url/$app
                     '''
                 }
         }
-        stage('[i] Docker push [simple-testing-capabilities]') {
-            steps {
-                script {
-                    docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {
-                    docker.image("$registry_url/$app").push()
-                    }
-                } 
-            }   
-        }
-        stage('[i] Docker build [simple-testing-capabilities-spa]') {
+        stage('[i] Docker build / push [simple-testing-capabilities-spa]') {
             steps {
                     sh '''
                     echo "=========================== Build docker $app2 image ==========================="
@@ -44,17 +39,10 @@ pipeline {
                     ip_address=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
                     sed -i -e "s/localhost/$ip_address/g" simple-testing-capabilities-spa/src/ProjectSettings.json
                     /usr/bin/docker build -f "simple-testing-capabilities-spa.dockerfile" -t $registry_url/$app2 .
+                    $(aws ecr get-login --no-include-email --region us-east-1)
+                    docker push $registry_url/$app2
                     '''
                 }
-        }
-        stage('[i] Docker push [simple-testing-capabilities-spa]') {
-            steps {
-                script {
-                    docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {
-                    docker.image("$registry_url/$app2").push()
-                    }
-                } 
-            }   
         }
         stage('[i] Docker-compose up]') {
             steps {
@@ -76,8 +64,8 @@ pipeline {
                     docker run -dit --rm -v ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject:/usr/src 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest sonar-scanner   \
                     -Dsonar.host.url=http://10.0.1.100:9000 \
                     -Dsonar.jdbc.url=jdbc:postgresql://10.0.1.100:5432/sonar \
-                    -Dsonar.jdbc.username=sonar \
-                    -Dsonar.jdbc.password=sonar \
+                    -Dsonar.jdbc.username=$sonar_db_login \
+                    -Dsonar.jdbc.password=$sonar_db_passwd \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=. \
                     -Dsonar.projectKey=simple-testing-capabilities \
@@ -96,8 +84,8 @@ pipeline {
                     docker run -dit --rm -v ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa:/usr/src 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest sonar-scanner   \
                     -Dsonar.host.url=http://10.0.1.100:9000 \
                     -Dsonar.jdbc.url=jdbc:postgresql://10.0.1.100:5432/sonar \
-                    -Dsonar.jdbc.username=sonar \
-                    -Dsonar.jdbc.password=sonar \
+                    -Dsonar.jdbc.username=$sonar_db_login \
+                    -Dsonar.jdbc.password=$sonar_db_passwd \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=. \
                     -Dsonar.projectKey=simple-testing-capabilities-spa \

@@ -10,8 +10,8 @@ pipeline {
         app_port_frontend = "3000"
         app_db = "redis:latest"
         app_port_db = "6379"
-        access_key = credentials('env-aws-access-key')
-        secret_key = credentials('env-aws-secret-key')
+        sonar_db_login = credentials('sonar-login')
+        sonar_db_passwd = credentials('sonar-passwd')
     }
     stages {
         stage ('[i] Clean WC') {
@@ -29,19 +29,6 @@ pipeline {
                 }
             }
         }
-        stage('[i] cred') {
-            steps {
-                    sh '''
-                    mkdir -p ~/.aws
-                    echo "[default]" > ~/.aws/config
-                    echo "output = json" >> ~/.aws/config
-                    echo "region = us-east-1" >> ~/.aws/config
-                    echo "[default]" > ~/.aws/credentials
-                    echo "aws_access_key_id = $access_key" >> ~/.aws/credentials
-                    echo "aws_secret_access_key = $secret_key" >> ~/.aws/credentials
-                    '''
-                }
-        }
         stage('[i] Docker build [simple-testing-capabilities]') {
             steps {
                     sh '''
@@ -49,17 +36,10 @@ pipeline {
                     cd ${WORKSPACE}/ci-cd-app/
                     sed -i -e "s/redis/db.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/appsettings.json
                     /usr/bin/docker build -f "simple-testing-capabilities.dockerfile" -t $registry_url/$app .
+                    $(aws ecr get-login --no-include-email --region us-east-1)
+                    docker push $registry_url/$app
                     '''
                 }
-        }
-        stage('[i] Docker push [simple-testing-capabilities]') {
-            steps {
-                script {
-                    docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {
-                    docker.image("$registry_url/$app").push()
-                    }
-                } 
-            }   
         }
         stage('[i] Docker build [simple-testing-capabilities-spa]') {
             steps {
@@ -68,17 +48,10 @@ pipeline {
                     cd ${WORKSPACE}/ci-cd-app/
                     sed -i -e "s/localhost/backend.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/src/ProjectSettings.json
                     /usr/bin/docker build -f "simple-testing-capabilities-spa.dockerfile" -t $registry_url/$app2 .
+                    $(aws ecr get-login --no-include-email --region us-east-1)
+                    docker push $registry_url/$app2
                     '''
-                }
-        }
-        stage('[i] Docker push [simple-testing-capabilities-spa]') {
-            steps {
-                script {
-                    docker.withRegistry("https://$registry_url", "ecr:us-east-1:aws") {
-                    docker.image("$registry_url/$app2").push()
-                    }
-                } 
-            }   
+            }
         }
         stage('[i] AWS Deployment') {
             steps {
@@ -100,8 +73,8 @@ pipeline {
                     docker run -dit --rm -v ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject:/usr/src 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest sonar-scanner   \
                     -Dsonar.host.url=http://10.0.1.100:9000 \
                     -Dsonar.jdbc.url=jdbc:postgresql://10.0.1.100:5432/sonar \
-                    -Dsonar.jdbc.username=sonar \
-                    -Dsonar.jdbc.password=sonar \
+                    -Dsonar.jdbc.username=$sonar_db_login \
+                    -Dsonar.jdbc.password=$sonar_db_passwd \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=. \
                     -Dsonar.projectKey=simple-testing-capabilities \
@@ -120,8 +93,8 @@ pipeline {
                     docker run -dit --rm -v ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa:/usr/src 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest sonar-scanner   \
                     -Dsonar.host.url=http://10.0.1.100:9000 \
                     -Dsonar.jdbc.url=jdbc:postgresql://10.0.1.100:5432/sonar \
-                    -Dsonar.jdbc.username=sonar \
-                    -Dsonar.jdbc.password=sonar \
+                    -Dsonar.jdbc.username=$sonar_db_login \
+                    -Dsonar.jdbc.password=$sonar_db_passwd \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=. \
                     -Dsonar.projectKey=simple-testing-capabilities-spa \
@@ -151,6 +124,15 @@ pipeline {
                     dotnet vstest ui-tests/UITests.dll /logger:trx  
                     '''
             } 
+        }
+        stage('Confirmation') {
+            steps {
+                script {
+                    timeout(time: 10, unit: 'MINUTES') {
+                    input(id: "Confirmation", message: "Destroy AWS Fargate?", ok: 'Destroy')
+                    }
+                }
+            }
         }
         stage('[i] AWS Destroy') {
             steps {

@@ -42,21 +42,21 @@ resource "aws_security_group" "ecs_tasks" {
     protocol        = "tcp"
     from_port       = "50504"
     to_port         = "50504"
-    security_groups = ["${aws_security_group.lb.id}"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     protocol        = "tcp"
     from_port       = "3000"
     to_port         = "3000"
-    security_groups = ["${aws_security_group.lb.id}"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     protocol        = "tcp"
     from_port       = "6379"
     to_port         = "6379"
-    security_groups = ["${aws_security_group.lb.id}"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {

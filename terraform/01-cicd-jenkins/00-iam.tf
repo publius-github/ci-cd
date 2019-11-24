@@ -32,10 +32,7 @@ resource "aws_iam_policy" "jenkins_policy" {
   "Statement": [
     {
       "Action": [
-        "ec2:*",
-        "ecr:*",
-        "s3:*",
-        "ecs:*"
+        "*"
       ],
       "Effect": "Allow",
       "Resource": "*"

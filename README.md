@@ -54,20 +54,26 @@ How it works:
 <!-- 16. сонаркуб -->
 <!-- 19. сонаркуб в пайплайн -->
 <!-- 18. add 00000 to sg application -->
+<!-- 9. role for slave -->
+<!-- 10. ДНС для фаргейт -->
+<!-- change subnet in config.xml -->
+<!-- sonar hide credentials -->
+<!-- 1st-pipeline Aproove for destroy -->
+
+
 19. groovy init script ec2
 2. make file create s3 for state
 4. docker compose as service on host system
-8. Block device mapping to slave (or just more space)
-<!-- 9. role for slave -->
 15. документация
 17. Код деплой
-<!-- 10. ДНС для фаргейт -->
-sonar hide credentials
-1st-pipeline Aproove for destroy
-<!-- change subnet in config.xml -->
 run sonar in parallel
+
+
 2 cases: sucsesfull and disaster
 Фаргейт запустить
+8. Block device mapping to slave (or just more space)
+
+
 
 
 init:
@@ -79,3 +85,22 @@ init:
 - simple-testing-capabilities
 - simple-testing-capabilities-spa
 
+
+Variables:
+
+github keys
+
+
+app = "simple-testing-capabilities:latest"
+app2 = "simple-testing-capabilities-spa:latest"
+registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
+app_backend = "simple-testing-capabilities:latest"
+app_port_backend = "50504"
+app_frontend = "simple-testing-capabilities-spa:latest"
+app_port_frontend = "3000"
+app_db = "redis:latest"
+app_port_db = "6379"
+access_key = credentials('env-aws-access-key')
+secret_key = credentials('env-aws-secret-key')
+sonar_db_login = credentials('sonar-login')
+sonar_db_passwd = credentials('sonar-passwd')
