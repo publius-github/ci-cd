@@ -15,8 +15,7 @@ resource "aws_instance" "jenkins" {
   }
 
   tags = {
-    Name = "cicd"
-    role = "jenkins"
+    Name = "jenkins"
   }
 
   vpc_security_group_ids = ["${aws_security_group.jenkins.id}"]

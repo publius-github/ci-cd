@@ -24,8 +24,7 @@ resource "aws_instance" "redis" {
   }
 
   tags = {
-    Name = "cicd"
-    role = "redis"
+    Name = "redis"
   }
 
   vpc_security_group_ids = ["${data.aws_security_group.selected.id}"]
