@@ -53,16 +53,6 @@ pipeline {
                     '''
             }
         }
-        stage('[i] AWS Deployment') {
-            steps {
-                sh '''
-                cd ${WORKSPACE}/ci-cd-infra/terraform/02-cicd-ecs/
-                /usr/local/bin/terraform init
-                /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$app_db" --var "app_port_db=$app_port_db"
-                /usr/local/bin/terraform apply --auto-approve --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$app_db" --var "app_port_db=$app_port_db"
-                '''
-            }
-        }
 	    stage('[i] Sonarqube: simple-testing-capabilities') {
 		    steps {
 			        sh '''
@@ -103,6 +93,16 @@ pipeline {
                     '''
             }       
 		}
+        stage('[i] AWS Deployment') {
+            steps {
+                sh '''
+                cd ${WORKSPACE}/ci-cd-infra/terraform/02-cicd-ecs/
+                /usr/local/bin/terraform init
+                /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend"
+                /usr/local/bin/terraform apply --auto-approve --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend"
+                '''
+            }
+        }
         stage('[i] API integration tests') {
             steps {
                     sh '''
@@ -139,8 +139,8 @@ pipeline {
                 sh '''
                 cd ${WORKSPACE}/ci-cd-infra/terraform/02-cicd-ecs/
                 /usr/local/bin/terraform init
-                /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
-                /usr/local/bin/terraform destroy --auto-approve --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
+                /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend"
+                /usr/local/bin/terraform destroy --auto-approve --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend"
                 '''
             }
         }

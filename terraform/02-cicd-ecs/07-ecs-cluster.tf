@@ -9,7 +9,6 @@ resource "aws_ecs_task_definition" "task_simple_testing_capabilities_backend" {
   network_mode             = "awsvpc"
   cpu                      = "2048"
   memory                   = "4096"
-  
   container_definitions = <<DEFINITION
 [
   {
@@ -41,7 +40,6 @@ resource "aws_ecs_task_definition" "task_simple_testing_capabilities_frontend" {
   network_mode             = "awsvpc"
   cpu                      = "2048"
   memory                   = "4096"
-  
   container_definitions = <<DEFINITION
 [
   {
@@ -65,41 +63,3 @@ resource "aws_ecs_task_definition" "task_simple_testing_capabilities_frontend" {
 ]
 DEFINITION
 }
-
-# resource "aws_ecs_task_definition" "task_simple_testing_capabilities_db" {
-#   family                   = "task-simple-testing-capabilities-db"
-#   requires_compatibilities = ["FARGATE"]
-#   execution_role_arn       = "${aws_iam_role.fargate-ecr-role.arn}"
-#   network_mode             = "awsvpc"
-#   cpu                      = "2048"
-#   memory                   = "4096"
-  
-#   container_definitions = <<DEFINITION
-# [
-#   {
-#     "image": "${var.app_image_db}",
-#     "name": "db",
-#     "logConfiguration": {
-#       "logDriver": "awslogs",
-#       "options": {
-#         "awslogs-group": "ecs-log-streaming",
-#         "awslogs-region": "us-east-1",
-#         "awslogs-stream-prefix": "fargate-redis"
-#       }
-#     },
-#     "environment": [
-#       {
-#       "name": "ALLOW_EMPTY_PASSWORD",
-#       "value": "yes"
-#       }
-#     ],
-#     "portMappings": [
-#       {
-#         "containerPort": ${var.app_port_db},
-#         "hostPort": ${var.app_port_db}
-#       }
-#     ]
-#   }
-# ]
-# DEFINITION
-# }

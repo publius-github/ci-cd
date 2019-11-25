@@ -26,15 +26,3 @@ resource "aws_route53_record" "backend" {
     evaluate_target_health = true
   }
 }
-
-# resource "aws_route53_record" "db" {
-#   zone_id = "${data.aws_route53_zone.primary.zone_id}"
-#   name    = "db.simple-testing-capabilities.co.uk"
-#   type    = "A"
-
-#   alias {
-#     name                   = "${aws_alb.alb_db.dns_name}"
-#     zone_id                = "${aws_alb.alb_db.zone_id}"
-#     evaluate_target_health = true
-#   }
-# }

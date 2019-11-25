@@ -36,6 +36,9 @@ resource "aws_alb_target_group" "backend_target_group" {
   protocol    = "HTTP"
   vpc_id      = "${aws_vpc.fargate_vpc.id}"
   target_type = "ip"
+  health_check {
+    path = "/api/book/1"
+  }
 }
 
 # Redirect all traffic from the ALB to the target group

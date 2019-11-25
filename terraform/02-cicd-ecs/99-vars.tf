@@ -16,10 +16,6 @@ variable "app_image_frontend" {
   description = "Docker image to run in the ECS cluster"
 }
 
-variable "app_image_db" {
-  description = "Docker image to run in the ECS cluster"
-}
-
 variable "app_port_backend" {
   description = "Port exposed by the docker image to redirect traffic to"
 }
@@ -28,9 +24,6 @@ variable "app_port_frontend" {
   description = "Port exposed by the docker image to redirect traffic to"
 }
 
-variable "app_port_db" {
-  description = "Port exposed by the docker image to redirect traffic to"
-}
 
 variable "app_cpu_backend" {
   default = 1024
@@ -40,18 +33,10 @@ variable "app_cpu_frontend" {
   default = 1024
 }
 
-variable "app_cpu_db" {
-  default = 1024
-}
-
 variable "app_memory_backend" {
   default = 2048
 }
 
 variable "app_memory_frontend" {
-  default = 2048
-}
-
-variable "app_memory_db" {
   default = 2048
 }
