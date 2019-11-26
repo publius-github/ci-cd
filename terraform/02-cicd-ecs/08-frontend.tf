@@ -49,6 +49,6 @@ resource "aws_alb_listener" "listener_frontend" {
   }
 }
 
-output "alb_frontend" {
-  value = "${aws_alb.alb_frontend.dns_name}"
+output "dns_frontend" {
+  value = "${aws_route53_record.frontend.name}"
 }

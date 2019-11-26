@@ -53,6 +53,6 @@ resource "aws_alb_listener" "listener_backend" {
   }
 }
 
-output "alb_backend" {
-  value = "${aws_alb.alb_backend.dns_name}"
+output "dns_backend" {
+  value = "${aws_route53_record.backend.name}"
 }

@@ -46,3 +46,7 @@ resource "aws_route53_record" "redis" {
   ttl     = "300"
   records = ["${aws_instance.redis.public_ip}"]
 }
+
+output "dns_redis" {
+  value = "${aws_route53_record.redis.name}"
+}

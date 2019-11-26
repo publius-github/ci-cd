@@ -66,11 +66,11 @@ How it works:
 4. docker compose as service on host system
 15. документация
 17. Код деплой
-run sonar in parallel
+<!-- run sonar in parallel -->
 
 
-2 cases: sucsesfull and disaster
-Фаргейт запустить
+<!-- 2 cases: sucsesfull and disaster -->
+<!-- Фаргейт запустить -->
 8. Block device mapping to slave (or just more space)
 
 

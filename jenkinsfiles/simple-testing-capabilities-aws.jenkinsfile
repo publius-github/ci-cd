@@ -8,8 +8,6 @@ pipeline {
         app_port_backend = "50504"
         app_frontend = "simple-testing-capabilities-spa:latest"
         app_port_frontend = "3000"
-        app_db = "redis:latest"
-        app_port_db = "6379"
         sonar_db_login = credentials('sonar-login')
         sonar_db_passwd = credentials('sonar-passwd')
     }
@@ -29,12 +27,23 @@ pipeline {
                 }
             }
         }
+        stage('[i] Fargate configure') {
+            steps {
+                    sh '''
+                    echo "=========================== Build docker $app image ==========================="
+                    cd ${WORKSPACE}/ci-cd-app/
+                    sed -i -e 's/"redis",/"db.simple-testing-capabilities.co.uk",/g' simple-testing-capabilities/MainProject/appsettings.json
+                    sed -i -e "s/localhost/backend.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/src/ProjectSettings.json
+                    sed -i -e "s/localhost/backend.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests/appsettings.json
+                    sed -i -e "s/localhost/frontend.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests/appsettings.json
+                    '''
+                }
+        }
         stage('[i] Docker build [simple-testing-capabilities]') {
             steps {
                     sh '''
                     echo "=========================== Build docker $app image ==========================="
                     cd ${WORKSPACE}/ci-cd-app/
-                    sed -i -e "s/redis/db.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/appsettings.json
                     /usr/bin/docker build -f "simple-testing-capabilities.dockerfile" -t $registry_url/$app .
                     $(aws ecr get-login --no-include-email --region us-east-1)
                     docker push $registry_url/$app
@@ -46,7 +55,6 @@ pipeline {
                     sh '''
                     echo "=========================== Build docker $app2 image ==========================="
                     cd ${WORKSPACE}/ci-cd-app/
-                    sed -i -e "s/localhost/backend.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/src/ProjectSettings.json
                     /usr/bin/docker build -f "simple-testing-capabilities-spa.dockerfile" -t $registry_url/$app2 .
                     $(aws ecr get-login --no-include-email --region us-east-1)
                     docker push $registry_url/$app2
@@ -108,9 +116,9 @@ pipeline {
                     sh '''
                     echo "====================== API integration test ======================"
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests
-                    sed -i -e "s/localhost/backend.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests/appsettings.json
                     dotnet publish --output api-tests
                     dotnet vstest api-tests/APITests.dll /logger:trx
+                    aws s3 mv TestResults/*.trx s3://simple-testing-capabilities-tests/api-tests/${JOB_NAME}-${BUILD_NUMBER}.trx
                     '''
             } 
         }
@@ -119,16 +127,16 @@ pipeline {
                     sh '''
                     echo "====================== UI test ======================"
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests
-                    sed -i -e "s/localhost/frontend.simple-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests/appsettings.json
                     dotnet publish --output ui-tests
-                    dotnet vstest ui-tests/UITests.dll /logger:trx  
+                    dotnet vstest ui-tests/UITests.dll /logger:trx
+                    aws s3 mv TestResults/*.trx s3://simple-testing-capabilities-tests/ui-tests/${JOB_NAME}-${BUILD_NUMBER}.trx
                     '''
             } 
         }
         stage('Confirmation') {
             steps {
                 script {
-                    timeout(time: 10, unit: 'MINUTES') {
+                    timeout(time: 20, unit: 'MINUTES') {
                     input(id: "Confirmation", message: "Destroy AWS Fargate?", ok: 'Destroy')
                     }
                 }

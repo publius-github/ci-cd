@@ -20,6 +20,16 @@ pipeline {
                 }
             }
         }
+        stage('[i] Docker configure') {
+            steps {
+                    sh '''
+                    echo "=========================== Build docker $app image ==========================="
+                    cd ${WORKSPACE}/ci-cd-app/
+                    ip_address=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
+                    sed -i -e "s/localhost/$ip_address/g" simple-testing-capabilities-spa/src/ProjectSettings.json
+                    '''
+                }
+        }
         stage('[i] Docker build / push [simple-testing-capabilities]') {
             steps {
                     sh '''
@@ -36,8 +46,6 @@ pipeline {
                     sh '''
                     echo "=========================== Build docker $app2 image ==========================="
                     cd ${WORKSPACE}/ci-cd-app/
-                    ip_address=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
-                    sed -i -e "s/localhost/$ip_address/g" simple-testing-capabilities-spa/src/ProjectSettings.json
                     /usr/bin/docker build -f "simple-testing-capabilities-spa.dockerfile" -t $registry_url/$app2 .
                     $(aws ecr get-login --no-include-email --region us-east-1)
                     docker push $registry_url/$app2
@@ -117,6 +125,15 @@ pipeline {
                     aws s3 mv TestResults/*.trx s3://simple-testing-capabilities-tests/ui-tests/${JOB_NAME}-${BUILD_NUMBER}.trx
                     '''
             } 
+        }
+        stage('Confirmation') {
+            steps {
+                script {
+                    timeout(time: 20, unit: 'MINUTES') {
+                    input(id: "Confirmation", message: "Destroy AWS Fargate?", ok: 'Destroy')
+                    }
+                }
+            }
         }
         stage('[i] Docker-compose down]') {
             steps {

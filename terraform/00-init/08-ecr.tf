@@ -13,3 +13,11 @@ resource "aws_ecr_repository" "simple_testing_capabilities" {
 resource "aws_ecr_repository" "simple_testing_capabilities_spa" {
   name = "simple-testing-capabilities-spa"
 }
+
+resource "aws_ecr_repository" "ecs_stc" {
+  name = "02-stc"
+}
+
+resource "aws_ecr_repository" "ecs_stc_spa" {
+  name = "02-stc-spa"
+}
