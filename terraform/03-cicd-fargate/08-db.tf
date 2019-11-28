@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "task_simple_testing_capabilities_db" {
-  family                   = "task-simple-testing-capabilities"
+  family                   = "task-simple-testing-capabilities-db"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = "${aws_iam_role.fargate-ecr-role.arn}"
   network_mode             = "awsvpc"
