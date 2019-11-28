@@ -9,7 +9,7 @@ pipeline {
         app_frontend = "simple-testing-capabilities-spa:latest"
         app_port_frontend = "3000"
         app_db = "cicd-redis:latest"
-        app_port__db = "6379"
+        app_port_db = "6379"
         sonar_db_login = credentials('sonar-login')
         sonar_db_passwd = credentials('sonar-passwd')
     }
