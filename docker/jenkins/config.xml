@@ -1,0 +1,126 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson>
+  <disabledAdministrativeMonitors>
+    <string>jenkins.diagnostics.RootUrlNotSetMonitor</string>
+    <string>jenkins.security.csrf.CSRFAdministrativeMonitor</string>
+    <string>jenkins.security.s2m.MasterKillSwitchWarning</string>
+    <string>hudson.diagnosis.ReverseProxySetupMonitor</string>
+  </disabledAdministrativeMonitors>
+  <version>2.190.1</version>
+  <installStateName>RUNNING</installStateName>
+  <numExecutors>2</numExecutors>
+  <mode>NORMAL</mode>
+  <useSecurity>true</useSecurity>
+  <authorizationStrategy class="hudson.security.GlobalMatrixAuthorizationStrategy">
+    <permission>hudson.model.Hudson.Administer:admin</permission>
+  </authorizationStrategy>
+  <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
+    <disableSignup>true</disableSignup>
+    <enableCaptcha>false</enableCaptcha>
+  </securityRealm>
+  <disableRememberMe>false</disableRememberMe>
+  <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+  <workspaceDir>${ITEM_ROOTDIR}/workspace</workspaceDir>
+  <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+  <jdks/>
+  <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+  <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+  <clouds>
+    <hudson.plugins.ec2.EC2Cloud plugin="ec2@1.46.1">
+      <name>ec2-aws-ec2-dev</name>
+      <useInstanceProfileForCredentials>true</useInstanceProfileForCredentials>
+      <roleArn></roleArn>
+      <roleSessionName></roleSessionName>
+      <credentialsId></credentialsId>
+      <privateKey>
+        <privateKey>{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}</privateKey>
+      </privateKey>
+      <instanceCap>2147483647</instanceCap>
+      <templates>
+        <hudson.plugins.ec2.SlaveTemplate>
+          <ami>ami-035be7bafff33b6b6</ami>
+          <description>aws-ec2-dev</description>
+          <zone>us-east-1a</zone>
+          <securityGroups>jenkins, application</securityGroups>
+          <remoteFS></remoteFS>
+          <type>T2Medium</type>
+          <ebsOptimized>false</ebsOptimized>
+          <monitoring>false</monitoring>
+          <t2Unlimited>false</t2Unlimited>
+          <labels>aws-ec2-dev</labels>
+          <mode>NORMAL</mode>
+          <initScript>sudo yum -y install git maven java-1.8.0-openjdk-devel wget unzip jq
+sudo amazon-linux-extras install -y docker
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo usermod -aG docker ec2-user
+sudo chmod 777 /var/run/docker.sock
+sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.17.1/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo wget https://releases.hashicorp.com/terraform/0.12.8/terraform_0.12.8_linux_amd64.zip
+sudo unzip terraform_0.12.8_linux_amd64.zip
+sudo mv terraform /usr/local/bin
+sudo rm -f terraform_0.12.8_linux_amd64.zip
+sudo rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm
+sudo yum -y install dotnet-sdk-2.2
+sudo curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+sudo yum -y install nodejs
+sudo wget http://chromedriver.storage.googleapis.com/77.0.3865.10/chromedriver_linux64.zip -O /tmp/chromedriver_linux64.zip
+sudo unzip -o /tmp/chromedriver_linux64.zip -d /tmp
+sudo mv /tmp/chromedriver /usr/bin/chromedriver
+sudo curl https://intoli.com/install-google-chrome.sh | bash
+sudo mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
+</initScript>
+          <tmpDir></tmpDir>
+          <userData></userData>
+          <numExecutors>5</numExecutors>
+          <remoteAdmin>ec2-user</remoteAdmin>
+          <jvmopts></jvmopts>
+          <subnetId>subnet-id</subnetId>
+          <idleTerminationMinutes>30</idleTerminationMinutes>
+          <iamInstanceProfile>arn:aws:iam::803808824931:instance-profile/jenkins_profile</iamInstanceProfile>
+          <deleteRootOnTermination>false</deleteRootOnTermination>
+          <useEphemeralDevices>false</useEphemeralDevices>
+          <customDeviceMapping></customDeviceMapping>
+          <instanceCap>2147483647</instanceCap>
+          <minimumNumberOfInstances>0</minimumNumberOfInstances>
+          <stopOnTerminate>false</stopOnTerminate>
+          <connectionStrategy>PRIVATE_IP</connectionStrategy>
+          <associatePublicIp>true</associatePublicIp>
+          <useDedicatedTenancy>false</useDedicatedTenancy>
+          <amiType class="hudson.plugins.ec2.UnixData">
+            <rootCommandPrefix></rootCommandPrefix>
+            <slaveCommandPrefix></slaveCommandPrefix>
+            <slaveCommandSuffix></slaveCommandSuffix>
+            <sshPort>22</sshPort>
+          </amiType>
+          <launchTimeout>2147483647</launchTimeout>
+          <connectBySSHProcess>false</connectBySSHProcess>
+          <maxTotalUses>-1</maxTotalUses>
+          <nextSubnet>0</nextSubnet>
+          <usePrivateDnsName>false</usePrivateDnsName>
+          <connectUsingPublicIp>false</connectUsingPublicIp>
+        </hudson.plugins.ec2.SlaveTemplate>
+      </templates>
+      <region>us-east-1</region>
+      <noDelayProvisioning>true</noDelayProvisioning>
+    </hudson.plugins.ec2.EC2Cloud>
+  </clouds>
+  <quietPeriod>5</quietPeriod>
+  <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
+  <views>
+    <hudson.model.AllView>
+      <owner class="hudson" reference="../../.."/>
+      <name>all</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+    </hudson.model.AllView>
+  </views>
+  <primaryView>all</primaryView>
+  <slaveAgentPort>0</slaveAgentPort>
+  <label></label>
+  <nodeProperties/>
+  <globalNodeProperties/>
+  <noUsageStatistics>true</noUsageStatistics>
+</hudson>

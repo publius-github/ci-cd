@@ -1,0 +1,13 @@
+[Unit]
+Requires=docker.service
+After=network.target docker.service
+Wants=network.target
+
+[Service]
+ExecStart=/opt/cicd/files/service_startup.sh
+ExecStop=/opt/cicd/files/service_stop.sh
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

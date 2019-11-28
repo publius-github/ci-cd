@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  jenkins:
+    image: 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-jenkins:latest
+    container_name: cicd-jenkins
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - /data/jenkins/jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+  sonarqube:
+    image: sonarqube:lts
+    container_name: cicd-sonarqube
+    ports:
+      - 9000:9000
+    environment:
+      - sonar.jdbc.url=jdbc:postgresql://db:5432/sonar
+      - sonar.jdbc.username=sonar
+      - sonar.jdbc.password=sonar
+    #disables mmap in ElasticSearch, which gets rid of the max_map_count setting requirement
+    #passed as a parameter to the container
+    command: "-Dsonar.search.javaAdditionalOpts=-Dnode.store.allow_mmapfs=false"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+  db:
+    image: postgres
+    container_name: cicd-postgres
+    ports:
+      - 5432
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+    volumes:
+      - /data/postgres:/var/lib/postgresql

@@ -1,0 +1,19 @@
+# vagrant
+.vagrant
+
+# terraform
+.terraform
+
+# terraform-jenkins
+terraform/00-cicd-jenkins/.terraform/
+terraform/00-cicd-jenkins/vars/jenkins-ci-cd.tfvars
+terraform/00-cicd-jenkins/terraform.tfstate
+terraform/00-cicd-jenkins/terraform.tfstate.backup
+
+# terraform-ecs
+terraform/01-cicd-ecs/.*
+terraform/01-cicd-ecs/vars/jenkins-ci-cd.tfvars
+terraform/01-cicd-ecs/terraform.tfstate
+terraform/01-cicd-ecs/terraform.tfstate.backup
+
+# docker
