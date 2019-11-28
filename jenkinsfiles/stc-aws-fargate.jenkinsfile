@@ -82,6 +82,7 @@ pipeline {
                     -Dsonar.projectVersion=${BUILD_NUMBER} \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=.
+                    sudo chown -R ec2-user:ec2-user ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/.scannerwork
                     '''
 		    }
 	    }
@@ -100,6 +101,7 @@ pipeline {
                     -Dsonar.projectKey=simple-testing-capabilities-spa \
                     -Dsonar.projectName=simple-testing-capabilities-spa \
                     -Dsonar.projectVersion=${BUILD_NUMBER}
+                    sudo chown -R ec2-user:ec2-user ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/.scannerwork
                     '''
             }       
 		}
@@ -117,6 +119,7 @@ pipeline {
             steps {
                     sh '''
                     echo "====================== API integration test ======================"
+                    sleep 60
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests
                     dotnet publish --output api-tests
                     dotnet vstest api-tests/APITests.dll /logger:trx

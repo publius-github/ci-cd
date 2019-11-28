@@ -115,6 +115,7 @@ pipeline {
             steps {
                     sh '''
                     echo "====================== API integration test ======================"
+                    sleep 60
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests
                     dotnet publish --output api-tests
                     dotnet vstest api-tests/APITests.dll /logger:trx
