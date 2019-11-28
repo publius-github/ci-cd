@@ -82,7 +82,7 @@ pipeline {
                     -Dsonar.projectVersion=${BUILD_NUMBER} \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=.
-                    sudo chown -R ec2-user:ec2-user ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/.scannerwork
+                    sudo chown -R ec2-user:ec2-user ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/
                     '''
 		    }
 	    }
@@ -101,7 +101,7 @@ pipeline {
                     -Dsonar.projectKey=simple-testing-capabilities-spa \
                     -Dsonar.projectName=simple-testing-capabilities-spa \
                     -Dsonar.projectVersion=${BUILD_NUMBER}
-                    sudo chown -R ec2-user:ec2-user ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/.scannerwork
+                    sudo chown -R ec2-user:ec2-user ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/
                     '''
             }       
 		}
