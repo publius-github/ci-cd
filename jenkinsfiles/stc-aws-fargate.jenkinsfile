@@ -82,7 +82,7 @@ pipeline {
                     -Dsonar.projectVersion=${BUILD_NUMBER} \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=.
-                    sudo chown -R ec2-user:ec2-user ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/
+                    sudo rm -rf ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/.*
                     '''
 		    }
 	    }
@@ -101,7 +101,7 @@ pipeline {
                     -Dsonar.projectKey=simple-testing-capabilities-spa \
                     -Dsonar.projectName=simple-testing-capabilities-spa \
                     -Dsonar.projectVersion=${BUILD_NUMBER}
-                    sudo chown -R ec2-user:ec2-user ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/
+                    sudo rm -rf ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/.*
                     '''
             }       
 		}
@@ -112,6 +112,7 @@ pipeline {
                 /usr/local/bin/terraform init
                 /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
                 /usr/local/bin/terraform apply --auto-approve --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
+                sleep 120
                 '''
             }
         }
@@ -119,7 +120,6 @@ pipeline {
             steps {
                     sh '''
                     echo "====================== API integration test ======================"
-                    sleep 90
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests
                     dotnet publish --output api-tests
                     dotnet vstest api-tests/APITests.dll /logger:trx
