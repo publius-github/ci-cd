@@ -106,8 +106,17 @@ pipeline {
                 sh '''
                 cd ${WORKSPACE}/ci-cd-infra/terraform/02-cicd-ecs/
                 /usr/local/bin/terraform init
-                /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend"
-                /usr/local/bin/terraform apply --auto-approve --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend"
+                /usr/local/bin/terraform plan \
+                --var "app_image_backend=$registry_url/$app_backend" \
+                --var "app_port_backend=$app_port_backend" \
+                --var "app_image_frontend=$registry_url/$app_frontend" \
+                --var "app_port_frontend=$app_port_frontend"
+                /usr/local/bin/terraform apply --auto-approve \
+                --var "app_image_backend=$registry_url/$app_backend" \
+                --var "app_port_backend=$app_port_backend" \
+                --var "app_image_frontend=$registry_url/$app_frontend" \
+                --var "app_port_frontend=$app_port_frontend"
+                sleep 180
                 '''
             }
         }
@@ -115,7 +124,6 @@ pipeline {
             steps {
                     sh '''
                     echo "====================== API integration test ======================"
-                    sleep 60
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests
                     dotnet publish --output api-tests
                     dotnet vstest api-tests/APITests.dll /logger:trx
@@ -134,22 +142,21 @@ pipeline {
                     '''
             } 
         }
-        stage('Confirmation') {
-            steps {
-                script {
-                    timeout(time: 20, unit: 'MINUTES') {
-                    input(id: "Confirmation", message: "Destroy AWS Fargate?", ok: 'Destroy')
-                    }
-                }
-            }
-        }
         stage('[i] AWS Destroy') {
             steps {
                 sh '''
                 cd ${WORKSPACE}/ci-cd-infra/terraform/02-cicd-ecs/
                 /usr/local/bin/terraform init
-                /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend"
-                /usr/local/bin/terraform destroy --auto-approve --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend"
+                /usr/local/bin/terraform plan \
+                --var "app_image_backend=$registry_url/$app_backend" \
+                --var "app_port_backend=$app_port_backend" \
+                --var "app_image_frontend=$registry_url/$app_frontend" \
+                --var "app_port_frontend=$app_port_frontend"
+                /usr/local/bin/terraform destroy --auto-approve \
+                --var "app_image_backend=$registry_url/$app_backend" \
+                --var "app_port_backend=$app_port_backend" \
+                --var "app_image_frontend=$registry_url/$app_frontend" \
+                --var "app_port_frontend=$app_port_frontend"
                 '''
             }
         }
