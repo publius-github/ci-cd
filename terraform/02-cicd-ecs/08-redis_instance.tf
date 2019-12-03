@@ -1,30 +1,29 @@
-# data "aws_vpc" "main" {
-#   id = "vpc-060fd8927b2af183e"
-# }
 data "aws_iam_instance_profile" "jenkins" {
   name = "jenkins_profile"
 }
-# data "aws_subnet" "selected" {
-#   filter {
-#     name   = "tag:Name"
-#     values = ["main"]       # insert value here
-#   }
-# }
-# data "aws_security_group" "selected" {
-#   id = "sg-05a82db4486783c3b"
-# }
 
-data "terraform_remote_state" "main" {
-  backend = "s3"
+data "aws_vpc" "main" {
+  id = "vpc-060fd8927b2af183e"
+}
 
-  config {
-    region   = "us-east-1"
-    bucket   = "cicd-tfstate-5342"
-    key      = "01-cicd-jenkins/terraform.tfstate"
-    encrypt = false
-    acl = "bucket-owner-full-control"
+data "aws_subnet" "selected" {
+  filter {
+    name   = "tag:Name"
+    values = ["main"]       # insert value here
   }
 }
+data "aws_security_group" "selected" {
+  id = "sg-05a82db4486783c3b"
+}
+
+# data "terraform_remote_state" "main" {
+#   backend = "s3"
+#   config {
+#     bucket = "cicd-tfstate-5342"
+#     key    = "01-cicd-jenkins/terraform.tfstate"
+#     region = "us-east-1"
+#   }
+# }
 
 resource "aws_instance" "redis" {
   ami = "ami-04bfee437f38a691e"
@@ -39,10 +38,10 @@ resource "aws_instance" "redis" {
     Name = "redis"
   }
 
-  # vpc_security_group_ids = ["${data.aws_security_group.selected.id}"]
-  vpc_security_group_ids = ["${data.terraform_remote_state.aws_security_group.application.id}"]
-  # subnet_id              = "${data.aws_subnet.selected.id}"
-  subnet_id              = "${data.terraform_remote_state.aws_subnet.main.id}"
+  vpc_security_group_ids = ["${data.aws_security_group.selected.id}"]
+  # vpc_security_group_ids = ["${data.terraform_remote_state.main.aws_security_group.application.id}"]
+  subnet_id              = "${data.aws_subnet.selected.id}"
+  # subnet_id              = "${data.terraform_remote_state.main.aws_subnet.main.id}"
   user_data = <<-EOF
     #!/bin/bash
     sudo amazon-linux-extras install -y docker
