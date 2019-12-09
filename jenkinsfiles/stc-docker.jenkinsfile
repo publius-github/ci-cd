@@ -81,6 +81,7 @@ pipeline {
                     -Dsonar.projectVersion=${BUILD_NUMBER} \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=.
+                    sudo rm -rf ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/.scannerwork
                     '''
 		    }
 	    }
@@ -99,6 +100,7 @@ pipeline {
                     -Dsonar.projectKey=${JOB_NAME}-simple-testing-capabilities-spa-${BUILD_NUMBER} \
                     -Dsonar.projectName=simple-testing-capabilities-spa \
                     -Dsonar.projectVersion=${BUILD_NUMBER}
+                    sudo rm -rf ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/.scannerwork
                     '''
             }       
 		}
