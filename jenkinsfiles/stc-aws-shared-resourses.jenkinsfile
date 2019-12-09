@@ -76,11 +76,14 @@ pipeline {
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=. \
                     -Dsonar.projectKey=${JOB_NAME}-simple-testing-capabilities-${BUILD_NUMBER} \
-                    -Dsonar.projectName=${JOB_NAME}-simple-testing-capabilities \
-                    -Dsonar.projectVersion=${BUILD_NUMBER} \
+                    -Dsonar.projectKey=${JOB_NAME}-${BUILD_NUMBER} \
+                    -Dsonar.projectName=${JOB_NAME} \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=.
                     sudo rm -rf ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/.scannerwork
+                    echo "======== sonar results ========"
+                    echo "http://10.0.1.100:9000/dashboard?id=${JOB_NAME}-${BUILD_NUMBER}" 
+                    echo "==============================="
                     '''
 		    }
 	    }
@@ -96,10 +99,13 @@ pipeline {
                     -Dsonar.jdbc.password=$sonar_db_passwd \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=. \
-                    -Dsonar.projectKey=${JOB_NAME}-simple-testing-capabilities-spa-${BUILD_NUMBER} \
-                    -Dsonar.projectName=${JOB_NAME}-simple-testing-capabilities-spa \
+                    -Dsonar.projectKey=${JOB_NAME}-${BUILD_NUMBER} \
+                    -Dsonar.projectName=${JOB_NAME} \
                     -Dsonar.projectVersion=${BUILD_NUMBER}
                     sudo rm -rf ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/.scannerwork
+                    echo "======== sonar results ========"
+                    echo "http://10.0.1.100:9000/dashboard?id=${JOB_NAME}-${BUILD_NUMBER}" 
+                    echo "==============================="
                     '''
             }       
 		}
