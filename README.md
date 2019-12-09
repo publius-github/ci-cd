@@ -59,7 +59,13 @@ How it works:
 <!-- change subnet in config.xml -->
 <!-- sonar hide credentials -->
 <!-- 1st-pipeline Aproove for destroy -->
-
+sonar revisia versia of build
+link to sonar result from pipeline
+<!-- UI automated test instead of this -->
+<!-- release dynamic env instead of this -->
+unit tests on s3
+faild scenario + email notification on fail
+<!-- 2 errors -->
 
 19. groovy init script ec2
 2. make file create s3 for state

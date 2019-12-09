@@ -131,7 +131,7 @@ pipeline {
                     '''
             } 
         }
-        stage('[i] UI integration tests') {
+        stage('[i] UI automated tests') {
             steps {
                     sh '''
                     echo "====================== UI test ======================"
@@ -142,7 +142,7 @@ pipeline {
                     '''
             } 
         }
-        stage('[i] AWS Destroy') {
+        stage('[i] AWS release dynamic environment resourses') {
             steps {
                 sh '''
                 cd ${WORKSPACE}/ci-cd-infra/terraform/02-cicd-ecs/

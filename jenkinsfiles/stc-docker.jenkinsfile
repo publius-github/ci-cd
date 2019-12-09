@@ -113,7 +113,7 @@ pipeline {
                     '''
             } 
         }
-        stage('[i] UI integration tests') {
+        stage('[i] UI automated tests') {
             steps {
                     sh '''
                     echo "====================== UI test ======================"

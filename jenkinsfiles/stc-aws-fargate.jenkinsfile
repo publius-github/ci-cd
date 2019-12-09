@@ -139,7 +139,7 @@ pipeline {
                     '''
             } 
         }
-        stage('[i] UI integration tests') {
+        stage('[i] UI automated tests') {
             steps {
                     sh '''
                     echo "====================== UI test ======================"
@@ -150,7 +150,7 @@ pipeline {
                     '''
             } 
         }
-        stage('[i] AWS Destroy Fargate') {
+        stage('[i] AWS release dynamic environment resourses') {
             steps {
                 sh '''
                 cd ${WORKSPACE}/ci-cd-infra/terraform/03-cicd-fargate/
