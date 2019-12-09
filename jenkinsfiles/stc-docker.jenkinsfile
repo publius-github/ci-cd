@@ -76,8 +76,8 @@ pipeline {
                     -Dsonar.jdbc.password=$sonar_db_passwd \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=. \
-                    -Dsonar.projectKey=simple-testing-capabilities \
-                    -Dsonar.projectName=simple-testing-capabilities \
+                    -Dsonar.projectKey=${JOB_NAME}-simple-testing-capabilities-${BUILD_NUMBER} \
+                    -Dsonar.projectName=${JOB_NAME}-simple-testing-capabilities \
                     -Dsonar.projectVersion=${BUILD_NUMBER} \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=.
@@ -96,7 +96,7 @@ pipeline {
                     -Dsonar.jdbc.password=$sonar_db_passwd \
                     -Dsonar.projectBaseDir=/usr/src \
                     -Dsonar.sources=. \
-                    -Dsonar.projectKey=simple-testing-capabilities-spa \
+                    -Dsonar.projectKey=${JOB_NAME}-simple-testing-capabilities-spa-${BUILD_NUMBER} \
                     -Dsonar.projectName=simple-testing-capabilities-spa \
                     -Dsonar.projectVersion=${BUILD_NUMBER}
                     '''
