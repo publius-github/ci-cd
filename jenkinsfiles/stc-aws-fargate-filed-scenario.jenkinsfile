@@ -1,9 +1,15 @@
 pipeline {
     agent { node 'aws-ec2-dev' }
     environment {
-        registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
         app = "simple-testing-capabilities:latest"
         app2 = "simple-testing-capabilities-spa:latest"
+        registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
+        app_backend = "simple-testing-capabilities:latest"
+        app_port_backend = "50504"
+        app_frontend = "simple-testing-capabilities-spa:latest"
+        app_port_frontend = "3000"
+        app_db = "cicd-redis:latest"
+        app_port_db = "6379"
         sonar_db_login = credentials('sonar-login')
         sonar_db_passwd = credentials('sonar-passwd')
     }
@@ -18,19 +24,24 @@ pipeline {
                 dir ("ci-cd-app") {
                     git branch: 'master', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd-app.git'
                 }
+                dir ("ci-cd-infra") {
+                    git branch: 'feature/container', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
+                }
             }
         }
-        stage('[i] Docker configure') {
+        stage('[i] Fargate configure') {
             steps {
                     sh '''
                     echo "=========================== Build docker $app image ==========================="
                     cd ${WORKSPACE}/ci-cd-app/
-                    ip_address=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
-                    sed -i -e "s/localhost/$ip_address/g" simple-testing-capabilities-spa/src/ProjectSettings.json
+                    sed -i -e 's/"redis",/"db.simple-testing-capabilities.co.uk",/g' simple-testing-capabilities/MainProject/appsettings.json
+                    sed -i -e "s/localhost/backend.simp1le-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/src/ProjectSettings.json
+                    sed -i -e "s/localhost/backend.simp1le-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/APITests/appsettings.json
+                    sed -i -e "s/localhost/frontend.simp1le-testing-capabilities.co.uk/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests/appsettings.json
                     '''
                 }
         }
-        stage('[i] Docker build / push [simple-testing-capabilities]') {
+        stage('[i] Docker build [simple-testing-capabilities]') {
             steps {
                     sh '''
                     echo "=========================== Build docker $app image ==========================="
@@ -41,7 +52,7 @@ pipeline {
                     '''
                 }
         }
-        stage('[i] Docker build / push [simple-testing-capabilities-spa]') {
+        stage('[i] Docker build [simple-testing-capabilities-spa]') {
             steps {
                     sh '''
                     echo "=========================== Build docker $app2 image ==========================="
@@ -50,22 +61,12 @@ pipeline {
                     $(aws ecr get-login --no-include-email --region us-east-1)
                     docker push $registry_url/$app2
                     '''
-                }
-        }
-        stage('[i] Docker-compose up]') {
-            steps {
-                    sh '''
-                    echo "====================== Docker-compose up ======================"
-                    $(aws ecr get-login --no-include-email --region us-east-1)
-                    cd ${WORKSPACE}/ci-cd-app/
-                    /usr/local/bin/docker-compose up -d
-                    '''
             }
         }
-	    stage('[i] Sonarqube: simple-testing-capabilities (Backend)') {
+	    stage('[i] Sonarqube: simple-testing-capabilities') {
 		    steps {
 			        sh '''
-                    echo "====================== Sonarqube: simple-testing-capabilities (Backend) ======================"
+                    echo "====================== Sonarqube: simple-testing-capabilities ======================"
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject
                     dotnet publish --output publish
                     $(aws ecr get-login --no-include-email --region us-east-1)
@@ -88,10 +89,10 @@ pipeline {
                     '''
 		    }
 	    }
-        stage('[i] Sonarqube: simple-testing-capabilities-spa (Frontend)') {
+        stage('[i] Sonarqube: simple-testing-capabilities-spa') {
             steps {
                     sh '''
-                    echo "====================== Sonarqube: simple-testing-capabilities-spa (Frontend) ======================"
+                    echo "====================== Sonarqube: simple-testing-capabilities-spa ======================"
                     $(aws ecr get-login --no-include-email --region us-east-1)
                     docker run -dit --rm -v ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa:/usr/src 803808824931.dkr.ecr.us-east-1.amazonaws.com/cicd-sonar-runner:latest sonar-scanner   \
                     -Dsonar.host.url=http://10.0.1.100:9000 \
@@ -110,6 +111,29 @@ pipeline {
                     '''
             }       
 		}
+        stage('[i] AWS Deployment') {
+            steps {
+                sh '''
+                cd ${WORKSPACE}/ci-cd-infra/terraform/03-cicd-fargate/
+                /usr/local/bin/terraform init
+                /usr/local/bin/terraform plan \
+                --var "app_image_backend=$registry_url/$app_backend" \
+                --var "app_port_backend=$app_port_backend" \
+                --var "app_image_frontend=$registry_url/$app_frontend" \
+                --var "app_port_frontend=$app_port_frontend" \
+                --var "app_image_db=$registry_url/$app_db" \
+                --var "app_port_db=$app_port_db"
+                /usr/local/bin/terraform apply --auto-approve \
+                --var "app_image_backend=$registry_url/$app_backend" \
+                --var "app_port_backend=$app_port_backend" \
+                --var "app_image_frontend=$registry_url/$app_frontend" \
+                --var "app_port_frontend=$app_port_frontend" \
+                --var "app_image_db=$registry_url/$app_db" \
+                --var "app_port_db=$app_port_db"
+                sleep 180
+                '''
+            }
+        }
         stage('[i] API integration tests') {
             steps {
                     sh '''
@@ -126,40 +150,45 @@ pipeline {
                     sh '''
                     echo "====================== UI test ======================"
                     cd ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests
-                    ip_address=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
-                    sed -i -e "s/localhost/$ip_address/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests/appsettings.json
                     dotnet publish --output ui-tests
                     dotnet vstest ui-tests/UITests.dll /logger:trx
                     aws s3 mv TestResults/*.trx s3://simple-testing-capabilities-tests/ui-tests/${JOB_NAME}-${BUILD_NUMBER}.trx
                     '''
             } 
         }
-        stage('[i] Docker-compose down]') {
+        stage('[i] AWS release dynamic environment resourses') {
             steps {
-                    sh '''
-                    echo "====================== Docker-compose down ======================"
-                    cd ${WORKSPACE}/ci-cd-app/
-                    /usr/local/bin/docker-compose down
-                    '''
+                sh '''
+                cd ${WORKSPACE}/ci-cd-infra/terraform/03-cicd-fargate/
+                /usr/local/bin/terraform init
+                /usr/local/bin/terraform plan \
+                --var "app_image_backend=$registry_url/$app_backend" \
+                --var "app_port_backend=$app_port_backend" \
+                --var "app_image_frontend=$registry_url/$app_frontend" \
+                --var "app_port_frontend=$app_port_frontend" \
+                --var "app_image_db=$registry_url/$app_db" \
+                --var "app_port_db=$app_port_db"
+                /usr/local/bin/terraform destroy --auto-approve \
+                --target aws_ecs_task_definition.task_simple_testing_capabilities_backend \
+                --target aws_ecs_task_definition.task_simple_testing_capabilities_frontend \
+                --target aws_ecs_task_definition.task_simple_testing_capabilities_db \
+                --target aws_ecs_service.service_backend \
+                --target aws_ecs_service.service_forntend \
+                --target aws_ecs_service.service_db \
+                --target aws_alb_target_group.backend_target_group \
+                --target aws_alb_listener.listener_backend \
+                --target aws_alb_target_group.frontend_target_group \
+                --target aws_alb_listener.frontend_db \
+                --target aws_alb_target_group.db_target_group \
+                --target aws_alb_listener.listener_db \
+                --var "app_image_backend=$registry_url/$app_backend" \
+                --var "app_port_backend=$app_port_backend" \
+                --var "app_image_frontend=$registry_url/$app_frontend" \
+                --var "app_port_frontend=$app_port_frontend" \
+                --var "app_image_db=$registry_url/$app_db" \
+                --var "app_port_db=$app_port_db"
+                '''
             }
         }
-        post {  
-            always {  
-                echo 'This will always run'  
-            }  
-            success {  
-                echo 'This will run only if successful'  
-            }  
-            failure {  
-                mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "foo@foomail.com";  
-            }  
-            unstable {  
-                echo 'This will run only if the run was marked as unstable'  
-            }  
-            changed {  
-                echo 'This will run only if the state of the Pipeline has changed'  
-                echo 'For example, if the Pipeline was previously failing but is now successful'  
-            }  
-        }  
-    }   
+    }
 }

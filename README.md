@@ -66,7 +66,8 @@ How it works:
 <!-- UI automated test instead of this -->
 <!-- release dynamic env instead of this -->
 unit tests on s3
-faild scenario + email notification on fail
+<!-- faild scenario + -->
+ email notification on fail
 <!-- 2 errors -->
 
 19. groovy init script ec2
@@ -80,7 +81,6 @@ faild scenario + email notification on fail
 <!-- 2 cases: sucsesfull and disaster -->
 <!-- Фаргейт запустить -->
 8. Block device mapping to slave (or just more space)
-
 
 
 
@@ -112,3 +112,37 @@ access_key = credentials('env-aws-access-key')
 secret_key = credentials('env-aws-secret-key')
 sonar_db_login = credentials('sonar-login')
 sonar_db_passwd = credentials('sonar-passwd')
+
+
+Results File: /build/MainTests/TestResults/_7000d7f855d8_2019-11-28_11_12_21_172.trx
+
+
+> cc@0.1.0 test /simple-testing-capabilities-spa
+> cross-env CI=true react-scripts test --env=jsdom
+
+[91m PASS  src/App.test.js
+[0m[91m  ✓ renders without crashing (66ms)
+[0m[91m  Given the Books component
+[0m[91m    when it is rendered
+      and when it is mounted
+[0m[91m        ✓ should update the state (9ms)
+[0m[91m        ✓ should match the snaptshot (17ms)
+[0m[91m        ✓ unBook func should be called (9ms)
+[0m[91m  Given the Statistics component
+    when it is rendered
+[0m[91m      and when it is mounted
+[0m[91m        ✓ should update the state (1ms)
+[0m[91m        ✓ should match the snaptshot (2ms)
+[0m[91m        ✓ injected func should be called once (1ms)
+[0m[91m  Given the Calculate component
+    when it is rendered
+      and when it is mounted
+[0m[91m        ✓ should update the state (1ms)
+        ✓ should match the snaptshot (2ms)
+[0m[91m        ✓ injected func should be called at least once (1ms)
+[0m[91m
+[0m[91mTest Suites: 1 passed, 1 total
+Tests:       10 passed, 10 total
+Snapshots:   3 passed, 3 total
+Time:        2.166s
+Ran all test suites.
