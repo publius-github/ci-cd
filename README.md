@@ -69,8 +69,8 @@ How it works:
 <!-- pulling instead time out -->
 email notification on fail
 
-failere case : store logs on s3 also
-unit tests on s3
+<!-- failere case : store logs on s3 also -->
+<!-- unit tests on s3 -->
 <!-- run sonar in parallel -->
 <!-- 2 cases: sucsesfull and disaster -->
 <!-- Фаргейт запустить -->
@@ -90,27 +90,4 @@ init:
 - cicd-sonar
 - simple-testing-capabilities
 - simple-testing-capabilities-spa
-
-
-Variables:
-
-github keys
-
-
-app = "simple-testing-capabilities:latest"
-app2 = "simple-testing-capabilities-spa:latest"
-registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
-app_backend = "simple-testing-capabilities:latest"
-app_port_backend = "50504"
-app_frontend = "simple-testing-capabilities-spa:latest"
-app_port_frontend = "3000"
-app_db = "redis:latest"
-app_port_db = "6379"
-access_key = credentials('env-aws-access-key')
-secret_key = credentials('env-aws-secret-key')
-sonar_db_login = credentials('sonar-login')
-sonar_db_passwd = credentials('sonar-passwd')
-
-
-Results File: /build/MainTests/TestResults/_7000d7f855d8_2019-11-28_11_12_21_172.trx
 
