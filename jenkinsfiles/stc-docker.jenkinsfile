@@ -83,7 +83,7 @@ pipeline {
                     -Dsonar.sources=.
                     sudo rm -rf ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/.scannerwork
                     echo "======== sonar results ========"
-                    echo "http://10.0.1.100:9000/dashboard?id=${JOB_NAME}-${BUILD_NUMBER}" 
+                    echo "http://sonar.simple-testing-capabilities.co.uk:9000/dashboard?id=${JOB_NAME}-${BUILD_NUMBER}" 
                     echo "==============================="
                     '''
 		    }
@@ -105,7 +105,7 @@ pipeline {
                     -Dsonar.projectVersion=${BUILD_NUMBER}
                     sudo rm -rf ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/.scannerwork
                     echo "======== sonar results ========"
-                    echo "http://10.0.1.100:9000/dashboard?id=${JOB_NAME}-${BUILD_NUMBER}" 
+                    echo "http://sonar.simple-testing-capabilities.co.uk:9000/dashboard?id=${JOB_NAME}-${BUILD_NUMBER}"
                     echo "==============================="
                     '''
             }       
@@ -143,23 +143,5 @@ pipeline {
                     '''
             }
         }
-        post {  
-            always {  
-                echo 'This will always run'  
-            }  
-            success {  
-                echo 'This will run only if successful'  
-            }  
-            failure {  
-                mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "foo@foomail.com";  
-            }  
-            unstable {  
-                echo 'This will run only if the run was marked as unstable'  
-            }  
-            changed {  
-                echo 'This will run only if the state of the Pipeline has changed'  
-                echo 'For example, if the Pipeline was previously failing but is now successful'  
-            }  
-        }  
     }   
 }

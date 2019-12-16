@@ -102,3 +102,11 @@ resource "aws_route53_record" "jenkins" {
   ttl     = "300"
   records = ["${aws_instance.jenkins.public_ip}"]
 }
+
+resource "aws_route53_record" "sonar" {
+  zone_id = "${data.aws_route53_zone.primary.zone_id}"
+  name    = "sonar.simple-testing-capabilities.co.uk"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.jenkins.public_ip}"]
+}
