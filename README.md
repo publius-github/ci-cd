@@ -59,35 +59,26 @@ How it works:
 <!-- change subnet in config.xml -->
 <!-- sonar hide credentials -->
 <!-- 1st-pipeline Aproove for destroy -->
-
-
 <!-- sonar revisia versia of build -->
 <!-- link to sonar result from pipeline -->
 <!-- UI automated test instead of this -->
 <!-- release dynamic env instead of this -->
-
 <!-- faild scenario + -->
-
 <!-- 2 errors -->
 <!-- sonar route 53 + pipelineoutput -->
-
 pulling instead time out
 email notification on fail
 failere case : store logs on s3 also
 unit tests on s3
-
+<!-- run sonar in parallel -->
+<!-- 2 cases: sucsesfull and disaster -->
+<!-- Фаргейт запустить -->
+8. Block device mapping to slave (or just more space)
 19. groovy init script ec2
 2. make file create s3 for state
 4. docker compose as service on host system
 15. документация
 17. Код деплой
-<!-- run sonar in parallel -->
-
-
-<!-- 2 cases: sucsesfull and disaster -->
-<!-- Фаргейт запустить -->
-8. Block device mapping to slave (or just more space)
-
 
 
 init:
