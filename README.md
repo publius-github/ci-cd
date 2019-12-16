@@ -68,6 +68,7 @@ How it works:
 <!-- sonar route 53 + pipelineoutput -->
 pulling instead time out
 email notification on fail
+
 failere case : store logs on s3 also
 unit tests on s3
 <!-- run sonar in parallel -->

@@ -124,7 +124,7 @@ pipeline {
                 --var "app_port_backend=$app_port_backend" \
                 --var "app_image_frontend=$registry_url/$app_frontend" \
                 --var "app_port_frontend=$app_port_frontend"
-                sleep 180
+                while [[ "$(curl --insecure -s -o /dev/null -w ''%{http_code}'' http://backend.simple-testing-capabilities.co.uk:50504/api/book/1)" != "200" ]]; do sleep 5; done
                 '''
             }
         }
