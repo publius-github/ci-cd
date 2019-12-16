@@ -83,7 +83,7 @@ pipeline {
                     -Dsonar.sources=.
                     sudo rm -rf ${WORKSPACE}/ci-cd-app/simple-testing-capabilities/MainProject/.scannerwork
                     echo "======== sonar results ========"
-                    echo "http://sonar.simple-testing-capabilities.co.uk:9000/dashboard?id=${JOB_NAME}-${BUILD_NUMBER}" 
+                    echo "http://jenkins.simple-testing-capabilities.co.uk:9000/dashboard?id=${JOB_NAME}-${BUILD_NUMBER}" 
                     echo "==============================="
                     '''
 		    }
@@ -105,7 +105,7 @@ pipeline {
                     -Dsonar.projectVersion=${BUILD_NUMBER}
                     sudo rm -rf ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-spa/.scannerwork
                     echo "======== sonar results ========"
-                    echo "http://sonar.simple-testing-capabilities.co.uk:9000/dashboard?id=${JOB_NAME}-${BUILD_NUMBER}"
+                    echo "http://jenkins.simple-testing-capabilities.co.uk:9000/dashboard?id=${JOB_NAME}-${BUILD_NUMBER}"
                     echo "==============================="
                     '''
             }       
