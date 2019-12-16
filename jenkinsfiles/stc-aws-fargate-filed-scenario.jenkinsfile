@@ -1,5 +1,5 @@
 pipeline {
-    agent { node 'aws-ec2-dev' }
+    agent { node 'master' }
     environment {
         app = "simple-testing-capabilities:latest"
         app2 = "simple-testing-capabilities-spa:latest"
@@ -15,11 +15,13 @@ pipeline {
     }
     stages {
         stage ('[i] Clean WC') {
+        agent { node 'aws-ec2-dev' }
             steps {
                 cleanWs()
             }
         }
         stage ('[i] GIT') {
+        agent { node 'aws-ec2-dev' }
             steps {
                 dir ("ci-cd-app") {
                     git branch: 'master', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd-app.git'
@@ -30,6 +32,7 @@ pipeline {
             }
         }
         stage('[i] Fargate configure') {
+        agent { node 'aws-ec2-dev' }
             steps {
                     sh '''
                     echo "=========================== Build docker $app image ==========================="
@@ -42,6 +45,7 @@ pipeline {
                 }
         }
         stage('[i] Docker build [simple-testing-capabilities]') {
+        agent { node 'aws-ec2-dev' }
             steps {
                     sh '''
                     echo "=========================== Build docker $app image ==========================="
@@ -53,6 +57,7 @@ pipeline {
                 }
         }
         stage('[i] Docker build [simple-testing-capabilities-spa]') {
+        agent { node 'aws-ec2-dev' }
             steps {
                     sh '''
                     echo "=========================== Build docker $app2 image ==========================="
@@ -64,6 +69,7 @@ pipeline {
             }
         }
 	    stage('[i] Sonarqube: simple-testing-capabilities') {
+        agent { node 'aws-ec2-dev' }
 		    steps {
 			        sh '''
                     echo "====================== Sonarqube: simple-testing-capabilities ======================"
@@ -90,6 +96,7 @@ pipeline {
 		    }
 	    }
         stage('[i] Sonarqube: simple-testing-capabilities-spa') {
+        agent { node 'aws-ec2-dev' }
             steps {
                     sh '''
                     echo "====================== Sonarqube: simple-testing-capabilities-spa ======================"
@@ -112,6 +119,7 @@ pipeline {
             }       
 		}
         stage('[i] AWS Deployment') {
+        agent { node 'aws-ec2-dev' }
             steps {
                 sh '''
                 cd ${WORKSPACE}/ci-cd-infra/terraform/03-cicd-fargate/
@@ -135,6 +143,7 @@ pipeline {
             }
         }
         stage('[i] API integration tests') {
+        agent { node 'aws-ec2-dev' }
             steps {
                     sh '''
                     echo "====================== API integration test ======================"
@@ -146,6 +155,7 @@ pipeline {
             } 
         }
         stage('[i] UI automated tests') {
+        agent { node 'aws-ec2-dev' }
             steps {
                     sh '''
                     echo "====================== UI test ======================"
@@ -157,6 +167,7 @@ pipeline {
             } 
         }
         stage('[i] AWS release dynamic environment resourses') {
+        agent { node 'aws-ec2-dev' }
             steps {
                 sh '''
                 cd ${WORKSPACE}/ci-cd-infra/terraform/03-cicd-fargate/
@@ -189,6 +200,18 @@ pipeline {
                 --var "app_port_db=$app_port_db"
                 '''
             }
+        }
+    }
+    post {
+        success {
+            sh '''
+            aws s3 cp /var/jenkins_home/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/log s3://simple-testing-capabilities-tests/logs/${JOB_NAME}-${BUILD_NUMBER}-success
+            '''
+        }
+        failure {
+            sh '''
+            aws s3 cp /var/jenkins_home/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/log s3://simple-testing-capabilities-tests/logs/${JOB_NAME}-${BUILD_NUMBER}-failure
+            '''
         }
     }
 }

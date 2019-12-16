@@ -66,7 +66,7 @@ How it works:
 <!-- faild scenario + -->
 <!-- 2 errors -->
 <!-- sonar route 53 + pipelineoutput -->
-pulling instead time out
+<!-- pulling instead time out -->
 email notification on fail
 
 failere case : store logs on s3 also

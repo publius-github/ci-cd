@@ -1,5 +1,5 @@
 pipeline {
-    agent { node 'aws-ec2-dev' }
+    agent { node 'master' }
     environment {
         app = "simple-testing-capabilities:latest"
         app2 = "simple-testing-capabilities-spa:latest"
@@ -15,11 +15,13 @@ pipeline {
     }
     stages {
         stage ('[i] Clean WC') {
+        agent { node 'aws-ec2-dev' }
             steps {
                 cleanWs()
             }
         }
         stage ('[i] GIT') {
+        agent { node 'aws-ec2-dev' }
             steps {
                 dir ("ci-cd-infra") {
                     git branch: 'feature/container', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
@@ -27,6 +29,7 @@ pipeline {
             }
         }
         stage('[i] AWS Destroy everything') {
+        agent { node 'aws-ec2-dev' }
             steps {
                 sh '''
                 cd ${WORKSPACE}/ci-cd-infra/terraform/03-cicd-fargate/
@@ -41,6 +44,18 @@ pipeline {
                 --var "app_port_db=$app_port_db"
                 '''
             }
+        }
+    }
+    post {
+        success {
+            sh '''
+            aws s3 cp /var/jenkins_home/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/log s3://simple-testing-capabilities-tests/logs/${JOB_NAME}-${BUILD_NUMBER}-success
+            '''
+        }
+        failure {
+            sh '''
+            aws s3 cp /var/jenkins_home/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/log s3://simple-testing-capabilities-tests/logs/${JOB_NAME}-${BUILD_NUMBER}-failure
+            '''
         }
     }
 }
