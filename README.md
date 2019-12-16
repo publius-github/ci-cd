@@ -65,13 +65,16 @@ How it works:
 <!-- link to sonar result from pipeline -->
 <!-- UI automated test instead of this -->
 <!-- release dynamic env instead of this -->
-unit tests on s3
+
 <!-- faild scenario + -->
- email notification on fail
+
 <!-- 2 errors -->
-sonar route 53 + pipelineoutput
+<!-- sonar route 53 + pipelineoutput -->
+
 pulling instead time out
+email notification on fail
 failere case : store logs on s3 also
+unit tests on s3
 
 19. groovy init script ec2
 2. make file create s3 for state

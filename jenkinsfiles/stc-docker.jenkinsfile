@@ -27,6 +27,7 @@ pipeline {
                     cd ${WORKSPACE}/ci-cd-app/
                     ip_address=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
                     sed -i -e "s/localhost/$ip_address/g" simple-testing-capabilities-spa/src/ProjectSettings.json
+                    sed -i -e "s/localhost/$ip_address/g" ${WORKSPACE}/ci-cd-app/simple-testing-capabilities-ui-tests/UITests/appsettings.json
                     '''
                 }
         }
