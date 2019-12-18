@@ -166,6 +166,15 @@ pipeline {
                     '''
             } 
         }
+        stage('Confirmation') {
+            steps {
+                script {
+                    timeout(time: 20, unit: 'MINUTES') {
+                    input(id: "Confirmation", message: "Destroy AWS Fargate?", ok: 'Destroy')
+                    }
+                }
+            }
+        }
         stage('[i] AWS release dynamic environment resourses') {
         agent { node 'aws-ec2-dev' }
             steps {
