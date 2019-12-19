@@ -33,7 +33,7 @@ should be added in jenkins settings
 
 **Helper**  
 jenkins URL: http://jenkins.simple-testing-capabilities.co.uk:8080/  
-sonarqube URL: http://jenkins.simple-testing-capabilities.co.uk:8080/  
+sonarqube URL: http://sonar.simple-testing-capabilities.co.uk:9000/  
 app URL: http://frontend.simple-testing-capabilities.co.uk:3000  
   
 logs location: s3://simple-testing-capabilities-tests/logs  
