@@ -18,9 +18,10 @@ should be saved as secret text
 1. aws (aws credentials)
 2. sonar_db_login (login for sonar db)
 3. sonar_db_passwd (password for sonar db)
-4. github (github credentials)  
-should be added in jenkins settings  
-5. ssh private key
+4. github (github credentials)
+
+should be added in jenkins settings
+1. ssh private key
 
 **Features for new release**
 * Block device mapping to slave (or just more space)
