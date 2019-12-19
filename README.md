@@ -1,24 +1,43 @@
 ![](https://github.com/publius-github/ci-cd/blob/master/CI_POC.png)
 
-**How it works:**
-
+**How to deploy dynamic jenkins env:**
 1. Set profile in Makefile
 2. Each env should use profile/bucket you have access, and it should be changed in:
-
 * terraform/00-init/01-provider.tf
 * terraform/01-cicd-jenkins/01-provider.tf
 * terraform/02-cicd-ecs/01-provider.tf
 * terraform/03-cicd-fargate/01-provider.tf
-
 2. Type `make 00-init`
 3. Type `make 01-plan`
 4. Type `make 01-apply`
 5. Add credentials to jenkins
 6. Build.
 
+**Credentials required for work**  
+should be saved as secret text  
+1. aws (aws credentials)
+2. sonar_db_login (login for sonar db)
+3. sonar_db_passwd (password for sonar db)
+4. github (github credentials)  
+should be added in jenkins settings  
+5. ssh private key
 
+**Features for new release**
+* Block device mapping to slave (or just more space)
+* groovy init script ec2
+* make file create s3 for state
+* docker compose as service on host system
+* email notification on fail
+* code deploy
 
+**=**
+jenkins URL: http://jenkins.simple-testing-capabilities.co.uk:8080/
+sonarqube URL: http://jenkins.simple-testing-capabilities.co.uk:8080/
+app URL: http://frontend.simple-testing-capabilities.co.uk:3000
 
+logs location: s3://simple-testing-capabilities-tests/logs
+api tests location: s3://simple-testing-capabilities-tests/api-tests
+ui tests location: s3://simple-testing-capabilities-tests/ui-tests
 
 
 <!-- > 1. Create ECR in 00-terraform<br/> -->
@@ -56,22 +75,3 @@
 <!-- 2 cases: sucsesfull and disaster -->
 <!-- Фаргейт запустить -->
 <!-- 15. документация -->
-
-
-8. Block device mapping to slave (or just more space)
-19. groovy init script ec2
-2. make file create s3 for state
-4. docker compose as service on host system
-email notification on fail
-17. Код деплой
-
-
-init:
-1. bucket: 
-- simple-testing-capabilities-tests
-2. ecr:
-- cicd-jenkins
-- cicd-sonar
-- simple-testing-capabilities
-- simple-testing-capabilities-spa
-
