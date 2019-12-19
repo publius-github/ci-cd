@@ -24,7 +24,7 @@ pipeline {
         agent { node 'aws-ec2-dev' }
             steps {
                 dir ("ci-cd-infra") {
-                    git branch: 'feature/container', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
+                    git branch: 'master', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
                 }
             }
         }
