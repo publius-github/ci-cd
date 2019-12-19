@@ -1,0 +1,41 @@
+pipeline {
+    agent { node 'master' }
+    stages {
+        stage ('[i] Clean WC') {
+        agent { node 'aws-ec2-dev' }
+            steps {
+                cleanWs()
+            }
+        }
+        stage ('[i] GIT') {
+        agent { node 'aws-ec2-dev' }
+            steps {
+                dir ("ci-cd-app") {
+                    git branch: 'master', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd-app.git'
+                }
+            }
+        }
+        stage('[i] Docker configure') {
+        agent { node 'aws-ec2-dev' }
+            steps {
+                    sh '''
+                    echo "=========================== Build docker $app image ==========================="
+                    mkdir -p /tmp/test/test
+                    '''
+                }
+        }
+    }
+    
+    post {
+        success {
+            sh '''
+            aws s3 cp /var/jenkins_home/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/log s3://simple-testing-capabilities-tests/logs/${JOB_NAME}-${BUILD_NUMBER}-success
+            '''
+        }
+        failure {
+            sh '''
+            aws s3 cp /var/jenkins_home/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/log s3://simple-testing-capabilities-tests/logs/${JOB_NAME}-${BUILD_NUMBER}-failure
+            '''
+        }
+    }   
+}

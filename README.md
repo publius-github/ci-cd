@@ -21,19 +21,14 @@
         |-----------------|            JOB 2.
                                        ------>     Destroy FARGATE
 
-
 How it works:
-1. Fill aws key/secure key in  terraform/nonprod.tfvars
-2. Check other parameters in terraform/nonprod.tfvars, terraform/99-vars.tf
-2. Type `make init`
-3. Type `make plan`
-4. Type `make apply`
+
+
+1. Set profile to Makefile
+2. Type `make 00-init`
+3. Type `make 01-plan`
+4. Type `make 01-apply`
 5. Add credentials to jenkins
-> sonar-login<br/>
-> sonar-password<br/>
-> aws<br/>
-> env-aws-access-key<br/>
-> env-aws-secret-key<br/>
 6. BUILD! 
 
 
@@ -59,21 +54,28 @@ How it works:
 <!-- change subnet in config.xml -->
 <!-- sonar hide credentials -->
 <!-- 1st-pipeline Aproove for destroy -->
+<!-- sonar revisia versia of build -->
+<!-- link to sonar result from pipeline -->
+<!-- UI automated test instead of this -->
+<!-- release dynamic env instead of this -->
+<!-- faild scenario + -->
+<!-- 2 errors -->
+<!-- sonar route 53 + pipelineoutput -->
+<!-- pulling instead time out -->
+<!-- failere case : store logs on s3 also -->
+<!-- unit tests on s3 -->
+<!-- run sonar in parallel -->
+<!-- 2 cases: sucsesfull and disaster -->
+<!-- Фаргейт запустить -->
+<!-- 15. документация -->
 
 
+8. Block device mapping to slave (or just more space)
 19. groovy init script ec2
 2. make file create s3 for state
 4. docker compose as service on host system
-15. документация
+email notification on fail
 17. Код деплой
-<!-- run sonar in parallel -->
-
-
-<!-- 2 cases: sucsesfull and disaster -->
-<!-- Фаргейт запустить -->
-8. Block device mapping to slave (or just more space)
-
-
 
 
 init:
@@ -85,22 +87,3 @@ init:
 - simple-testing-capabilities
 - simple-testing-capabilities-spa
 
-
-Variables:
-
-github keys
-
-
-app = "simple-testing-capabilities:latest"
-app2 = "simple-testing-capabilities-spa:latest"
-registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
-app_backend = "simple-testing-capabilities:latest"
-app_port_backend = "50504"
-app_frontend = "simple-testing-capabilities-spa:latest"
-app_port_frontend = "3000"
-app_db = "redis:latest"
-app_port_db = "6379"
-access_key = credentials('env-aws-access-key')
-secret_key = credentials('env-aws-secret-key')
-sonar_db_login = credentials('sonar-login')
-sonar_db_passwd = credentials('sonar-passwd')

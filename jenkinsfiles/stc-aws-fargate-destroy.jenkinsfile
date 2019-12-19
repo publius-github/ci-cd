@@ -1,0 +1,61 @@
+pipeline {
+    agent { node 'master' }
+    environment {
+        app = "simple-testing-capabilities:latest"
+        app2 = "simple-testing-capabilities-spa:latest"
+        registry_url = "803808824931.dkr.ecr.us-east-1.amazonaws.com"
+        app_backend = "simple-testing-capabilities:latest"
+        app_port_backend = "50504"
+        app_frontend = "simple-testing-capabilities-spa:latest"
+        app_port_frontend = "3000"
+        app_db = "cicd-redis:latest"
+        app_port_db = "6379"
+        sonar_db_login = credentials('sonar-login')
+        sonar_db_passwd = credentials('sonar-passwd')
+    }
+    stages {
+        stage ('[i] Clean WC') {
+        agent { node 'aws-ec2-dev' }
+            steps {
+                cleanWs()
+            }
+        }
+        stage ('[i] GIT') {
+        agent { node 'aws-ec2-dev' }
+            steps {
+                dir ("ci-cd-infra") {
+                    git branch: 'feature/container', credentialsId: 'github', url: 'https://github.com/publius-github/ci-cd.git'
+                }
+            }
+        }
+        stage('[i] AWS Destroy everything') {
+        agent { node 'aws-ec2-dev' }
+            steps {
+                sh '''
+                cd ${WORKSPACE}/ci-cd-infra/terraform/03-cicd-fargate/
+                /usr/local/bin/terraform init
+                /usr/local/bin/terraform plan --var "app_image_backend=$registry_url/$app_backend" --var "app_port_backend=$app_port_backend" --var "app_image_frontend=$registry_url/$app_frontend" --var "app_port_frontend=$app_port_frontend" --var "app_image_db=$registry_url/$app_db" --var "app_port_db=$app_port_db"
+                /usr/local/bin/terraform destroy --auto-approve \
+                --var "app_image_backend=$registry_url/$app_backend" \
+                --var "app_port_backend=$app_port_backend" \
+                --var "app_image_frontend=$registry_url/$app_frontend" \
+                --var "app_port_frontend=$app_port_frontend" \
+                --var "app_image_db=$registry_url/$app_db" \
+                --var "app_port_db=$app_port_db"
+                '''
+            }
+        }
+    }
+    post {
+        success {
+            sh '''
+            aws s3 cp /var/jenkins_home/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/log s3://simple-testing-capabilities-tests/logs/${JOB_NAME}-${BUILD_NUMBER}-success
+            '''
+        }
+        failure {
+            sh '''
+            aws s3 cp /var/jenkins_home/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/log s3://simple-testing-capabilities-tests/logs/${JOB_NAME}-${BUILD_NUMBER}-failure
+            '''
+        }
+    }
+}
