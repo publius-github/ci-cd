@@ -21,19 +21,14 @@
         |-----------------|            JOB 2.
                                        ------>     Destroy FARGATE
 
-
 How it works:
-1. Fill aws key/secure key in  terraform/nonprod.tfvars
-2. Check other parameters in terraform/nonprod.tfvars, terraform/99-vars.tf
-2. Type `make init`
-3. Type `make plan`
-4. Type `make apply`
+
+
+1. Set profile to Makefile
+2. Type `make 00-init`
+3. Type `make 01-plan`
+4. Type `make 01-apply`
 5. Add credentials to jenkins
-> sonar-login<br/>
-> sonar-password<br/>
-> aws<br/>
-> env-aws-access-key<br/>
-> env-aws-secret-key<br/>
 6. BUILD! 
 
 
@@ -67,18 +62,19 @@ How it works:
 <!-- 2 errors -->
 <!-- sonar route 53 + pipelineoutput -->
 <!-- pulling instead time out -->
-email notification on fail
-
 <!-- failere case : store logs on s3 also -->
 <!-- unit tests on s3 -->
 <!-- run sonar in parallel -->
 <!-- 2 cases: sucsesfull and disaster -->
 <!-- Фаргейт запустить -->
+<!-- 15. документация -->
+
+
 8. Block device mapping to slave (or just more space)
 19. groovy init script ec2
 2. make file create s3 for state
 4. docker compose as service on host system
-15. документация
+email notification on fail
 17. Код деплой
 
 
