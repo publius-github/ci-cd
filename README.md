@@ -40,6 +40,7 @@ should be added in jenkins settings
 **Helper**  
 Each applications could be scaled, and deployed across multiple availability zones.  
 For this purposes a few variables should be changed:  
+(example for backend)  
 * `desired_count` in terraform/03-cicd-fargate/08-backend.tf
 * `az_count` in terraform/03-cicd-fargate/99-vars.tf  
   
