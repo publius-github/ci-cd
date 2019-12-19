@@ -31,7 +31,18 @@ should be added in jenkins settings
 * email notification on fail
 * code deploy
 
+**Jenkinsfiles**
+* jenkinsfiles/stc-docker.jenkinsfile - build and test app on ec2 dynamic agent
+* jenkinsfiles/stc-aws-fargate.jenkinsfile - deploy app to fargate + run tests there
+* jenkinsfiles/stc-aws-shared-resourses.jenkinsfile - deploy app to fargate + run tests there + use shared DB
+* jenkinsfiles/stc-aws-fargate-destroy.jenkinsfile - destroy fargate environment if required
+
 **Helper**  
+Each applications could be scaled, and deployed across multiple availability zones.  
+For this purposes a few variables should be changed:  
+* `desired_count` in terraform/03-cicd-fargate/08-backend.tf
+* `az_count` in terraform/03-cicd-fargate/99-vars.tf  
+  
 jenkins URL: http://jenkins.simple-testing-capabilities.co.uk:8080/  
 sonarqube URL: http://sonar.simple-testing-capabilities.co.uk:9000/  
 app URL: http://frontend.simple-testing-capabilities.co.uk:3000  
