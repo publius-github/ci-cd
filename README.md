@@ -31,7 +31,7 @@ How it works:
 5. Add credentials to jenkins
 6. BUILD! 
 
-
+![](https://github.com/publius-github/ci-cd/blob/master/CI_POC.png)
 
 <!-- > 1. Create ECR in 00-terraform<br/> -->
 <!-- > 4. Pipeline: artifact to s3 (assume role to ec2?) > 01-terraform<br/> -->
