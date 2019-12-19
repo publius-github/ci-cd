@@ -31,7 +31,7 @@ should be added in jenkins settings
 * email notification on fail
 * code deploy
 
-**=**  
+**Helper**  
 jenkins URL: http://jenkins.simple-testing-capabilities.co.uk:8080/  
 sonarqube URL: http://jenkins.simple-testing-capabilities.co.uk:8080/  
 app URL: http://frontend.simple-testing-capabilities.co.uk:3000  
