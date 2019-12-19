@@ -2,8 +2,6 @@ ENVNAME = jenkins-ci-cd
 PROFILE = godel
 S3_BUCKET = cicd
 
-
-
 .PHONY: help clean prepare plan apply destroy
 
 SHELL = /bin/bash
@@ -41,11 +39,11 @@ clean: ## - Clean terraform state
 
 01-plan: ##
 	@echo "[i] Initializing for $(ENVNAME)"
-	@cd terraform/01-cicd-jenkins/ && terraform init -backend-config="profile=godel" && echo "[i] Planning for $(ENVNAME)" && terraform plan
+	@cd terraform/01-cicd-jenkins/ && terraform init -backend-config="profile=${PROFILE}" && echo "[i] Planning for $(ENVNAME)" && terraform plan
 
 01-apply: ##
 	@echo "[i] Initializing for $(ENVNAME)"
-	@cd terraform/01-cicd-jenkins/ && terraform init -backend-config="profile=godel" 
+	@cd terraform/01-cicd-jenkins/ && terraform init -backend-config="profile=${PROFILE}" 
 	@cd terraform/01-cicd-jenkins/ && terraform destroy -auto-approve -target null_resource.configure
 	@echo "[i] Planning for $(ENVNAME)"
 	@cd terraform/01-cicd-jenkins/ && terraform plan
@@ -55,7 +53,7 @@ clean: ## - Clean terraform state
 
 01-destroy: ##
 	@echo "[i] Initializing for $(ENVNAME)"
-	@cd terraform/01-cicd-jenkins/ && terraform init -backend-config="profile=godel"
+	@cd terraform/01-cicd-jenkins/ && terraform init -backend-config="profile=${PROFILE}"
 	@echo "[i] Destroying for $(ENVNAME)"
 	@cd terraform/01-cicd-jenkins/ && terraform destroy --auto-approve
 	@rm -rf terraform/01-cicd-jenkins/$(TFPLANFILE)

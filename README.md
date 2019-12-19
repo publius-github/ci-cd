@@ -1,37 +1,25 @@
+![](https://github.com/publius-github/ci-cd/blob/master/CI_POC.png)
 
-        //-----------//
-        // makefile  //
-        //-----------//
-        //-----------//
-        //  vagrant  //
-        // terraform //
-        //  puppet   //
-        //-----------//
-               | 
-               | AWS
-               | 
-               V
-            
-        |-----------------|
-        | Jenkins master  |                        Dinamic Jenkins agent                               
-        | * plugins       |            JOB 1.         *build job*                    Deploy       
-        | * config        |            ------>                                       -------->       FARGATE
-        | * users         |
-        | * jobs          |
-        |-----------------|            JOB 2.
-                                       ------>     Destroy FARGATE
+**How it works:**
 
-How it works:
+1. Set profile in Makefile
+2. Each env should use profile/bucket you have access, and it should be changed in:
 
+* terraform/00-init/01-provider.tf
+* terraform/01-cicd-jenkins/01-provider.tf
+* terraform/02-cicd-ecs/01-provider.tf
+* terraform/03-cicd-fargate/01-provider.tf
 
-1. Set profile to Makefile
 2. Type `make 00-init`
 3. Type `make 01-plan`
 4. Type `make 01-apply`
 5. Add credentials to jenkins
-6. BUILD! 
+6. Build.
 
-![](https://github.com/publius-github/ci-cd/blob/master/CI_POC.png)
+
+
+
+
 
 <!-- > 1. Create ECR in 00-terraform<br/> -->
 <!-- > 4. Pipeline: artifact to s3 (assume role to ec2?) > 01-terraform<br/> -->
