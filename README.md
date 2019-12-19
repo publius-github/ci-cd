@@ -31,14 +31,14 @@ should be added in jenkins settings
 * email notification on fail
 * code deploy
 
-**=**
-jenkins URL: http://jenkins.simple-testing-capabilities.co.uk:8080/
-sonarqube URL: http://jenkins.simple-testing-capabilities.co.uk:8080/
-app URL: http://frontend.simple-testing-capabilities.co.uk:3000
-
-logs location: s3://simple-testing-capabilities-tests/logs
-api tests location: s3://simple-testing-capabilities-tests/api-tests
-ui tests location: s3://simple-testing-capabilities-tests/ui-tests
+**=**  
+jenkins URL: http://jenkins.simple-testing-capabilities.co.uk:8080/  
+sonarqube URL: http://jenkins.simple-testing-capabilities.co.uk:8080/  
+app URL: http://frontend.simple-testing-capabilities.co.uk:3000  
+  
+logs location: s3://simple-testing-capabilities-tests/logs  
+api tests location: s3://simple-testing-capabilities-tests/api-tests  
+ui tests location: s3://simple-testing-capabilities-tests/ui-tests  
 
 
 <!-- > 1. Create ECR in 00-terraform<br/> -->
