@@ -23,8 +23,7 @@ should be saved as secret text
 should be added in jenkins settings
 1. ssh private key
 
-**Features for new release**
-* Block device mapping to slave (or just more space)
+**Features for new release**  
 * groovy init script ec2
 * make file create s3 for state
 * docker compose as service on host system
@@ -52,7 +51,7 @@ logs location: s3://simple-testing-capabilities-tests/logs
 api tests location: s3://simple-testing-capabilities-tests/api-tests  
 ui tests location: s3://simple-testing-capabilities-tests/ui-tests  
 
-
+<!-- * Block device mapping to slave (or just more space) -->
 <!-- > 1. Create ECR in 00-terraform<br/> -->
 <!-- > 4. Pipeline: artifact to s3 (assume role to ec2?) > 01-terraform<br/> -->
 <!-- 3. create s3 for tests result -->

@@ -81,7 +81,7 @@ sudo mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
           <iamInstanceProfile>arn:aws:iam::803808824931:instance-profile/jenkins_profile</iamInstanceProfile>
           <deleteRootOnTermination>false</deleteRootOnTermination>
           <useEphemeralDevices>false</useEphemeralDevices>
-          <customDeviceMapping></customDeviceMapping>
+          <customDeviceMapping>/dev/xvda=:100:true:gp2</customDeviceMapping>
           <instanceCap>2147483647</instanceCap>
           <minimumNumberOfInstances>0</minimumNumberOfInstances>
           <stopOnTerminate>false</stopOnTerminate>
