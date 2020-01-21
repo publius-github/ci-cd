@@ -1,3 +1,17 @@
+Proc  
+
+ Cost effectivness. Pay as you go  
+ Less operational routine, as no need to support existing environment in cloud  
+ Suits well for long running tests such as UI and Integration tests  
+ Easy to scale  
+ 
+ Cons  
+  
+ Adds additional complexity to pipelines. Level of complexity depends on a system  
+ System has to be dockerized as docker is a unit of deployment  
+ Add delay on tests execution because of addtional step for infrastructure creation  
+ Vendor-lock  
+
 ![](https://github.com/publius-github/ci-cd/blob/master/CI_POC.png)
 
 **How to deploy dynamic jenkins env:**
